@@ -16,6 +16,8 @@ import { buildTerrain, type Terrain } from "../world/terrain";
 import { buildProp } from "../world/props";
 import { NpcActor } from "../world/npc";
 import { WalkerSprite, PLAYER_WALKER } from "../world/walker";
+import { PartyHud } from "../ui/party-hud";
+import { Minimap, markVisited } from "../ui/map";
 
 export interface OverworldCallbacks {
   onEncounter: (speciesId: string, level: number) => void;
@@ -94,6 +96,8 @@ export class OverworldScreen implements Screen {
   private hudBar?: HTMLElement;
   private areaTag?: HTMLElement;
   private hint?: HTMLElement;
+  private partyHud?: PartyHud;
+  private minimap?: Minimap;
 
   // reusable temporaries (no per-frame allocation)
   private readonly tmpDesired = new THREE.Vector3();
@@ -123,6 +127,8 @@ export class OverworldScreen implements Screen {
   unmount(game: Game): void {
     this.hudBar?.remove();
     this.hint?.remove();
+    this.partyHud?.dispose();
+    this.minimap?.dispose();
     this.disposeArea();
     this.player.dispose();
     this.scene.clear();
@@ -209,6 +215,9 @@ export class OverworldScreen implements Screen {
     game.player.pos = { x, z };
 
     if (this.areaTag) this.areaTag.textContent = area.name;
+    this.partyHud?.refresh();
+    this.minimap?.setArea(area);
+    markVisited(game.player, areaId);
     this.hideHint();
   }
 
@@ -239,6 +248,7 @@ export class OverworldScreen implements Screen {
     this.player.mesh.position.set(this.px, 0, this.pz);
     this.player.faceCamera(this.camera);
     this.terrain?.update(this.animT);
+    this.minimap?.update(this.px, this.pz);
 
     // NPC bubbles; NPCs face the player when in talk range.
     const talk = this.nearestNpc(1.6);
@@ -360,6 +370,12 @@ export class OverworldScreen implements Screen {
     const codex = el("button", { className: "codex-fab", html: "&#128214;", onClick: () => this.cb.onCodex() });
     this.hudBar = el("div", { className: "hud-top" }, [this.areaTag, codex]);
     game.hudRoot.append(this.hudBar);
+
+    this.partyHud = new PartyHud(game.player);
+    game.hudRoot.append(this.partyHud.root);
+
+    this.minimap = new Minimap();
+    game.hudRoot.append(this.minimap.root);
 
     this.hint = el("div", { className: "area-tag" });
     this.hint.style.position = "fixed";

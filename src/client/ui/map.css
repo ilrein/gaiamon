@@ -1,0 +1,208 @@
+/* Minimap + world map. Owned by ui/map.ts (imported there, never by style.css).
+   Cute-first, mobile-native, and — for the minimap — never in the way of a
+   thumb: the widget is pointer-events:none so taps pass straight through to the
+   canvas underneath. */
+
+/* ---------- minimap ---------- */
+.gm-minimap {
+  position: fixed;
+  top: calc(52px + var(--safe-top));
+  left: 12px;
+  width: 120px;
+  height: 120px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 4px;
+  background: rgba(255, 248, 236, 0.55);
+  box-shadow: 0 3px 0 var(--shadow), inset 0 0 0 3px rgba(255, 248, 236, 0.7);
+  opacity: 0.92;
+  pointer-events: none; /* must never block movement / taps */
+  z-index: 3;
+}
+.gm-minimap canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+
+/* Touch layout: bottom-right, above the round action button, a touch smaller. */
+@media (pointer: coarse) {
+  .gm-minimap {
+    top: auto;
+    left: auto;
+    right: 20px;
+    bottom: calc(128px + var(--safe-bottom));
+    width: 92px;
+    height: 92px;
+  }
+}
+
+/* Battle owns the screen — the minimap steps aside like the rest of the HUD. */
+.hud-in-battle .gm-minimap {
+  display: none;
+}
+
+/* ---------- world map ---------- */
+.gm-worldmap {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  animation: gm-map-fade 0.2s ease-out;
+}
+.gm-worldmap-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(24, 20, 16, 0.55);
+}
+.gm-worldmap-panel {
+  position: relative;
+  margin: auto;
+  width: min(940px, calc(100vw - 20px));
+  height: min(720px, calc(100vh - 20px));
+  display: flex;
+  flex-direction: column;
+  border-radius: 26px;
+  overflow: hidden;
+  color: var(--ink);
+  background:
+    radial-gradient(120% 120% at 20% 0%, #fdf3d8 0%, #f3e4bd 55%, #e9d6a6 100%);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 0 0 4px rgba(151, 116, 60, 0.28),
+    inset 0 0 60px rgba(151, 116, 60, 0.18);
+}
+.gm-worldmap-head {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  pointer-events: none;
+}
+.gm-worldmap-title {
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: #6b4f2a;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.gm-worldmap-close {
+  pointer-events: auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: rgba(107, 79, 42, 0.14);
+  color: #6b4f2a;
+  font-size: 18px;
+  font-weight: 900;
+  box-shadow: inset 0 0 0 2px rgba(107, 79, 42, 0.25);
+}
+.gm-worldmap-close:active {
+  transform: translateY(1px);
+}
+.gm-worldmap-viewport {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+}
+.gm-worldmap-viewport.grabbing {
+  cursor: grabbing;
+}
+.gm-worldmap-world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+.gm-worldmap-edges {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.gm-worldmap-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.5;
+  color: #6b4f2a;
+  pointer-events: none;
+}
+
+.gm-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: var(--paper);
+  box-shadow: 0 3px 0 rgba(107, 79, 42, 0.3), inset 0 0 0 2px rgba(107, 79, 42, 0.15);
+  font-weight: 800;
+  font-size: 13px;
+  white-space: nowrap;
+  color: var(--ink);
+}
+.gm-node .gm-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 5px;
+  flex: none;
+  box-shadow: inset 0 0 0 1.5px rgba(0, 0, 0, 0.15);
+}
+.gm-node .gm-icons {
+  font-size: 12px;
+  opacity: 0.85;
+  letter-spacing: 1px;
+}
+.gm-node.unvisited {
+  opacity: 0.6;
+  filter: saturate(0.4);
+}
+.gm-node.unvisited .gm-name {
+  letter-spacing: 2px;
+  opacity: 0.8;
+}
+.gm-node.current {
+  box-shadow: 0 3px 0 rgba(107, 79, 42, 0.3), inset 0 0 0 2px var(--ember),
+    0 0 0 4px rgba(242, 144, 106, 0.35);
+  animation: gm-pulse 1.6s ease-in-out infinite;
+}
+.gm-node .gm-walker {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  animation: gm-bob 1.2s ease-in-out infinite;
+}
+
+@keyframes gm-pulse {
+  0%, 100% {
+    box-shadow: 0 3px 0 rgba(107, 79, 42, 0.3), inset 0 0 0 2px var(--ember),
+      0 0 0 3px rgba(242, 144, 106, 0.4);
+  }
+  50% {
+    box-shadow: 0 3px 0 rgba(107, 79, 42, 0.3), inset 0 0 0 2px var(--ember),
+      0 0 0 9px rgba(242, 144, 106, 0.05);
+  }
+}
+@keyframes gm-bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-3px); }
+}
+@keyframes gm-map-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

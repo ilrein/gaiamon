@@ -9,16 +9,17 @@ import type { Game, Screen } from "../game";
 import type { BattleAction, BattleConfig, BattleEvent, BattleState, Side } from "../../shared/battle";
 import { FLAIL, MAX_STAMINA, forceSwitch, startBattle, stepBattle } from "../../shared/battle";
 import { chooseFoeAction } from "../../shared/ai";
-import type { MonsterInstance } from "../../shared/model";
+import type { MonsterInstance, MoveCategory, TypeId } from "../../shared/model";
 import { maxHpAt, movesAtLevel, xpForLevel } from "../../shared/stats";
 import { makeRng, type Rng } from "../../shared/rng";
 import { el } from "../dom";
-import { typeChip } from "../colors";
+import { typeChip, TYPE_COLORS } from "../colors";
 import { creatureImg } from "../sprites";
 import {
   type BattleScene,
   type CombatantView,
   type SyncRing,
+  ImpactFX,
   Tweens,
   buildBattleScene,
   easeInCubic,
@@ -75,6 +76,16 @@ export class BattleScreen implements Screen {
 
   private views!: { player: CombatantView; foe: CombatantView };
   private pb!: { player: PlaybackMon; foe: PlaybackMon };
+  private impactFx!: ImpactFX;
+
+  // Hit-stop: a global freeze (seconds of real time) the update loop honors by
+  // feeding 0 to the tween/idle-bob/FX time. Set on damage playback to sell the
+  // impact before the shake resolves.
+  private hitStop = 0;
+  // The move being played back drives which impact recipe fires. Carried from
+  // the preceding `moveUsed` event into the `damage` events that follow it.
+  private lastMoveType: TypeId = "neutral";
+  private lastMoveCategory: MoveCategory = "physical";
 
   private battleUi!: HTMLElement;
   private fxLayer!: HTMLElement;
@@ -123,6 +134,9 @@ export class BattleScreen implements Screen {
 
     this.views = { player: this.spawnView("player"), foe: this.spawnView("foe") };
 
+    this.impactFx = new ImpactFX();
+    this.scene.add(this.impactFx.group);
+
     this.buildDom(game.uiRoot);
     this.renderCard("foe");
     this.renderCard("player");
@@ -134,6 +148,10 @@ export class BattleScreen implements Screen {
   unmount(): void {
     this.alive = false;
     this.tweens.clear();
+    // Frees the FX pool's shared geometry + per-particle materials + the 12
+    // cached shape textures (which the traverse below would otherwise miss for
+    // any shape that never spawned).
+    this.impactFx?.dispose();
     this.scene?.traverse((o) => {
       const any = o as unknown as { geometry?: { dispose?: () => void }; material?: unknown };
       any.geometry?.dispose?.();
@@ -150,8 +168,15 @@ export class BattleScreen implements Screen {
 
   update(game: Game, dt: number): void {
     if (!this.alive) return;
-    this.tweens.update(dt);
-    this.elapsed += dt;
+    // Hit-stop: while frozen, feed 0 to everything time-driven (tweens, idle-bob,
+    // sync-ring spin, FX) so the frame holds; the timer itself burns real dt.
+    let s = dt;
+    if (this.hitStop > 0) {
+      this.hitStop = Math.max(0, this.hitStop - dt);
+      s = 0;
+    }
+    this.tweens.update(s);
+    this.elapsed += s;
 
     for (const side of ["player", "foe"] as Side[]) {
       const v = this.views[side];
@@ -164,7 +189,8 @@ export class BattleScreen implements Screen {
       );
     }
 
-    if (this.syncRing) this.syncRing.ticks.rotation.y += dt * 2.4;
+    if (this.syncRing) this.syncRing.ticks.rotation.y += s * 2.4;
+    this.impactFx.update(s, this.camera);
 
     const sway = Math.sin(this.elapsed * 0.5) * 0.15;
     this.camera.position.set(
@@ -375,16 +401,23 @@ export class BattleScreen implements Screen {
         await this.tweens.wait(0.6);
         break;
 
-      case "moveUsed":
+      case "moveUsed": {
+        const mv = this.data.moves[e.moveId];
+        this.lastMoveType = mv?.type ?? "neutral";
+        this.lastMoveCategory = mv?.category ?? "physical";
         this.log(`${this.name(e.side)} used ${e.moveName}!`);
         await this.lunge(e.side);
         break;
+      }
 
       case "damage": {
         this.pb[e.side].hp = e.hpAfter;
         this.pb[e.side].max = e.maxHp;
         this.applyHp(e.side);
-        await Promise.all([this.flash(e.side), this.shake(e.side, e.crit ? 0.2 : 0.12)]);
+        this.playMoveImpact(e.side, e.effectiveness, e.crit);
+        // Freeze on contact, then let the shake resolve. Crits hold longer.
+        this.hitStop = e.crit ? 0.14 : 0.07;
+        await Promise.all([this.flash(e.side), this.shake(e.side, e.crit ? 0.26 : 0.12)]);
         this.floatText(e.side, String(e.amount), e.crit ? "#ffec7a" : "#ffffff", e.crit);
         if (e.crit) {
           this.log("Critical hit!");
@@ -427,6 +460,7 @@ export class BattleScreen implements Screen {
       case "statusApplied":
         this.pb[e.side].status = e.statusId;
         this.applyStatusChip(e.side);
+        this.impactFx.spawnImpact(this.worldChest(e.side), "wisp", this.statusColor(e.statusId), 8);
         await this.tintFlash(e.side, 0xc9a0ff);
         this.log(`${this.name(e.side)} ${this.data.statuses[e.statusId]?.flavor ?? "is afflicted"}!`);
         await this.tweens.wait(0.4);
@@ -456,6 +490,7 @@ export class BattleScreen implements Screen {
         this.pb[e.side].max = e.maxHp;
         this.applyHp(e.side);
         this.sparklesAt(this.screenAt(e.side, 0.6), GREENS);
+        this.impactFx.spawnImpact(this.worldChest(e.side), "mote", "#8ee08a", 10);
         this.floatText(e.side, `+${e.amount}`, "#8ee08a");
         this.log(`${this.name(e.side)} recovered ${e.amount} HP!`);
         await this.tweens.wait(0.4);
@@ -479,6 +514,10 @@ export class BattleScreen implements Screen {
         if (e.success) {
           this.syncedSpeciesId = e.speciesId;
           await this.syncSuccess();
+          const burst = this.foePos.clone();
+          burst.y += 1.2;
+          this.impactFx.spawnImpact(burst, "star", "#aef7ff", 18);
+          this.impactFx.spawnImpact(burst, "star", "#ffffff", 8);
           this.log(`${this.foeSpeciesName()} synced to your Codex!`);
         } else {
           await this.syncFail();
@@ -552,6 +591,154 @@ export class BattleScreen implements Screen {
     if (eff >= 2) return "It resonates powerfully!";
     if (eff < 1) return "It barely lands...";
     return "";
+  }
+
+  // ---- move-impact FX ----------------------------------------------------
+  /** Chest-height world point of a side's current sprite (impact origin). */
+  private worldChest(side: Side): THREE.Vector3 {
+    const v = this.views[side];
+    return new THREE.Vector3(
+      v.group.position.x,
+      v.group.position.y + v.scale * 0.55,
+      v.group.position.z,
+    );
+  }
+
+  private statusColor(statusId: string): string {
+    const byStatus: Record<string, string> = {
+      smolder: TYPE_COLORS.ember,
+      rimebound: TYPE_COLORS.frost,
+      tangleroot: TYPE_COLORS.verdant,
+      drowse: TYPE_COLORS.umbral,
+      storydaze: TYPE_COLORS.fable,
+    };
+    return byStatus[statusId] ?? "#c9a0ff";
+  }
+
+  /** Type+category → procedural particle recipe, layered over the sprite hit. */
+  private playMoveImpact(defender: Side, eff: number, crit: boolean): void {
+    const type = this.lastMoveType;
+    const cat = this.lastMoveCategory;
+    const color = TYPE_COLORS[type];
+    const at = this.worldChest(defender);
+    const mult = eff > 1 ? 1.5 : 1;
+    const n = (base: number) => Math.max(1, Math.round(base * mult));
+
+    switch (type) {
+      case "ember":
+        this.impactFx.spawnImpact(at, "ember", color, n(14));
+        this.impactFx.spawnImpact(at, "spark", "#ffd27a", n(6));
+        this.pointBurst(at, 0xff7a3a);
+        break;
+      case "tide":
+        this.impactFx.spawnImpact(at, "droplet", color, n(16));
+        break;
+      case "verdant":
+        this.impactFx.spawnImpact(at, "leaf", color, n(12));
+        break;
+      case "frost":
+        this.impactFx.spawnImpact(at, "shard", color, n(14));
+        break;
+      case "volt":
+        this.impactFx.spawnImpact(at, "zap", color, n(8));
+        this.screenFlash("#ffffff", 0.5, 0.12);
+        break;
+      case "zephyr":
+        this.impactFx.spawnImpact(at, "streak", color, n(12));
+        break;
+      case "lumen":
+        this.impactFx.spawnImpact(at, "ray", color, n(12));
+        break;
+      case "umbral":
+        this.impactFx.spawnImpact(at, "wisp", color, n(14));
+        break;
+      case "fable":
+        this.impactFx.spawnImpact(at, "star", color, n(8));
+        this.impactFx.spawnImpact(at, "note", "#ffd6f0", n(5));
+        break;
+      case "terra":
+        this.impactFx.spawnImpact(at, "pebble", color, n(12));
+        this.impactFx.spawnImpact(at, "star", "#ffe8b0", n(4));
+        break;
+      default: // neutral (and any unmapped type)
+        this.impactFx.spawnImpact(at, "slash", color, n(2));
+        this.impactFx.spawnImpact(at, "star", "#ffffff", n(6));
+        break;
+    }
+
+    // A melee slash accent on physical hits whose recipe isn't already slash-led.
+    if (cat === "physical" && type !== "neutral" && type !== "terra") {
+      this.impactFx.spawnImpact(at, "slash", "#ffffff", 2);
+    }
+    // Spirit moves ground a colored ring pulse under the target.
+    if (cat === "spirit") this.spiritRing(defender, color);
+
+    if (crit) {
+      this.impactFx.spawnImpact(at, "star", "#fff2a0", 8);
+      this.screenFlash("#ffffff", 0.6, 0.16);
+    }
+  }
+
+  /** Brief coloured point light at a world point (embers). Fades and cleans up. */
+  private pointBurst(at: THREE.Vector3, hex: number): void {
+    const light = new THREE.PointLight(hex, 6, 8, 2);
+    light.position.copy(at);
+    this.scene.add(light);
+    void this.tweens
+      .tween(0.35, (k) => {
+        light.intensity = 6 * (1 - k);
+      })
+      .then(() => {
+        this.scene.remove(light);
+        light.dispose();
+      });
+  }
+
+  /** Flat additive ring that scales up + fades under a combatant (spirit hits). */
+  private spiritRing(side: Side, color: string): void {
+    const v = this.views[side];
+    const geo = new THREE.RingGeometry(0.5, 0.62, 40);
+    const mat = new THREE.MeshBasicMaterial({
+      color,
+      transparent: true,
+      opacity: 0.9,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    });
+    const ring = new THREE.Mesh(geo, mat);
+    ring.rotation.x = -Math.PI / 2;
+    ring.position.set(v.group.position.x, 0.03, v.group.position.z);
+    ring.renderOrder = 15;
+    this.scene.add(ring);
+    void this.tweens
+      .tween(
+        0.5,
+        (k) => {
+          const s = 0.6 + k * 1.8;
+          ring.scale.set(s, s, 1);
+          mat.opacity = 0.9 * (1 - k);
+        },
+        easeOutCubic,
+      )
+      .then(() => {
+        this.scene.remove(ring);
+        geo.dispose();
+        mat.dispose();
+      });
+  }
+
+  /** Full-screen additive colour flash (volt / crit). Real-time via WAAPI. */
+  private screenFlash(color: string, strength: number, dur: number): void {
+    const f = el("div");
+    f.style.cssText =
+      `position:absolute;inset:0;background:${color};opacity:0;` +
+      `pointer-events:none;mix-blend-mode:screen;`;
+    this.fxLayer.append(f);
+    f.animate([{ opacity: strength }, { opacity: 0 }], {
+      duration: dur * 1000,
+      easing: "ease-out",
+    }).onfinish = () => f.remove();
   }
 
   // ---- sprite animations -------------------------------------------------

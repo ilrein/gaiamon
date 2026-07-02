@@ -1,19 +1,24 @@
-// The Codex: the game's one menu. A bottom-sheet over the world with PARTY /
-// DEX / SYSTEM tabs. It's the in-world ancient-tech field terminal, so it looks
-// like a chunky handheld device and is fully usable one-thumb on a phone.
+// The Codex: Gaiamon's one menu, reimagined as a full-screen field terminal.
+// When it's open, the Codex *is* the screen — an ancient-tech handheld device
+// that takes over the whole viewport: a gunmetal frame with glowing teal
+// accents wrapped around a warm paper display. Tabs: PARTY / LEDGER / MAP /
+// SYSTEM (+ REST at a waystone). Fully one-thumb usable on a phone.
 
+import "./codex.css";
 import type { Game } from "../game";
 import { el } from "../dom";
 import { creatureImg, placeholderDataUrl } from "../sprites";
 import { typeChip } from "../colors";
 import { clearSave } from "../save";
-import { maxHpAt, xpForLevel } from "../../shared/stats";
-import type { MonsterInstance, SpeciesRole } from "../../shared/model";
+import { openWorldMap } from "./map";
+import { computeStats, maxHpAt, xpForLevel } from "../../shared/stats";
+import { STAT_NAMES } from "../../shared/model";
+import type { MonsterInstance, SpeciesDef, SpeciesRole, StatName } from "../../shared/model";
 
-type Tab = "party" | "dex" | "system";
+type Tab = "party" | "ledger" | "map" | "system";
 const VERSION = "v0.0.1";
 
-// Dex display order: starter lines first (verdant, ember, tide), then wilds,
+// Ledger display order: starter lines first (verdant, ember, tide), then wilds,
 // titans last. Anything unexpected sorts just before titans.
 const ROLE_RANK: Record<SpeciesRole, number> = {
   "starter-verdant": 0,
@@ -23,6 +28,16 @@ const ROLE_RANK: Record<SpeciesRole, number> = {
   titan: 5,
 };
 
+// Rough per-stat ceilings so the cute bars read well across levels 1-40.
+const STAT_BAR_MAX: Record<StatName, number> = {
+  hp: 220,
+  attack: 150,
+  defense: 150,
+  spirit: 150,
+  speed: 150,
+};
+const BASE_STAT_MAX = 150;
+
 export async function openCodex(
   game: Game,
   opts: { healer?: boolean } = {},
@@ -30,43 +45,50 @@ export async function openCodex(
   return new Promise((resolve) => {
     let leadChanged = false;
     let tab: Tab = "party";
+    // Detail drill-downs; null = the tab's list/grid view.
+    let partyDetail: number | null = null;
+    let ledgerDetail: string | null = null;
 
-    const wrap = el("div", { className: "codex-root" });
-    const backdrop = el("div", {
-      onClick: (e) => {
-        if (e.target === backdrop) close();
+    const root = el("div", { className: "cdx-root" });
+    const device = el("div", { className: "cdx-device" });
+    const rail = el("div", { className: "cdx-rail" });
+    const screen = el("div", { className: "cdx-screen" });
+    const head = el("div", { className: "cdx-head" });
+    const bodyScroll = el("div", { className: "cdx-body" });
+
+    screen.append(head, bodyScroll);
+    device.append(rail, screen);
+    root.append(device);
+    game.uiRoot.append(root);
+
+    // Boot shimmer — a quick scanline sweep over the screen on open.
+    const boot = el("div", { className: "cdx-boot" });
+    screen.append(boot);
+    setTimeout(() => boot.remove(), 320);
+
+    // Swipe-down-to-close, driven from the screen header so it never fights
+    // with the scrolling body.
+    let touchY = 0;
+    let touchX = 0;
+    head.addEventListener(
+      "touchstart",
+      (e) => {
+        touchY = e.touches[0].clientY;
+        touchX = e.touches[0].clientX;
       },
-    });
-    Object.assign(backdrop.style, {
-      position: "fixed",
-      inset: "0",
-      background: "rgba(20, 24, 34, 0.4)",
-    } as CSSStyleDeclaration);
-
-    const sheet = el("div", { className: "codex-sheet" });
-    const closeBtn = el("button", { text: "✕", onClick: () => close() });
-    Object.assign(closeBtn.style, {
-      position: "absolute",
-      top: "10px",
-      right: "12px",
-      width: "34px",
-      height: "34px",
-      borderRadius: "12px",
-      background: "rgba(255,255,255,0.12)",
-      color: "var(--paper)",
-      fontSize: "16px",
-      fontWeight: "800",
-      zIndex: "2",
-    } as CSSStyleDeclaration);
-
-    const tabBar = el("div", { className: "codex-tabs" });
-    const body = el("div", { className: "codex-body" });
-    sheet.append(closeBtn, tabBar, body);
-    wrap.append(backdrop, sheet);
-    game.uiRoot.append(wrap);
+      { passive: true },
+    );
+    head.addEventListener(
+      "touchend",
+      (e) => {
+        const t = e.changedTouches[0];
+        if (t.clientY - touchY > 70 && Math.abs(t.clientX - touchX) < 60) close();
+      },
+      { passive: true },
+    );
 
     function close(): void {
-      wrap.remove();
+      root.remove();
       resolve(leadChanged ? "lead-changed" : "closed");
     }
 
@@ -75,7 +97,7 @@ export async function openCodex(
       Object.assign(t.style, {
         position: "fixed",
         left: "50%",
-        top: "14%",
+        top: "12%",
         transform: "translateX(-50%)",
         background: "var(--sun)",
         color: "var(--ink)",
@@ -95,120 +117,218 @@ export async function openCodex(
       }, 900);
     }
 
+    // ---- device frame: tab rail + screen header --------------------------
+    function renderRail(): void {
+      rail.replaceChildren();
+      const tabs: [Tab, string, string][] = [
+        ["party", "◈", "PARTY"],
+        ["ledger", "▤", "LEDGER"],
+        ["map", "✦", "MAP"],
+        ["system", "⚙", "SYSTEM"],
+      ];
+      for (const [id, ico, label] of tabs) {
+        rail.append(
+          el(
+            "button",
+            {
+              className: `cdx-tab${tab === id ? " active" : ""}`,
+              onClick: () => {
+                if (id === "map") {
+                  // Hand off to the sibling full-screen world map.
+                  void openWorldMap(game);
+                  return;
+                }
+                if (tab !== id) {
+                  tab = id;
+                  partyDetail = null;
+                  ledgerDetail = null;
+                  render();
+                }
+              },
+            },
+            [el("span", { className: "cdx-tab-ico", text: ico }), el("span", { text: label })],
+          ),
+        );
+      }
+      if (opts.healer) {
+        rail.append(
+          el("button", { className: "cdx-tab rest", onClick: () => restAll() }, [
+            el("span", { className: "cdx-tab-ico", text: "✿" }),
+            el("span", { text: "REST" }),
+          ]),
+        );
+      }
+    }
+
+    function renderHead(title: string, opt?: { sub?: string; onBack?: () => void }): void {
+      head.replaceChildren();
+      head.append(el("div", { className: "cdx-grab" }));
+      if (opt?.onBack) {
+        head.append(el("button", { className: "cdx-back", text: "‹ Back", onClick: opt.onBack }));
+      }
+      head.append(el("div", { className: "cdx-title", text: title }));
+      if (opt?.sub) head.append(el("div", { className: "cdx-sub", text: opt.sub }));
+      head.append(el("button", { className: "cdx-close", text: "✕", onClick: () => close() }));
+    }
+
     function render(): void {
-      // Tabs
-      tabBar.replaceChildren();
-      for (const [id, label] of [
-        ["party", "PARTY"],
-        ["dex", "DEX"],
-        ["system", "SYSTEM"],
-      ] as [Tab, string][]) {
-        tabBar.append(
+      renderRail();
+      bodyScroll.replaceChildren();
+      bodyScroll.scrollTop = 0;
+      if (tab === "party") {
+        if (partyDetail !== null && game.player.party[partyDetail]) renderPartyDetail(partyDetail);
+        else renderParty();
+      } else if (tab === "ledger") {
+        if (ledgerDetail && game.data.species[ledgerDetail]) renderLedgerDetail(ledgerDetail);
+        else renderLedger();
+      } else {
+        renderSystem();
+      }
+    }
+
+    // ---- PARTY -----------------------------------------------------------
+    function renderParty(): void {
+      renderHead("Party", { sub: `${game.player.party.length} with you` });
+      game.player.party.forEach((mon, i) => bodyScroll.append(partyCard(mon, i)));
+    }
+
+    function partyCard(mon: MonsterInstance, index: number): HTMLElement {
+      const def = game.data.species[mon.speciesId];
+      const maxHp = maxHpAt(def.baseStats.hp, mon.level);
+      const pct = clampPct((mon.currentHp / maxHp) * 100);
+
+      const nameline = el("div", { className: "cdx-nameline" }, [
+        el("b", { text: mon.nickname ?? def.name }),
+        el("span", { className: "cdx-lv", text: `Lv ${mon.level}` }),
+      ]);
+      if (index === 0) nameline.append(el("span", { className: "cdx-lead-tag", text: "LEAD" }));
+
+      const meta = el("div", { className: "cdx-meta" }, [
+        el("span", { text: `${mon.currentHp}/${maxHp} HP` }),
+      ]);
+      if (mon.status) {
+        const st = game.data.statuses[mon.status];
+        meta.append(el("span", { className: "cdx-status-chip", text: st?.name ?? mon.status }));
+      }
+      meta.append(el("span", { text: xpToNextLabel(mon) }));
+
+      const info = el("div", { className: "cdx-pinfo" }, [
+        nameline,
+        el("div", { className: "cdx-chips", html: def.types.map(typeChip).join("") }),
+        hpBar(pct),
+        meta,
+      ]);
+
+      return el(
+        "button",
+        {
+          className: "cdx-pcard",
+          onClick: () => {
+            partyDetail = index;
+            render();
+          },
+        },
+        [creatureImg(mon.speciesId), info],
+      );
+    }
+
+    function renderPartyDetail(index: number): void {
+      const mon = game.player.party[index];
+      const def = game.data.species[mon.speciesId];
+      const stats = computeStats(def, mon.level);
+      const maxHp = stats.hp;
+
+      renderHead(mon.nickname ?? def.name, {
+        sub: `#${dexNumber(def.id)}`,
+        onBack: () => {
+          partyDetail = null;
+          render();
+        },
+      });
+
+      const heroText = el("div", {}, [
+        el("h2", { text: mon.nickname ?? def.name }),
+        el("div", { className: "cdx-lv", text: `Lv ${mon.level}` }),
+        el("div", { className: "cdx-chips", html: def.types.map(typeChip).join("") }),
+      ]);
+      if (mon.nickname) {
+        const original = el("div", { className: "cdx-lv", text: `(${def.name})` });
+        original.style.marginTop = "4px";
+        heroText.append(original);
+      }
+      bodyScroll.append(
+        el("div", { className: "cdx-detail cdx-detail-hero" }, [creatureImg(mon.speciesId), heroText]),
+      );
+
+      // HP + status + xp line.
+      bodyScroll.append(el("div", { className: "cdx-section-label", text: "Condition" }));
+      const condMeta = el("div", { className: "cdx-meta" }, [
+        el("span", { text: `${mon.currentHp}/${maxHp} HP` }),
+      ]);
+      if (mon.status) {
+        condMeta.append(
+          el("span", {
+            className: "cdx-status-chip",
+            text: game.data.statuses[mon.status]?.name ?? mon.status,
+          }),
+        );
+      }
+      condMeta.append(el("span", { text: xpToNextLabel(mon) }));
+      bodyScroll.append(
+        el("div", { className: "cdx-detail" }, [
+          hpBar(clampPct((mon.currentHp / maxHp) * 100)),
+          condMeta,
+        ]),
+      );
+
+      // Computed stats as cute bars.
+      bodyScroll.append(el("div", { className: "cdx-section-label", text: "Stats" }));
+      for (const s of STAT_NAMES) {
+        bodyScroll.append(statBar(s, stats[s], STAT_BAR_MAX[s]));
+      }
+
+      // Known moves.
+      bodyScroll.append(el("div", { className: "cdx-section-label", text: "Moves" }));
+      const known = mon.moves.map((id) => game.data.moves[id]).filter(Boolean);
+      if (known.length === 0) {
+        bodyScroll.append(el("div", { className: "cdx-entry", text: "No moves learned." }));
+      }
+      for (const mv of known) {
+        bodyScroll.append(
+          el("div", { className: "cdx-move" }, [
+            el("span", { html: typeChip(mv.type) }),
+            el("span", { className: "cdx-move-name", text: mv.name }),
+            el("span", {
+              className: "cdx-move-num",
+              text: `${mv.power || "—"} PWR · ${mv.accuracy}% · ${mv.stamina} STA`,
+            }),
+          ]),
+        );
+      }
+
+      if (index !== 0) {
+        bodyScroll.append(
           el("button", {
-            className: `codex-tab${tab === id ? " active" : ""}`,
-            text: label,
+            className: "chunky-btn primary cdx-primary-btn",
+            text: "Make Lead",
             onClick: () => {
-              if (tab !== id) {
-                tab = id;
-                render();
-              }
+              const party = game.player.party;
+              [party[0], party[index]] = [party[index], party[0]];
+              leadChanged = true;
+              partyDetail = 0;
+              toast(`${mon.nickname ?? def.name} — Lead!`);
+              render();
             },
           }),
         );
-      }
-      // Body
-      body.replaceChildren();
-      if (tab === "party") renderParty();
-      else if (tab === "dex") renderDex();
-      else renderSystem();
-    }
-
-    // ---- PARTY -------------------------------------------------------------
-    function renderParty(): void {
-      if (opts.healer) {
-        body.append(
-          el("button", {
-            className: "chunky-btn primary",
-            text: "Rest at the Waystone",
-            onClick: () => restAll(),
-          }),
+      } else {
+        bodyScroll.append(
+          el("div", { className: "cdx-note" }, [
+            el("b", { text: "Lead" }),
+            "This one heads into battle first.",
+          ]),
         );
-        (body.lastElementChild as HTMLElement).style.width = "100%";
-        (body.lastElementChild as HTMLElement).style.marginBottom = "12px";
       }
-
-      game.player.party.forEach((mon, i) => {
-        body.append(partyRow(mon, i));
-      });
-    }
-
-    function partyRow(mon: MonsterInstance, index: number): HTMLElement {
-      const def = game.data.species[mon.speciesId];
-      const maxHp = maxHpAt(def.baseStats.hp, mon.level);
-      const pct = Math.max(0, Math.min(100, (mon.currentHp / maxHp) * 100));
-      const fillClass = pct <= 20 ? "fill crit" : pct <= 50 ? "fill warn" : "fill";
-
-      const fill = el("div", { className: fillClass });
-      fill.style.width = `${pct}%`;
-      const hpBar = el("div", { className: "hp-bar" }, [fill]);
-
-      const nameLine = el("div", {}, [
-        el("b", { text: mon.nickname ?? def.name }),
-        el("span", { text: ` Lv ${mon.level}` }),
-      ]);
-      (nameLine.lastElementChild as HTMLElement).style.opacity = "0.7";
-      (nameLine.lastElementChild as HTMLElement).style.fontSize = "13px";
-      if (index === 0) {
-        const leadTag = el("span", { text: "LEAD" });
-        Object.assign(leadTag.style, {
-          marginLeft: "6px",
-          fontSize: "10px",
-          fontWeight: "800",
-          background: "var(--sun)",
-          color: "var(--ink)",
-          padding: "1px 7px",
-          borderRadius: "999px",
-        } as CSSStyleDeclaration);
-        nameLine.append(leadTag);
-      }
-
-      const chips = el("div", { html: def.types.map(typeChip).join(" ") });
-      chips.style.margin = "3px 0";
-
-      const meta = el("div", {}, []);
-      meta.style.display = "flex";
-      meta.style.alignItems = "center";
-      meta.style.gap = "8px";
-      meta.style.marginTop = "4px";
-      meta.style.fontSize = "12px";
-      meta.style.opacity = "0.85";
-      meta.append(el("span", { text: `${mon.currentHp}/${maxHp} HP` }));
-      if (mon.status) {
-        const st = game.data.statuses[mon.status];
-        const chip = el("span", { text: st?.name ?? mon.status, className: "status-chip" });
-        meta.append(chip);
-      }
-      const toNext = xpForLevel(mon.level + 1) - mon.xp;
-      meta.append(
-        el("span", {
-          text: mon.level >= 40 ? "MAX" : `${Math.max(0, toNext)} XP → Lv ${mon.level + 1}`,
-        }),
-      );
-
-      const info = el("div", { className: "info" }, [nameLine, chips, hpBar, meta]);
-      const row = el("div", { className: "party-row" }, [creatureImg(mon.speciesId), info]);
-
-      if (index !== 0) {
-        row.style.cursor = "pointer";
-        row.addEventListener("click", () => {
-          const party = game.player.party;
-          [party[0], party[index]] = [party[index], party[0]];
-          leadChanged = true;
-          toast(`${mon.nickname ?? def.name} — Lead!`);
-          render();
-        });
-      }
-      return row;
     }
 
     function restAll(): void {
@@ -227,7 +347,8 @@ export async function openCodex(
       Object.assign(flash.style, {
         position: "fixed",
         inset: "0",
-        background: "radial-gradient(circle at 50% 60%, rgba(255,230,180,0.7), rgba(255,214,107,0))",
+        background:
+          "radial-gradient(circle at 50% 60%, rgba(255,230,180,0.7), rgba(255,214,107,0))",
         pointerEvents: "none",
         zIndex: "55",
         opacity: "0",
@@ -241,94 +362,193 @@ export async function openCodex(
       }, 300);
     }
 
-    // ---- DEX ---------------------------------------------------------------
-    function renderDex(): void {
-      const all = Object.values(game.data.species).sort((a, b) => {
+    // ---- LEDGER (the dex) ------------------------------------------------
+    function sortedSpecies(): SpeciesDef[] {
+      return Object.values(game.data.species).sort((a, b) => {
         const r = (ROLE_RANK[a.role] ?? 4) - (ROLE_RANK[b.role] ?? 4);
         return r !== 0 ? r : a.name.localeCompare(b.name);
       });
+    }
+
+    function dexNumber(id: string): string {
+      const idx = sortedSpecies().findIndex((s) => s.id === id);
+      return String(idx + 1).padStart(2, "0");
+    }
+
+    function renderLedger(): void {
+      const all = sortedSpecies();
       const registered = new Set(game.player.registered);
+      renderHead("Ledger", { sub: `${registered.size} / ${all.length} synced` });
 
-      const header = el("div", {
-        text: `${registered.size} / ${all.length} synced`,
-      });
-      Object.assign(header.style, {
-        fontWeight: "800",
-        fontSize: "14px",
-        margin: "2px 4px 10px",
-        opacity: "0.9",
-      } as CSSStyleDeclaration);
-      body.append(header);
-
-      const grid = el("div", { className: "dex-grid" });
-      for (const species of all) {
+      const grid = el("div", { className: "cdx-ledger-grid" });
+      all.forEach((species, i) => {
+        const num = String(i + 1).padStart(2, "0");
         if (registered.has(species.id)) {
           grid.append(
-            el("div", { className: "dex-cell" }, [
-              creatureImg(species.id),
-              el("div", { text: species.name }),
-            ]),
+            el(
+              "button",
+              {
+                className: "cdx-cell",
+                onClick: () => {
+                  ledgerDetail = species.id;
+                  render();
+                },
+              },
+              [
+                el("span", { className: "cdx-num", text: `#${num}` }),
+                creatureImg(species.id),
+                el("div", { text: species.name }),
+              ],
+            ),
           );
         } else {
           const ghost = el("img");
           ghost.src = placeholderDataUrl(species.id);
-          grid.append(el("div", { className: "dex-cell unknown" }, [ghost, el("div", { text: "?" })]));
+          grid.append(
+            el("div", { className: "cdx-cell locked" }, [
+              el("span", { className: "cdx-num", text: `#${num}` }),
+              ghost,
+              el("div", { text: "?" }),
+            ]),
+          );
         }
-      }
-      body.append(grid);
+      });
+      bodyScroll.append(grid);
     }
 
-    // ---- SYSTEM ------------------------------------------------------------
-    function renderSystem(): void {
-      const saveBtn = el("button", {
-        className: "chunky-btn primary",
-        text: "Save Journey",
-        onClick: () => {
-          game.save();
-          toast("Saved to Codex ✓");
+    function renderLedgerDetail(id: string): void {
+      const species = game.data.species[id];
+      const registered = new Set(game.player.registered);
+
+      renderHead("Ledger", {
+        sub: `#${dexNumber(id)}`,
+        onBack: () => {
+          ledgerDetail = null;
+          render();
         },
       });
-      const newBtn = el("button", {
-        className: "chunky-btn danger",
-        text: "New Game",
-        onClick: () => confirmNewGame(),
-      });
-      for (const b of [saveBtn, newBtn]) {
-        b.style.width = "100%";
-        b.style.marginBottom = "10px";
-      }
-      body.append(saveBtn, newBtn);
 
-      const credits = el("div", {}, [
-        el("span", { text: "Gaiamon — open source, MIT — " }),
-        el("a", { text: "github.com/ilrein/gaiamon" }),
-      ]);
-      const link = credits.querySelector("a")!;
+      bodyScroll.append(
+        el("div", { className: "cdx-detail cdx-detail-hero" }, [
+          creatureImg(species.id),
+          el("div", {}, [
+            el("h2", { text: species.name }),
+            el("div", { className: "cdx-chips", html: species.types.map(typeChip).join("") }),
+          ]),
+        ]),
+      );
+
+      bodyScroll.append(el("div", { className: "cdx-section-label", text: "Field Entry" }));
+      bodyScroll.append(el("div", { className: "cdx-entry", text: species.dexEntry }));
+
+      bodyScroll.append(el("div", { className: "cdx-section-label", text: "Base Stats" }));
+      for (const s of STAT_NAMES) {
+        bodyScroll.append(statBar(s, species.baseStats[s], BASE_STAT_MAX));
+      }
+
+      const chain = evolutionChain(species.id);
+      if (chain.length > 1) {
+        bodyScroll.append(el("div", { className: "cdx-section-label", text: "Evolution" }));
+        const evo = el("div", { className: "cdx-evo" });
+        chain.forEach((stage, i) => {
+          if (i > 0) evo.append(el("span", { className: "cdx-evo-arrow", text: "→" }));
+          const known = registered.has(stage.id);
+          const cls = `cdx-evo-stage${stage.id === species.id ? " here" : ""}${known ? "" : " locked"}`;
+          const img = el("img");
+          if (known) {
+            img.src = spriteSrc(stage.id);
+            img.onerror = () => {
+              img.onerror = null;
+              img.src = placeholderDataUrl(stage.id);
+            };
+          } else {
+            img.src = placeholderDataUrl(stage.id);
+          }
+          const cell = el("div", { className: cls }, [
+            img,
+            el("div", { className: "nm", text: known ? stage.name : "???" }),
+          ]);
+          if (stage.evolveLevel) {
+            cell.append(el("div", { className: "lvl", text: `Lv ${stage.evolveLevel}` }));
+          }
+          evo.append(cell);
+        });
+        bodyScroll.append(evo);
+      }
+
+      if (species.inspiration) {
+        bodyScroll.append(
+          el("div", { className: "cdx-note" }, [
+            el("b", { text: "Archivist's note" }),
+            species.inspiration,
+          ]),
+        );
+      }
+    }
+
+    // Build the full evolution line a species belongs to, walking back to the
+    // root then forward via evolvesTo.
+    function evolutionChain(id: string): SpeciesDef[] {
+      const species = game.data.species;
+      let root = species[id];
+      let guard = 0;
+      for (;;) {
+        const prev = Object.values(species).find((s) => s.evolvesTo === root.id);
+        if (!prev || guard++ > 8) break;
+        root = prev;
+      }
+      const chain: SpeciesDef[] = [root];
+      let cur = root;
+      while (cur.evolvesTo && species[cur.evolvesTo] && chain.length < 8) {
+        cur = species[cur.evolvesTo];
+        chain.push(cur);
+      }
+      return chain;
+    }
+
+    // ---- SYSTEM ----------------------------------------------------------
+    function renderSystem(): void {
+      renderHead("System");
+
+      bodyScroll.append(
+        el("button", {
+          className: "chunky-btn primary cdx-sys-btn",
+          text: "Save Journey",
+          onClick: () => {
+            game.save();
+            toast("Saved to Codex ✓");
+          },
+        }),
+        el("button", {
+          className: "chunky-btn danger cdx-sys-btn",
+          text: "New Game",
+          onClick: () => confirmNewGame(),
+        }),
+      );
+
+      const link = el("a", { text: "github.com/ilrein/gaiamon" });
       link.setAttribute("href", "https://github.com/ilrein/gaiamon");
       link.setAttribute("target", "_blank");
       link.setAttribute("rel", "noopener");
-      link.style.color = "var(--sun)";
-      Object.assign(credits.style, {
-        fontSize: "12px",
-        opacity: "0.8",
-        marginTop: "8px",
-        lineHeight: "1.5",
-      } as CSSStyleDeclaration);
-      const ver = el("div", { text: VERSION });
-      ver.style.fontSize = "11px";
-      ver.style.opacity = "0.5";
-      ver.style.marginTop = "4px";
-      body.append(credits, ver);
+      const credits = el("div", { className: "cdx-credits" }, [
+        el("div", { text: "Gaiamon — open source, MIT licensed." }),
+        el("div", {}, ["Source: ", link]),
+      ]);
+      bodyScroll.append(credits, el("div", { className: "cdx-ver", text: VERSION }));
     }
 
     function confirmNewGame(): void {
-      // One confirm at a time, and it lives inside the codex root so closing
-      // the codex removes it too (review finding: it stacked in uiRoot).
-      wrap.querySelector(".confirm-newgame")?.remove();
-      const panel = el("div", { className: "panel confirm-newgame" }, [
-        el("div", { text: "Erase this journey and start over?" }),
-        el("div", {}, [
-          el("button", { className: "chunky-btn", text: "Cancel", onClick: () => panel.remove() }),
+      // One confirm at a time, hosted inside the codex root so closing the
+      // codex tears it down too (never stacks in uiRoot).
+      screen.querySelector(".cdx-confirm")?.remove();
+      const panel = el("div", { className: "cdx-confirm" }, [
+        el("div", { className: "cdx-confirm-msg", text: "Erase this journey and start over?" }),
+        el("div", { className: "cdx-confirm-row" }, [
+          el("button", {
+            className: "chunky-btn",
+            text: "Cancel",
+            onClick: () => panel.remove(),
+          }),
           el("button", {
             className: "chunky-btn danger",
             text: "Erase",
@@ -339,23 +559,41 @@ export async function openCodex(
           }),
         ]),
       ]);
-      Object.assign(panel.style, {
-        position: "fixed",
-        left: "50%",
-        bottom: "calc(24px + var(--safe-bottom))",
-        transform: "translateX(-50%)",
-        width: "min(360px, calc(100vw - 32px))",
-        textAlign: "center",
-        zIndex: "60",
-      } as CSSStyleDeclaration);
-      const actions = panel.lastElementChild as HTMLElement;
-      actions.style.display = "flex";
-      actions.style.gap = "10px";
-      actions.style.justifyContent = "center";
-      actions.style.marginTop = "12px";
-      wrap.append(panel);
+      screen.append(panel);
+    }
+
+    // ---- small view helpers ---------------------------------------------
+    function hpBar(pct: number): HTMLElement {
+      const cls = pct <= 20 ? "fill crit" : pct <= 50 ? "fill warn" : "fill";
+      const fill = el("div", { className: cls });
+      fill.style.width = `${pct}%`;
+      return el("div", { className: "hp-bar" }, [fill]);
+    }
+
+    function statBar(label: string, value: number, max: number): HTMLElement {
+      const bar = el("i");
+      bar.style.width = `${clampPct((value / max) * 100)}%`;
+      return el("div", { className: "cdx-statbar" }, [
+        el("span", { className: "lbl", text: label }),
+        el("div", { className: "track" }, [bar]),
+        el("span", { className: "val", text: String(value) }),
+      ]);
+    }
+
+    function xpToNextLabel(mon: MonsterInstance): string {
+      if (mon.level >= 40) return "MAX";
+      const toNext = xpForLevel(mon.level + 1) - mon.xp;
+      return `${Math.max(0, toNext)} XP → Lv ${mon.level + 1}`;
     }
 
     render();
   });
+}
+
+function clampPct(n: number): number {
+  return Math.max(0, Math.min(100, n));
+}
+
+function spriteSrc(id: string): string {
+  return `/sprites/creatures/${id}.png`;
 }
