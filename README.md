@@ -8,6 +8,20 @@ open — the repo *is* the dev log.
 
 🎮 **Play:** [gaiamon.com](https://gaiamon.com) *(pre-alpha)*
 
+![Gaiamon key art](public/og-image.png)
+
+## What's playable today
+
+Explore **Elowen Vale** as a Warden with an ancient-tech **Codex**: pick one of
+three starters (Fernby 🌿, Kindlet 🔥, Puddlop 💧), walk the tall grass of
+Petalway Meadow and the Gloam Caverns, battle wild Gaiamon in turn-based
+combat (11 original types, stamina pips, 5 status effects), **Sync** the ones
+you weaken (no balls here — the Codex projects a resonance glyph), level up,
+evolve, take on the three-round **Trial of Echoes**, challenge **Keeper
+Solenne**, and wake **Cairnoss**, the Titan that was pretending to be a
+waystone. 16 original species, 40 moves, playable one-thumb on your phone.
+Progress saves to your browser. Full design bible: [design/DESIGN.md](design/DESIGN.md).
+
 ## Why
 
 Monster-collecting MMOs today mean desktop clients and borrowed IP. We think
@@ -35,9 +49,9 @@ All heavy things — client bundle, art, audio — ship as static assets
 ## Develop
 
 ```bash
-pnpm install
-pnpm dev:api   # worker on :8787
-pnpm dev       # client on :5173 (proxies /api → :8787)
+bun install
+bun run dev:api   # worker on :8787
+bun run dev       # client on :5173 (proxies /api → :8787)
 ```
 
 Deploys happen automatically: push to `main` → GitHub Actions → `wrangler deploy`
@@ -47,7 +61,7 @@ Deploys happen automatically: push to `main` → GitHub Actions → `wrangler de
 
 ```bash
 cp .env.example .env   # add your OpenAI key (stays local, gitignored)
-pnpm gen-art "a sleepy cloud-sheep with a rainbow tuft" art/creatures/nimbaa.png
+bun run gen-art "a sleepy cloud-sheep with a rainbow tuft" art/creatures/nimbaa.png
 ```
 
 One consistent house style, one still image per creature — animation is tweens

@@ -12,20 +12,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
+      - uses: oven-sh/setup-bun@v2
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
+      - run: bun install --frozen-lockfile
 
-      - run: pnpm install --frozen-lockfile
+      - run: bun run check
 
-      - run: pnpm check
+      - run: bun test src
 
-      - run: pnpm build
+      - run: bun run build
 
       - name: Deploy
         uses: cloudflare/wrangler-action@v3

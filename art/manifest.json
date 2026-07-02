@@ -1,0 +1,113 @@
+[
+  {
+    "prompt": "A small round chinchilla-like creature with soft moss-green fur, a cream belly, and a large coiled fern fiddlehead for a tail; big glossy dark eyes, tiny leaf-shaped ears, sitting upright with a shy hopeful smile. Palette of soft warm neutrals. (Creature name: \"Fernby\")",
+    "out": "public/sprites/creatures/fernby.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A lanky adolescent chinchilla-fawn creature with moss-green fur and darker leaf markings, holding a single elegant unfurled fern frond above its head like a parasol; earnest determined expression, slightly too-big paws. Palette of soft warm neutrals. (Creature name: \"Frondelle\")",
+    "out": "public/sprites/creatures/frondelle.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A tall, gentle treant-beast with bark-plated legs rooted like boots in fresh soil, its back and head crowned by an enormous layered fern canopy shaped like a round umbrella; warm amber eyes glowing softly under the leaf-shade, small flowers dotting its shoulders. Palette of soft warm neutrals. (Creature name: \"Arbrella\")",
+    "out": "public/sprites/creatures/arbrella.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A tiny soot-grey ferret kit with a cream muzzle and a flickering tuft of orange kindling-flame on its head like a topknot; round amber eyes, ember-freckles on its cheeks, mid-bounce with an eager open-mouthed grin. Palette of soft warm neutrals. (Creature name: \"Kindlet\")",
+    "out": "public/sprites/creatures/kindlet.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A sleek, long-bodied ember ferret with charcoal fur, blazing orange flame trailing from its head and tail-tip like a windblown scarf, and a subtly misaligned shadow beneath it; confident smirk, body in a full running stretch. Palette of soft warm neutrals. (Creature name: \"Scampyre\")",
+    "out": "public/sprites/creatures/scampyre.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A large elegant ermine with ember-orange and charcoal fur, a mane of low blue-cored flame, and a second creature-shaped shadow of living smoke standing beside it mimicking its pose; sharp but kind golden eyes, long plume tail. Palette of soft warm neutrals. (Creature name: \"Embermine\")",
+    "out": "public/sprites/creatures/blazermine.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A squishy round blue-lavender octopus blob with stubby ear-like fins, big pearly eyes, and a shallow shimmering puddle balanced flat on its head like a hat; four stubby tentacle-feet, delighted wobbling posture. Palette of soft warm neutrals. (Creature name: \"Puddlop\")",
+    "out": "public/sprites/creatures/puddlop.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A taller graceful octopod in deep teal with trailing skirt-like tentacles, its head crowned by a wide bowl-shaped lagoon of glowing turquoise water with one tiny golden fish inside; serene half-closed eyes, faint freckles of light along its arms. Palette of soft warm neutrals. (Creature name: \"Lagoonet\")",
+    "out": "public/sprites/creatures/lagoonet.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A majestic siren-octopus with flowing ribbon tentacles in midnight blue, dotted with constellations of bioluminescent gold lanterns, its head crowned by a deep dark pool of water full of tiny stars; luminous gentle eyes, mouth open mid-song. Palette of soft warm neutrals. (Creature name: \"Abyssong\")",
+    "out": "public/sprites/creatures/abyssong.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A tiny lamb with a slate-grey face and legs, its body an oversized puffball of white dandelion seed-fluff with a few seeds always drifting off; huge damp dark eyes, permanently gently startled expression. Palette of soft warm neutrals. (Creature name: \"Dandelamb\")",
+    "out": "public/sprites/creatures/dandelamb.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A proud ram with storm-grey wool bristling with silver thistledown spikes, sweeping spiral horns carved with wind-grooves, and seed-fluff streaming off its shoulders like a cape; steady golden eyes, braced stance on a hilltop. Palette of soft warm neutrals. (Creature name: \"Thistleram\")",
+    "out": "public/sprites/creatures/thistleram.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A small terracotta-orange clay creature peeking out of an upside-down weathered flowerpot worn like a shell, one bright green two-leaf sprout growing from the pot's drainage hole; stubby clay paws, bashful round black eyes. Palette of soft warm neutrals. (Creature name: \"Pottle\")",
+    "out": "public/sprites/creatures/pottle.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A fist-sized ball of grey-lavender fuzz crackling with tiny yellow static arcs, two long rabbit-like tufts standing up like antennae, several shiny buttons stuck in its fur; wide sparking eyes and a tiny crooked grin. Palette of soft warm neutrals. (Creature name: \"Zizzle\")",
+    "out": "public/sprites/creatures/zizzle.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A chubby wheat-gold harvest mouse standing upright, cheeks full, clutching a smooth river pebble in both paws like a precious gem; oversized round ears, tiny satchel woven from grass, earnest shiny black eyes. Palette of soft warm neutrals. (Creature name: \"Nibbin\")",
+    "out": "public/sprites/creatures/nibbin.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A small floating wisp-creature made of overlapping torn parchment pages with faded ink script, edges fluttering like a ragged cloak, a single inky ribbon bookmark trailing behind; two soft glowing violet eyes peering from between the pages, curious tilt of the head. Palette of soft warm neutrals. (Creature name: \"Fablefray\")",
+    "out": "public/sprites/creatures/tattertale.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A colossal kneeling-then-rising stone giant built of stacked cairn boulders, blanketed in deep moss and tiny white flowers, hundreds of carved runes across its body glowing warm lantern-gold; two calm ancient eyes of soft light deep in a weathered stone face. Palette of soft warm neutrals. Imposing and ancient but still charming, moss and stone details. (Creature name: \"Cairnoss\")",
+    "out": "public/sprites/creatures/cairnoss.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A cute chibi human adventurer seen from behind at a 3/4 angle, rounded pixel-art style, wearing a moss-green traveling cloak and a small satchel, holding a small glowing teal handheld device (an ancient-tech field terminal), short fluffy hair, full body, standing. HD-2D pixel sprite, soft painterly lighting.",
+    "out": "public/sprites/warden.png",
+    "quality": "medium",
+    "transparent": true,
+    "raw": true
+  },
+  {
+    "prompt": "Key art for 'Gaiamon', a cute monster-collecting game: a small chibi adventurer in a moss-green cloak stands in a sunlit meadow holding up a glowing teal handheld terminal, surrounded by three tiny adorable original creatures (a leafy fox-sprout, a candle-flame imp, a water droplet puppy), HD-2D style: pixel-art characters in a softly lit painterly 3D diorama, tilt-shift depth of field, warm golden-hour light, big readable silhouettes, no text.",
+    "out": "public/og-image.png",
+    "quality": "high",
+    "transparent": false,
+    "raw": true,
+    "size": "1536x1024"
+  }
+]

@@ -1,0 +1,2279 @@
+{
+ "combat": {
+  "chart": [
+   {
+    "attacker": "Verdant",
+    "defender": "Tide",
+    "x": 2
+   },
+   {
+    "attacker": "Verdant",
+    "defender": "Terra",
+    "x": 2
+   },
+   {
+    "attacker": "Verdant",
+    "defender": "Ember",
+    "x": 0.5
+   },
+   {
+    "attacker": "Verdant",
+    "defender": "Zephyr",
+    "x": 0.5
+   },
+   {
+    "attacker": "Ember",
+    "defender": "Verdant",
+    "x": 2
+   },
+   {
+    "attacker": "Ember",
+    "defender": "Frost",
+    "x": 2
+   },
+   {
+    "attacker": "Ember",
+    "defender": "Tide",
+    "x": 0.5
+   },
+   {
+    "attacker": "Ember",
+    "defender": "Terra",
+    "x": 0.5
+   },
+   {
+    "attacker": "Tide",
+    "defender": "Ember",
+    "x": 2
+   },
+   {
+    "attacker": "Tide",
+    "defender": "Terra",
+    "x": 2
+   },
+   {
+    "attacker": "Tide",
+    "defender": "Verdant",
+    "x": 0.5
+   },
+   {
+    "attacker": "Tide",
+    "defender": "Frost",
+    "x": 0.5
+   },
+   {
+    "attacker": "Zephyr",
+    "defender": "Verdant",
+    "x": 2
+   },
+   {
+    "attacker": "Zephyr",
+    "defender": "Fable",
+    "x": 2
+   },
+   {
+    "attacker": "Zephyr",
+    "defender": "Terra",
+    "x": 0.5
+   },
+   {
+    "attacker": "Zephyr",
+    "defender": "Volt",
+    "x": 0.5
+   },
+   {
+    "attacker": "Terra",
+    "defender": "Volt",
+    "x": 2
+   },
+   {
+    "attacker": "Terra",
+    "defender": "Ember",
+    "x": 2
+   },
+   {
+    "attacker": "Terra",
+    "defender": "Frost",
+    "x": 2
+   },
+   {
+    "attacker": "Terra",
+    "defender": "Zephyr",
+    "x": 0.5
+   },
+   {
+    "attacker": "Volt",
+    "defender": "Tide",
+    "x": 2
+   },
+   {
+    "attacker": "Volt",
+    "defender": "Zephyr",
+    "x": 2
+   },
+   {
+    "attacker": "Volt",
+    "defender": "Verdant",
+    "x": 0.5
+   },
+   {
+    "attacker": "Volt",
+    "defender": "Terra",
+    "x": 0
+   },
+   {
+    "attacker": "Frost",
+    "defender": "Verdant",
+    "x": 2
+   },
+   {
+    "attacker": "Frost",
+    "defender": "Zephyr",
+    "x": 2
+   },
+   {
+    "attacker": "Frost",
+    "defender": "Terra",
+    "x": 2
+   },
+   {
+    "attacker": "Frost",
+    "defender": "Ember",
+    "x": 0.5
+   },
+   {
+    "attacker": "Frost",
+    "defender": "Tide",
+    "x": 0.5
+   },
+   {
+    "attacker": "Lumen",
+    "defender": "Umbral",
+    "x": 2
+   },
+   {
+    "attacker": "Lumen",
+    "defender": "Fable",
+    "x": 0.5
+   },
+   {
+    "attacker": "Umbral",
+    "defender": "Lumen",
+    "x": 2
+   },
+   {
+    "attacker": "Umbral",
+    "defender": "Fable",
+    "x": 2
+   },
+   {
+    "attacker": "Fable",
+    "defender": "Umbral",
+    "x": 2
+   },
+   {
+    "attacker": "Fable",
+    "defender": "Lumen",
+    "x": 0.5
+   }
+  ],
+  "statuses": [
+   {
+    "id": "smolder",
+    "name": "Smolder",
+    "mechanics": "Ember-flavored burn: cinder-motes drift off the target. At end of each round the target loses 6% of max HP (rounded up, min 1). While Smoldering, the attack stat used in the damage formula is multiplied by 0.75 (spirit is unaffected). Does not stack; Tide-type Gaiamon cannot be Smoldered. Persists until healed or battle ends.",
+    "syncBonus": 1.5
+   },
+   {
+    "id": "drowse",
+    "name": "Drowse",
+    "mechanics": "Sleep-like: the target curls up in a soft dream-haze and cannot act. At the start of each of its turns after the first, it has a 50% chance to wake; it always wakes at the start of its 4th turn asleep. Taking a direct hit of 25%+ max HP wakes it instantly. Stamina still regenerates while Drowsed.",
+    "syncBonus": 2
+   },
+   {
+    "id": "rimebound",
+    "name": "Rimebound",
+    "mechanics": "Frost-flavored slow: hoarfrost crusts the limbs. Speed is multiplied by 0.5 and every move costs +1 stamina. At the start of each of its turns there is a 30% chance the rime cracks (status ends); being hit by an Ember move ends it immediately. Frost-type Gaiamon cannot be Rimebound.",
+    "syncBonus": 1.8
+   },
+   {
+    "id": "tangleroot",
+    "name": "Tangleroot",
+    "mechanics": "Verdant-flavored escalating drain: living roots knit around the target. Loses 4% max HP at end of round 1, 8% at end of round 2, 12% every round thereafter (cap 12%, rounded up, min 1). Verdant-type Gaiamon cannot be Tanglerooted. Persists until healed or battle ends.",
+    "syncBonus": 1.5
+   },
+   {
+    "id": "storydaze",
+    "name": "Storydaze",
+    "mechanics": "Fable-flavored confusion: the target believes it is the hero of a different story. Lasts 2-4 turns (uniform roll at infliction). Each turn it has a 33% chance to act out the wrong tale instead of its chosen move: it hits itself with a typeless 20-power physical strike (no crit, no variance, ignores effectiveness). Wears off automatically; cannot be inflicted on Fable-types.",
+    "syncBonus": 1.3
+   }
+  ],
+  "damageFormula": "damage = max(1, floor( floor( ((2*level/5 + 2) * movePower * A / D) / 50 + 2 ) * affinity * effectiveness * crit * variance )) \u2014 where A = attacker.attack (physical move) or attacker.spirit (spirit move), each after statStage multiplier and status modifiers (e.g. Smolder \u00d70.75 on attack); D = defender.defense (physical) or defender.spirit (spirit), after statStage multiplier. affinity/effectiveness/crit/variance per the rules below. If effectiveness = 0, damage = 0 (no min-1 floor).",
+  "critRule": "Base crit chance 1/16 (6.25%). High-crit moves are flagged and roll 1/8 (12.5%). A crit multiplies damage by 1.5, ignores the attacker's negative stat stages and the defender's positive stat stages (both treated as stage 0 for that hit), and bypasses the Smolder attack penalty. Crits are rolled per-hit, before variance. The Codex flashes a resonance spike: label it a 'Keen Hit'.",
+  "varianceRule": "Roll an integer r uniformly in [85, 100]; variance = r / 100. Applied as the final multiplier in the damage formula. Fixed-damage effects (Storydaze self-hit, Smolder/Tangleroot chip) skip variance entirely.",
+  "affinityRule": "Affinity (same-type bonus): if the move's type matches either of the attacker's types, affinity = 1.25; otherwise 1.0. Deliberately gentler than the classic 1.5 so off-type coverage moves stay worth teaching \u2014 encourages 'best of things that never happened' movesets over mono-type spam. Neutral-type Gaiamon get Affinity on Neutral moves like any other type.",
+  "statStageRule": "Stages clamp to -4..+4 per stat (attack, defense, spirit, speed). Multiplier table \u2014 positive: mult = (4 + stage)/4; negative: mult = 4/(4 - stage). Exact values: -4: 0.50, -3: 0.571 (4/7), -2: 0.667 (4/6), -1: 0.80 (4/5), 0: 1.00, +1: 1.25, +2: 1.50, +3: 1.75, +4: 2.00. Stages reset when the Gaiamon leaves the field or battle ends. HP has no stages.",
+  "staminaRule": "Every Gaiamon has a 10-pip stamina bar (flat for all species in v1). Move costs by power tier: status moves and power \u2264 40 cost 2; power 41-70 costs 3; power 71-95 costs 4; power \u2265 96 costs 5. Rimebound adds +1 to every cost. Regen: +2 pips at the start of that Gaiamon's turn (cap 10). A fourth always-available action, 'Attune', skips the turn and restores 6 pips (plays a cute Codex-hum animation). Moves you can't afford are greyed out on the Codex; if no move is affordable the UI auto-suggests Attune. Enters battle at full 10; pips persist across switches within a battle. One-thumb friendly: costs shown as pip dots on each move button."
+ },
+ "world": {
+  "areas": [
+   {
+    "id": "hearthglow",
+    "name": "Hearthglow Village",
+    "biome": "cozy-hamlet",
+    "description": "A ring of round-roofed cottages hugging an ancient stone hearth that has never gone out \u2014 legend says a Titan lit it as an apology. Lanterns hum softly at dusk because they are tuned to the same resonance frequency as the Codex, and locals swear the flames flicker in time with nearby Gaiamon heartbeats. This is where every new Warden receives their Codex from the Archivists' Annex, waves goodbye at the flower-arch gate, and heads north into the meadow.",
+    "palette": {
+     "ground1": "#8FD97C",
+     "ground2": "#7CC968",
+     "accent": "#FFB55C"
+    },
+    "props": [
+     "round-canopy-tree",
+     "hearth-lantern-post",
+     "cottage-fence",
+     "flower-tuft",
+     "stone-well",
+     "hay-bale",
+     "signpost-arrow"
+    ],
+    "encounters": [],
+    "npcs": [
+     {
+      "id": "npc-archivist-maru",
+      "name": "Archivist Maru",
+      "role": "codex-giver",
+      "dialogue": [
+       "This Codex is older than the village, older than me, and it still boots faster than my kettle. Take good care of it, Warden.",
+       "Syncing isn't capturing, dear. It's an agreement. The glyph only holds if the Gaiamon is too tired to argue and a little bit curious about you.",
+       "If the Codex screen fogs up, that's not a bug. It means something ancient nearby is dreaming. Probably fine!"
+      ]
+     },
+     {
+      "id": "npc-poppy",
+      "name": "Poppy",
+      "role": "innkeeper-healer",
+      "dialogue": [
+       "Rest your team here whenever you like \u2014 my stew restores HP in real life AND emotionally.",
+       "A Warden once Synced a Gaiamon in my kitchen. The glyph scorched a perfect circle into my floor. I charge extra for that now."
+      ]
+     },
+     {
+      "id": "npc-nib",
+      "name": "Nib",
+      "role": "codex-obsessed-kid",
+      "dialogue": [
+       "When I get MY Codex, I'm gonna Sync a hundred Gaiamon. Maybe a thousand. Maybe the hearth itself. Can you Sync a fire? Write that down.",
+       "Archivist Maru says the Codex chooses its Warden. Mine is choosing SLOWLY.",
+       "The meadow's north! Wild ones hide in the tall grass 'cause they think it's funny when you jump."
+      ]
+     }
+    ],
+    "connections": [
+     "petalway-meadow"
+    ]
+   },
+   {
+    "id": "petalway-meadow",
+    "name": "Petalway Meadow",
+    "biome": "sunny-meadow",
+    "description": "A rolling checkerboard of sun-warmed grass split by a dirt path lined with drifting pink seed-fluff that never seems to land. Tall grass rustles with young wild Gaiamon who treat ambushing travelers as a beloved local sport, and half-buried resonance stones along the path chirp gently when a Codex passes \u2014 the world's oldest, cutest security system. At the far end, the meadow dips toward a cavern mouth breathing cool, faintly glowing air.",
+    "palette": {
+     "ground1": "#96E072",
+     "ground2": "#85D162",
+     "accent": "#FF9EC4"
+    },
+    "props": [
+     "tall-grass-clump",
+     "petal-tree",
+     "mossy-boulder",
+     "wooden-stile-fence",
+     "seed-fluff-emitter",
+     "chirping-waymarker-stone"
+    ],
+    "encounters": [
+     {
+      "speciesSlot": "wild-1",
+      "weight": 45,
+      "minLevel": 2,
+      "maxLevel": 3
+     },
+     {
+      "speciesSlot": "wild-2",
+      "weight": 35,
+      "minLevel": 2,
+      "maxLevel": 4
+     },
+     {
+      "speciesSlot": "wild-3",
+      "weight": 20,
+      "minLevel": 3,
+      "maxLevel": 4
+     }
+    ],
+    "npcs": [
+     {
+      "id": "npc-shepherd-bram",
+      "name": "Bram",
+      "role": "napping-shepherd",
+      "dialogue": [
+       "Zzz... huh? Oh. I wasn't sleeping, I was calibrating. The grass naps back, you know.",
+       "Weaken 'em gentle before you Sync. A scared Gaiamon wriggles right off the glyph, and then YOU feel bad and THEY feel smug."
+      ]
+     },
+     {
+      "id": "npc-warden-lyra",
+      "name": "Warden Lyra",
+      "role": "novice-rival",
+      "dialogue": [
+       "My Codex says my sync success rate is 'statistically optimistic.' I choose to take that as a compliment.",
+       "Race you to the caverns! Well \u2014 after this battle. Well \u2014 after my team stops hiding in the grass.",
+       "The trick is status effects. A drowsy Gaiamon practically Syncs itself. A grumpy one? Good luck."
+      ]
+     },
+     {
+      "id": "npc-botanist-fen",
+      "name": "Fen",
+      "role": "field-botanist",
+      "dialogue": [
+       "This seed-fluff never lands. Never! I've watched one piece for three days. My Codex logged it as 'probably Fable-type nonsense.'",
+       "Tall grass grows tall because wild Gaiamon fertilize it with mischief. That's not science. But it's not NOT science."
+      ]
+     }
+    ],
+    "connections": [
+     "hearthglow",
+     "gloam-caverns"
+    ]
+   },
+   {
+    "id": "gloam-caverns",
+    "name": "Gloamlight Caverns",
+    "biome": "glowing-cave",
+    "description": "A soft-dark cavern route where fields of luminous teal mushrooms grow in tall-grass-like patches, pulsing brighter when something cute walks through them. Umbral and Lumen Gaiamon share the caves in a delicate truce enforced mainly by mutual embarrassment, and crystal clusters ring like wind chimes when struck by moth-wings. Old miners' lanterns still burn on Codex-resonance alone; nobody remembers lighting them. The deep passage climbs toward pale daylight and the Waystone Rise.",
+    "palette": {
+     "ground1": "#4A4E7C",
+     "ground2": "#3E4169",
+     "accent": "#6CF0D2"
+    },
+    "props": [
+     "glow-mushroom-patch",
+     "crystal-cluster",
+     "stalagmite",
+     "miner-lantern",
+     "rope-handrail-post",
+     "dripstone-pool",
+     "old-mine-cart"
+    ],
+    "encounters": [
+     {
+      "speciesSlot": "wild-4",
+      "weight": 40,
+      "minLevel": 5,
+      "maxLevel": 7
+     },
+     {
+      "speciesSlot": "wild-5",
+      "weight": 35,
+      "minLevel": 5,
+      "maxLevel": 8
+     },
+     {
+      "speciesSlot": "wild-6",
+      "weight": 20,
+      "minLevel": 6,
+      "maxLevel": 8
+     },
+     {
+      "speciesSlot": "wild-rare-1",
+      "weight": 5,
+      "minLevel": 7,
+      "maxLevel": 8
+     }
+    ],
+    "npcs": [
+     {
+      "id": "npc-mycologist-oona",
+      "name": "Oona",
+      "role": "mushroom-farmer",
+      "dialogue": [
+       "The mushrooms glow brighter for kind people. You're practically a lighthouse. I'm only a little jealous.",
+       "Don't Sync anything standing IN my crop, please. Last glyph flash-fried a whole harvest into very pretty charcoal."
+      ]
+     },
+     {
+      "id": "npc-mothkeeper-silas",
+      "name": "Silas",
+      "role": "glow-moth-enthusiast",
+      "dialogue": [
+       "Shh. Listen. When the moths land on the crystals... chimes. My Codex has forty hours of recordings. Want to hear all of them?",
+       "Umbral types down here aren't scary. They're shy. There's a difference, and it's mostly in the eyebrows.",
+       "Wardens rush through to the Waystone. The Waystone has waited nine hundred years. It can wait for you to look at a moth."
+      ]
+     },
+     {
+      "id": "npc-lost-tourist-perl",
+      "name": "Perl",
+      "role": "cheerfully-lost-tourist",
+      "dialogue": [
+       "Am I lost? Officially, yes. Spiritually, I have never been more found.",
+       "My Codex map just shows a mushroom drawing where I'm standing. I think it's being affectionate."
+      ]
+     }
+    ],
+    "connections": [
+     "petalway-meadow",
+     "waystone-rise"
+    ]
+   },
+   {
+    "id": "waystone-rise",
+    "name": "Waystone Rise",
+    "biome": "ancient-highland-ruin",
+    "description": "A windswept lavender-stone plateau crowned by the great Waystone: a monolith carved with resonance glyphs that light up rung by rung as a Warden clears the Trial gauntlet. Golden braziers mark the trial ring, and beyond a crumbling arch lies the Titan Arena \u2014 a bowl of shattered tiles where Terravox, the sleeping biome-guardian, stirs when the Waystone burns at full glow. The Sanctum Keeper lives here alone, sweeping steps that are always dusty again by morning, which she insists is the Titan snoring.",
+    "palette": {
+     "ground1": "#B0A8C9",
+     "ground2": "#9E96B8",
+     "accent": "#FFD86B"
+    },
+    "props": [
+     "waystone-monolith",
+     "glyph-brazier",
+     "broken-pillar",
+     "stone-arch",
+     "trial-banner-pole",
+     "cracked-tile-patch",
+     "windswept-shrub",
+     "titan-scale-boulder"
+    ],
+    "encounters": [
+     {
+      "speciesSlot": "wild-7",
+      "weight": 55,
+      "minLevel": 10,
+      "maxLevel": 12
+     },
+     {
+      "speciesSlot": "wild-8",
+      "weight": 35,
+      "minLevel": 10,
+      "maxLevel": 13
+     },
+     {
+      "speciesSlot": "wild-rare-2",
+      "weight": 10,
+      "minLevel": 12,
+      "maxLevel": 14
+     }
+    ],
+    "npcs": [
+     {
+      "id": "npc-keeper-solenne",
+      "name": "Keeper Solenne",
+      "role": "sanctum-keeper",
+      "dialogue": [
+       "I am the Keeper of this Sanctum, specialist of Terra, and undefeated in... let me check my Codex... a very respectable while.",
+       "The Trial isn't about strength. It's about whether your team trusts you when the wind howls. Also strength. It's somewhat about strength.",
+       "Do not try to Sync the Titan. The glyph would need to be the size of the plateau, and frankly, Terravox would find it rude."
+      ]
+     },
+     {
+      "id": "npc-mason-edda",
+      "name": "Edda",
+      "role": "ruin-historian",
+      "dialogue": [
+       "These glyphs predate the Codex \u2014 or the Codex predates them. History up here is less a line and more a polite shrug.",
+       "Every cracked tile in the arena matches a Titan footstep. I've numbered them. Tile 214 is my favorite. It has ambition."
+      ]
+     },
+     {
+      "id": "npc-lookout-tam",
+      "name": "Tam",
+      "role": "nervous-lookout",
+      "dialogue": [
+       "If the ground purrs, walk calmly to the arch. If the ground HUMS, run calmly to the arch.",
+       "My Codex has one alert set: 'TITAN AWAKE.' It has never gone off. Today feels like a great day for it to keep not going off."
+      ]
+     }
+    ],
+    "connections": [
+     "gloam-caverns"
+    ]
+   }
+  ],
+  "regionName": "Elowen Vale"
+ },
+ "codex": {
+  "syncFormula": "syncChance = clamp( speciesSyncRate * (1 - 0.7 * hpFraction) * statusSyncBonus, 0.01, 0.95 ). Inputs: speciesSyncRate in [0..1] per species (common ~0.55, uncommon ~0.40, rare ~0.25); hpFraction = currentHp / maxHp; statusSyncBonus: none=1.0, damage-over-time (Seared/Soaked/Shocked)=1.25, action-impairing (Stunned/Rooted)=1.5, incapacitating (Dozing/Frozen)=2.0. Only the strongest active status applies (no stacking). The Codex displays the live chance rounded to the nearest 5% on the glyph before the player commits. EXAMPLE: wild-3 with speciesSyncRate=0.40, at 12/60 HP (hpFraction=0.2), Dozing (bonus 2.0): 0.40 * (1 - 0.7*0.2) * 2.0 = 0.40 * 0.86 * 2.0 = 0.688 \u2192 69% (within clamp, displayed as \"70%\"). Full-HP worst case for same species: 0.40 * 0.3 * 1.0 = 0.12 \u2192 12%, so syncing is never hopeless but weakening always matters. Roll: success if random() < syncChance, single roll, resolved server-side.",
+  "syncFlow": [
+   "1. WILD BATTLE ONLY: the battle command bar (bottom thumb zone) shows four 64px buttons: FIGHT / SYNC / PARTY / FLEE. SYNC is disabled (dimmed, with tooltip 'Only wild Gaiamon can be synced') in Trial/Keeper/Titan battles.",
+   "2. Tap SYNC: the command bar slides down and the Codex 'raises' \u2014 a diegetic beat where the phone UI frame brightens at the edges and a soft hum plays (120ms haptic tick on supported devices). The live sync chance appears as a large rounded percentage (e.g. '70%') with a one-line reason chip: 'Low HP +' / 'Dozing ++'. Two buttons: PROJECT GLYPH (primary, 56px tall, full width) and BACK.",
+   "3. Tap PROJECT GLYPH: this consumes the player's turn. Camera eases to a low 3/4 angle on the wild Gaiamon; a cyan-gold resonance glyph (rotating concentric rune rings) fades in on the ground beneath it, projected as light from the bottom of the screen (from 'your' Codex).",
+   "4. Resonance beats: the glyph's three rune rings lock inward one at a time (~700ms each) with rising chimes and a short haptic per ring. Purely presentational \u2014 the single success roll already happened server-side; ring count shown = 1 ring if roll landed in the bottom third of the failure band, 2 if it nearly succeeded, 3 = success. This gives 'so close!' feedback without lying about odds.",
+   "5a. SUCCESS: on the third ring lock, the wild Gaiamon dissolves into warm light-motes that stream down into the Codex screen edge; the screen flashes softly, the species' Ledger entry stamps in with a wax-seal animation ('SYNCED \u2014 Entry 007 recorded'), and a name/nickname prompt appears (skippable, single tap).",
+   "5b. Placement: if party has an open slot (max 6), the Gaiamon slides into the party strip with a bounce; if the party is full, a bottom sheet offers 'Send to Sanctum Link' (default, one tap) or 'Swap with a party member' (opens party grid, tap to swap; the swapped-out member goes to Sanctum Link storage).",
+   "6. FAIL: the outermost unlocked ring cracks and the glyph shatters into fireflies that scatter (cute, never scary); the wild Gaiamon shakes itself off and immediately takes its move (syncing spent your turn). The command bar returns; the live chance re-computes next time (it may now be higher if HP/status changed).",
+   "7. Battle end on success: standard victory XP is NOT awarded for a synced foe (you gain the Gaiamon instead); the battle ends immediately with a short 'Resonance stabilized' toast."
+  ],
+  "xpCurve": "Cubic (\"medium\" pace): totalXpToReachLevel(L) = L^3, for L in [1..50] (v1 level cap 50). Level 1 = 1 XP (spawn state), Level 5 = 125, Level 10 = 1,000, Level 15 = 3,375, Level 20 = 8,000, Level 30 = 27,000, Level 50 = 125,000. xpToNext(L) = (L+1)^3 - L^3 = 3L^2 + 3L + 1 (e.g. from 10\u219211 needs 331 XP). Level-up is checked after every award; multiple levels can pass in one award, each shown as its own beat.",
+  "xpFormula": "On battle victory (foe fainted, not synced): xpGained = floor( foe.xpYield * foe.level / 6 ) * battleMult, where foe.xpYield is a per-species constant (early-route species 40-70, keeper ace ~110, Titan 220) and battleMult = 1.0 for wild, 1.5 for Trial/Keeper battles (floored after multiply). The active (on-field) Gaiamon receives 100% of xpGained; every other non-fainted party member receives floor(0.25 * xpGained) passively ('Codex resonance sharing', on by default, no held items needed). EXAMPLE: defeating wild-5@lv11 with xpYield=55: floor(55*11/6)=100 XP to the active member, 25 XP to each benched teammate. Keeper ace keeper-ace-1@lv15 with xpYield=110: floor(110*15/6)*1.5 = 275*1.5 \u2192 412 XP active, 103 each benched.",
+  "trialDesign": "THE TRIAL OF ECHOES (the v1 Waystone Trial, at the waystone site). Fiction: the waystone animates stone 'constructs' of local species and remembers every battle ever fought at it. Format: 3 consecutive 1v1 battles, no items, no fleeing, no syncing (constructs aren't alive). Between battles the waystone restores 50% of max HP to your whole party (status conditions are NOT cleared \u2014 status management across the gauntlet is part of the trial). THE GIMMICK (never shipped in the genre): ECHO DRAFTING \u2014 after winning battle 1 and battle 2, the waystone offers you an Echo of the construct you just defeated: a temporary 7th party slot, fully controllable, at the level you fought it, that vanishes when the trial ends. But accepting an Echo agitates the waystone: every remaining construct gains +2 levels per Echo accepted. So the player drafts the enemy's team against a scaling gauntlet \u2014 a mid-run risk/reward draft, not a rental and not a mirror match. Concrete ladder: BATTLE 1: construct of wild-2@lv9 (biome-1 species). BATTLE 2: construct of wild-5@lv11 (biome-2 species; lv13 if one Echo accepted). BATTLE 3 'The Waykeeper's Echo': construct of wild-7@lv13 with a boosted moveset (lv15 with one Echo, lv17 with two). Echoes use the defeated construct's exact stats/moves and cannot earn XP or be synced. Reward: 'Waystone Mark I' on the Warden profile, 1,500 credits, and the waystone unlocks the Titan arena gate. Recommended entry level: 10-12. Retry allowed immediately on loss; Echo choices reset each attempt.",
+  "keeperDesign": {
+   "name": "Maren Tidewell",
+   "title": "Keeper of the Stillwater Sanctum",
+   "specialtyType": "Tide",
+   "personality": "A young, perpetually barefoot cartographer who maps the marsh by ear \u2014 she listens to water. Warm, easily sidetracked, hums while she battles. She treats every challenger like a research visit and narrates the fight like field notes. Fascinated (slightly too much) by the player's Codex, which she keeps calling 'the singing slab'. Cute-first: her battle intro is her looking up from an ink-smudged map, delighted someone found her.",
+   "partySlots": [
+    "wild-4@lv12",
+    "wild-8@lv13",
+    "keeper-ace-1@lv15"
+   ],
+   "dialogue": [
+    "Oh! A visitor \u2014 shh, one second, the reeds are mid-sentence... okay. Hello! You brought a singing slab. May I battle it? I mean you. May I battle you?",
+    "(mid-battle, first faint) Field note: the challenger favors the left bank. Interesting. Brook, dear, let's answer in kind!",
+    "(defeated) ...The water went quiet for you. It never goes quiet. Here \u2014 the Stillwater Sigil. I'm drawing you on my map as 'the quiet current'.",
+    "(post-battle) Your Codex hums in Tide-key now, did you notice? Come back when it learns the deep notes. And tell the Titan I said it snores."
+   ]
+  },
+  "titanDesign": {
+   "name": "Aurelith, the Waking Waystone",
+   "concept": "The trial site's central monolith was never a monument \u2014 it is the biome's guardian Titan, dormant for centuries, its body overgrown with moss, glyph-lichen, and nesting wild Gaiamon. Completing the Trial of Echoes wakes it: the arena floor IS its back. Terra/Lumen typed, roughly the size of the whole arena wall, moving slow and heavy with warm golden rune-light in its cracks. Cute-first read: ancient and sleepy, not menacing \u2014 it fights like something annoyed at being woken. NOT capturable: the Codex reads 'RESONANCE TOO VAST \u2014 SYNC IMPOSSIBLE' and the SYNC button is replaced by a STUDY button that logs lore notes to the Ledger.",
+   "phase1": "DROWSING (100% \u2192 50% HP). Base: level 18 statline with HP x6.0, defense x1.5, speed x0.6, attack x1.0. Behavior: acts once per turn on a readable 3-turn loop \u2014 turn A: single-target Terra move; turn B: 'Stonehum' charge-up (telegraphed: runes on the floor glow under the player's active Gaiamon); turn C: Stonehum detonates for heavy Terra AoE-style damage (~40% of a same-level mon's max HP) \u2014 swapping the party member on turn C dodges it entirely, teaching the swap-dodge. Every 25% HP lost, one 'Glyph Shard' (a destructible sub-target, 30 HP, defense x0.5) sprouts on its shoulder; while any Shard lives, Aurelith takes 30% reduced damage, so the player is pushed to switch targets.",
+   "phase2": "WOKEN (at 50% HP, hard trigger). Aurelith kneels, chest core exposed: defense drops to x0.75, but attack rises to x1.5 and speed to x1.2, and on every second turn it acts twice. Stonehum is replaced by 'Dawnshear' (Lumen, single-target, ~55% max-HP damage, used every 3rd turn, still floor-telegraphed one turn ahead). Arena mechanic: falling light-motes deal 5% max HP chip damage to the player's active Gaiamon at end of each turn UNLESS that Gaiamon used a Terra or Lumen move that turn (attuning to the Titan's resonance) \u2014 rewards packing coverage from both of its own types. No healing/regeneration between phases; fight is lost only if the whole party faints (free retry from arena entrance, Aurelith fully resets).",
+   "reward": "One-time: 'Waystone Sigil' key item \u2014 attunes the Codex for instant resonance-travel between the starting town and the waystone site (v1's fast travel); 600 XP awarded via the normal xpFormula (xpYield 220, level 18, wild mult \u2192 660 to active, 165 to bench); 3,000 credits; cosmetic 'Titanwake' Codex faceplate (gold rune trim on the whole menu UI); Ledger lore entry 'The Sleeper Below' stamps complete."
+  },
+  "mobileUiSpec": "PORTRAIT-FIRST, ONE-THUMB. Layout math assumes a 390x844pt reference viewport; all sizes in CSS px/pt. MOVEMENT \u2014 floating virtual joystick: activates wherever the thumb lands within the bottom 45% of the screen (no fixed base, so it works left- or right-handed); base ring 96px diameter, knob 44px; dead zone = inner 12px radius (~25% of throw); max throw 40px from center with the base 'dragging' after the thumb if pulled past max (Apple-Arcade-style follow); analog direction with 8-way snap + 22.5 degree hysteresis to prevent jitter on grid edges; releases recenter and fade to 30% opacity ghost in 150ms. Interact/talk/examine = single context button, 56px circle, anchored bottom-right 20px above safe-area inset, only visible when a target is in range. TAP TARGETS: nothing interactive under 44x44px, primary actions 56px tall, minimum 8px gutters between adjacent targets. BATTLE UI (phone portrait): foe Gaiamon upper-right of the diorama with its name/HP plate top-left (56px tall, never near the thumb); player Gaiamon lower-left; ALL commands live in a bottom command bar inside the thumb arc: a 2x2 grid of buttons (each ~171x64px on the reference width) \u2014 FIGHT / SYNC / PARTY / FLEE; tapping FIGHT swaps the grid in-place for the 4 moves (same geometry, so muscle memory holds), each move button showing name, type chip, and PP; BACK is a 44px chevron on the grid's top edge. Damage numbers and status toasts render in the middle third, never under the thumb. BATTLE UI (desktop >=1024px): identical component tree, command grid docked bottom-center at 480px wide, hotkeys 1-4 for grid slots, Esc = back, camera framing widens; no separate desktop layout to maintain. CODEX OVERLAY: the entire menu is one bottom sheet (the Codex 'sliding up' diegetically) \u2014 grab handle 44px tall hit area; three detents: peek 33% (party strip + quick save), half 66% (default, full screen content), full 92% (leaves diorama visible behind a 8px sliver for context); swipe-down or scrim-tap dismisses; sheet tab bar sits at the sheet's BOTTOM (thumb-reachable): Party / Ledger / Map / Warden, 4 tabs x 64px tall with 24px icons + labels. All in-sheet lists are single-column, row height 64px, right-thumb swipe gestures mirror left. SAFE AREAS: root uses viewport-fit=cover; bottom command bar and sheet tab bar pad by max(16px, env(safe-area-inset-bottom)); top HP plates pad by max(12px, env(safe-area-inset-top)); joystick zone excludes the bottom inset so the home indicator never triggers movement. Haptics (where supported): 10ms tick on button press, 30ms on ring-lock during sync, double-pulse on level-up. Landscape phone: supported but non-canonical \u2014 same components, command grid docks bottom-right.",
+  "codexScreens": [
+   {
+    "id": "party",
+    "purpose": "Manage the active party of up to 6 Gaiamon: reorder, inspect stats/moves, nickname, and send/withdraw via Sanctum Link (storage) when standing in town. Also the target of post-sync placement.",
+    "layout": "Single-column list of 6 rows (64px each): sprite chip (48px), name + level, HP bar, status icon, type chips. Long-press-drag (or tap 'Reorder' then tap two rows) to reorder \u2014 first slot = battle lead. Tapping a row pushes a detail card within the sheet: full-body sprite top, the 5 stats (hp/attack/defense/spirit/speed) as labeled bars, 4 move rows (44px) with type + PP, and actions (Nickname / Send to Sanctum Link). A 'Sanctum Link' button (56px, only enabled in town) opens a 3-column 96px-cell storage grid below the party list; tap a stored mon then tap a party row to swap."
+   },
+   {
+    "id": "ledger",
+    "purpose": "The dex. A field-researcher's stamped ledger of every species seen or synced: sync progress, species lore, syncRate hint, and habitat pin. Doubles as the lore archive (Trial/Titan 'STUDY' notes land here).",
+    "layout": "Top: progress banner ('12 / 24 synced') with a wax-seal fill meter. Below: 3-column grid of 112px species cards \u2014 synced = full-color sprite + stamped seal; seen-only = tinted silhouette + name; unseen = numbered blank. Tapping a card pushes a detail page: animated sprite in a mini-diorama, type chips, one-line cry playback button (44px), 2-3 sentence lore entry, resonance meter (a 3-pip hint of speciesSyncRate: calm/wary/elusive), and a 'last seen' habitat tag that deep-links to the Map screen. Filter chips (44px) across the detail-grid top: All / Synced / Seen / by-type."
+   },
+   {
+    "id": "map",
+    "purpose": "Orient the player across the 4 v1 areas, show the active objective, and (after the Titan) trigger Waystone Sigil resonance-travel between town and the waystone site.",
+    "layout": "A hand-inked vertical map of the 4 connected areas drawn as one scrollable column (town at bottom, meadow route, second-biome route, waystone site at top \u2014 matching travel direction). Player position = pulsing Codex glyph. One objective banner pinned at top ('Next: answer the Stillwater Keeper'). Points of interest are 48px tappable seals: town services, tall-grass zones (with 'species seen here' peek), the Sanctum, the waystone. Post-Titan, town and waystone seals gain a gold ring; tapping one while standing at the other shows a 56px 'Resonate' travel button."
+   },
+   {
+    "id": "warden",
+    "purpose": "Save, settings, and Warden identity: profile, badges/marks, accessibility and comfort options. The 'system' screen kept diegetic \u2014 it is the Codex's own maintenance panel.",
+    "layout": "Top card: Warden name, playtime, credits, earned marks (Stillwater Sigil, Waystone Mark I, Titanwake faceplate toggle). Primary 'Record Progress' save button (full-width, 56px, shows last-save timestamp; autosave indicator beside it \u2014 autosave fires on area change and post-battle). Below, grouped 64px setting rows with toggles/steppers: Audio (music/SFX sliders), Battle (animation speed 1x/1.5x/2x, damage numbers on/off, live sync % on/off for purists), Controls (joystick left/right ghost preference, haptics on/off), Display (text size S/M/L, reduced motion, colorblind-safe type-chip patterns), Account (cloud sync status, log out). Version string and credits link at the sheet bottom."
+   }
+  ]
+ },
+ "lore": {
+  "premise": "The world of Gaia is alive \u2014 every meadow, tide, and ember is quietly dreaming, and Gaiamon are those dreams given small, walking shapes. Wardens carry the Codex, an ancient-tech field terminal left behind by the first mapmakers, built to listen to the land and sync with its creatures. Syncing is not capture; it is a promise to walk together \u2014 and wherever a Warden and their Gaiamon travel, the old waystones hum a little brighter and the land wakes a little happier.",
+  "openingScript": [
+   "Oh good, you came! My knees retired years ago, but the map is NOT finished.",
+   "Here. This is a Codex. Older than the waystones. Smarter than me before tea.",
+   "The land out there is alive, little Warden. It dreams. Its dreams have paws.",
+   "We call them Gaiamon. Sync with one, and you will never walk alone again.",
+   "The Codex doesn't trap them. It listens. Your job is to be worth listening WITH.",
+   "Now \u2014 three little dreams wandered onto my porch this morning. Rude, but lucky.",
+   "Pick one. Use your heart or your gut. Never your brain. Brains are awful at this.",
+   "Go on then. The world has been waiting ages to meet you. Don't keep it waiting."
+  ],
+  "starterPitch": "VERDANT \u2014 The Loyal Sprout: a small green promise that chose you before you chose it; slow to bloom, impossible to shake, the friend who holds the umbrella. EMBER \u2014 The Bold Cinder: a spark with big opinions and a bigger heart, first through every doorway, convinced you two are already legends \u2014 someone just has to tell everyone else. TIDE \u2014 The Curious Droplet: a wandering question mark made of water, poking everything, delighted by all of it; it doesn't want to conquer the world, it wants to know what the world tastes like.",
+  "professorFigure": {
+   "name": "Odessa Bramble \u2014 everyone calls her Auntie Bram",
+   "title": "Retired Cartographer, Keeper of the Hollowlight Atlas (the town's unfinished map of everything)",
+   "personality": "Warm-gruff grandmother energy with a mapmaker's precision: she has charted every trail, tide, and stubborn goat in the region and now maps 'the important things' \u2014 good napping rocks, where the light falls in autumn, which Gaiamon like humming. Mischievous, terrible at goodbyes (she turns them into errands: 'while you're out there...'), speaks in landmarks and weather. She hands you the Codex not because you're the chosen one, but because her knees quit before her curiosity did \u2014 and she suspects, correctly, that the land already likes you."
+  },
+  "tone": "Warm, wry, and small-scale sincere: the world is kind, the stakes are personal, and wonder comes from noticing, not from apocalypse. Lines are short and mobile-first \u2014 one thought per line, under ~90 characters, no walls of text. Humor is gentle and character-driven (fond teasing, understatement, creatures with opinions), never sarcastic or mean; one good laugh per scene beats ten winks. Never saccharine: earn sweetness with specificity \u2014 name the rock, the smell of rain, the exact wrong noise the Ember starter makes when it sneezes."
+ },
+ "roster": {
+  "moves": [
+   {
+    "id": "boop",
+    "name": "Boop",
+    "type": "Neutral",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "flinch",
+      "chance": 10
+     }
+    ],
+    "description": "A cheerful headfirst snout-boop; occasionally so disarming the target forgets to act."
+   },
+   {
+    "id": "zipnudge",
+    "name": "Zipnudge",
+    "type": "Neutral",
+    "category": "physical",
+    "power": 35,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "priority",
+      "stages": 1
+     }
+    ],
+    "description": "A blink-fast dash-and-nudge that always lands before slower moves. Priority +1."
+   },
+   {
+    "id": "drumroll-flurry",
+    "name": "Drumroll Flurry",
+    "type": "Neutral",
+    "category": "physical",
+    "power": 18,
+    "accuracy": 90,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "multiHit",
+      "min": 2,
+      "max": 5
+     }
+    ],
+    "description": "Paws patter out an excited drumroll on the foe, striking 2-5 times."
+   },
+   {
+    "id": "heartened-hum",
+    "name": "Heartened Hum",
+    "type": "Neutral",
+    "category": "spirit",
+    "power": 40,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [],
+    "description": "A warm resonant hum, amplified by the Codex into a gentle concussive chord."
+   },
+   {
+    "id": "steady-stance",
+    "name": "Steady Stance",
+    "type": "Neutral",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "defense",
+      "stages": 1,
+      "target": "self",
+      "chance": 100
+     }
+    ],
+    "description": "Plants all feet (or roots, or suction cups) firmly. Raises the user's Defense by 1 stage."
+   },
+   {
+    "id": "sproutswat",
+    "name": "Sproutswat",
+    "type": "Verdant",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [],
+    "description": "A springy swat with a fresh green shoot; stings more than it looks like it should."
+   },
+   {
+    "id": "petal-pirouette",
+    "name": "Petal Pirouette",
+    "type": "Verdant",
+    "category": "spirit",
+    "power": 65,
+    "accuracy": 95,
+    "stamina": 3,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "speed",
+      "stages": -1,
+      "target": "foe",
+      "chance": 20
+     }
+    ],
+    "description": "A spinning dance that whips up a slicing petal spiral; 20% chance the swirl tangles the foe's footing (Speed -1)."
+   },
+   {
+    "id": "cradleroots",
+    "name": "Cradleroots",
+    "type": "Verdant",
+    "category": "status",
+    "power": 0,
+    "accuracy": 85,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "applyStatus",
+      "status": "tangleroot",
+      "target": "foe",
+      "chance": 100
+     }
+    ],
+    "description": "Coaxes living roots up from the soil to gently, relentlessly cradle the foe. Inflicts Tangleroot."
+   },
+   {
+    "id": "sapsip",
+    "name": "Sapsip",
+    "type": "Verdant",
+    "category": "spirit",
+    "power": 60,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [
+     {
+      "kind": "drain",
+      "percent": 50
+     }
+    ],
+    "description": "Draws sweet vitality from the foe through a shimmering green thread, healing the user for 50% of damage dealt."
+   },
+   {
+    "id": "bloomburst",
+    "name": "Bloomburst",
+    "type": "Verdant",
+    "category": "spirit",
+    "power": 100,
+    "accuracy": 90,
+    "stamina": 4,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "spirit",
+      "stages": -1,
+      "target": "self",
+      "chance": 100
+     }
+    ],
+    "description": "A whole season of flowering released in one radiant detonation; the effort lowers the user's Spirit by 1 stage."
+   },
+   {
+    "id": "cindersneeze",
+    "name": "Cindersneeze",
+    "type": "Ember",
+    "category": "spirit",
+    "power": 40,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "applyStatus",
+      "status": "smolder",
+      "target": "foe",
+      "chance": 15
+     }
+    ],
+    "description": "An adorable, uncontrollable sneeze of hot cinders. 15% chance to leave the foe Smoldering."
+   },
+   {
+    "id": "wickflick",
+    "name": "Wickflick",
+    "type": "Ember",
+    "category": "physical",
+    "power": 55,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [
+     {
+      "kind": "applyStatus",
+      "status": "smolder",
+      "target": "foe",
+      "chance": 10
+     }
+    ],
+    "description": "A whip-crack flick of a flaming tail-tip, like snuffing a candle in reverse. 10% chance to Smolder."
+   },
+   {
+    "id": "stokeheart",
+    "name": "Stokeheart",
+    "type": "Ember",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "attack",
+      "stages": 1,
+      "target": "self",
+      "chance": 100
+     },
+     {
+      "kind": "statStage",
+      "stat": "spirit",
+      "stages": 1,
+      "target": "self",
+      "chance": 100
+     }
+    ],
+    "description": "The user fans its inner hearth until its chest glows; raises Attack and Spirit by 1 stage each."
+   },
+   {
+    "id": "pyre-dive",
+    "name": "Pyre Dive",
+    "type": "Ember",
+    "category": "physical",
+    "power": 110,
+    "accuracy": 85,
+    "stamina": 4,
+    "effects": [
+     {
+      "kind": "recoil",
+      "percent": 33
+     }
+    ],
+    "description": "A meteoric full-body plunge wreathed in flame. The user takes recoil equal to 33% of damage dealt."
+   },
+   {
+    "id": "dewdart",
+    "name": "Dewdart",
+    "type": "Tide",
+    "category": "spirit",
+    "power": 40,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [],
+    "description": "Flicks a fat, glittering dewdrop with surprising force. It goes 'plip'."
+   },
+   {
+    "id": "riptail",
+    "name": "Riptail",
+    "type": "Tide",
+    "category": "physical",
+    "power": 55,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [],
+    "description": "A wheeling tail-slap that drags a curl of current along with it."
+   },
+   {
+    "id": "tideswell",
+    "name": "Tideswell",
+    "type": "Tide",
+    "category": "spirit",
+    "power": 70,
+    "accuracy": 95,
+    "stamina": 3,
+    "effects": [
+     {
+      "kind": "flinch",
+      "chance": 10
+     }
+    ],
+    "description": "Summons a rolling swell that breaks over the foe; 10% chance the undertow staggers them into flinching."
+   },
+   {
+    "id": "mistveil",
+    "name": "Mistveil",
+    "type": "Tide",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "defense",
+      "stages": 1,
+      "target": "self",
+      "chance": 100
+     },
+     {
+      "kind": "statStage",
+      "stat": "spirit",
+      "stages": 1,
+      "target": "self",
+      "chance": 100
+     }
+    ],
+    "description": "Wraps the user in a soft pearlescent fog; raises Defense and Spirit by 1 stage each."
+   },
+   {
+    "id": "maelspout",
+    "name": "Maelspout",
+    "type": "Tide",
+    "category": "spirit",
+    "power": 105,
+    "accuracy": 85,
+    "stamina": 4,
+    "effects": [],
+    "description": "Conjures a miniature waterspout that picks the foe up, spins them politely, and puts them down very hard."
+   },
+   {
+    "id": "flitfeather",
+    "name": "Flitfeather",
+    "type": "Zephyr",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [],
+    "description": "A darting strike with a wind-stiffened feather, plume, or seed-tuft."
+   },
+   {
+    "id": "zephyr-reel",
+    "name": "Zephyr Reel",
+    "type": "Zephyr",
+    "category": "spirit",
+    "power": 70,
+    "accuracy": 95,
+    "stamina": 3,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "speed",
+      "stages": 1,
+      "target": "self",
+      "chance": 30
+     }
+    ],
+    "description": "A spiraling ribbon of wind that lashes the foe; 30% chance the user rides the backdraft (Speed +1)."
+   },
+   {
+    "id": "featherstep",
+    "name": "Featherstep",
+    "type": "Zephyr",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "speed",
+      "stages": 2,
+      "target": "self",
+      "chance": 100
+     }
+    ],
+    "description": "The user goes weightless on a cushion of breeze; sharply raises Speed by 2 stages."
+   },
+   {
+    "id": "pebbletoss",
+    "name": "Pebbletoss",
+    "type": "Terra",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [],
+    "description": "Lobs a carefully chosen pebble. The choosing takes longer than the throwing."
+   },
+   {
+    "id": "loamslam",
+    "name": "Loamslam",
+    "type": "Terra",
+    "category": "physical",
+    "power": 85,
+    "accuracy": 90,
+    "stamina": 4,
+    "effects": [],
+    "description": "Heaves a great wave of rich dark earth over the foe. Excellent for the soil, terrible for the target."
+   },
+   {
+    "id": "burrowbrace",
+    "name": "Burrowbrace",
+    "type": "Terra",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "defense",
+      "stages": 2,
+      "target": "self",
+      "chance": 100
+     }
+    ],
+    "description": "Digs in to the shoulders and packs earth tight around itself; sharply raises Defense by 2 stages."
+   },
+   {
+    "id": "zapnibble",
+    "name": "Zapnibble",
+    "type": "Volt",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "speed",
+      "stages": -1,
+      "target": "foe",
+      "chance": 10
+     }
+    ],
+    "description": "A tiny bite that pops with static; 10% chance the tingles slow the foe (Speed -1)."
+   },
+   {
+    "id": "static-serenade",
+    "name": "Static Serenade",
+    "type": "Volt",
+    "category": "spirit",
+    "power": 65,
+    "accuracy": 95,
+    "stamina": 3,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "speed",
+      "stages": -1,
+      "target": "foe",
+      "chance": 20
+     }
+    ],
+    "description": "A crackling lullaby whose chorus arcs into the foe; 20% chance the static clings (Speed -1)."
+   },
+   {
+    "id": "stormcrown",
+    "name": "Stormcrown",
+    "type": "Volt",
+    "category": "spirit",
+    "power": 100,
+    "accuracy": 85,
+    "stamina": 4,
+    "effects": [],
+    "description": "Gathers a halo of stormlight overhead, then brings the whole crown down at once."
+   },
+   {
+    "id": "flurrykiss",
+    "name": "Flurrykiss",
+    "type": "Frost",
+    "category": "spirit",
+    "power": 40,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "applyStatus",
+      "status": "rimebound",
+      "target": "foe",
+      "chance": 10
+     }
+    ],
+    "description": "Blows a swirl of snowflakes shaped like a kiss; 10% chance the frost takes hold (Rimebound)."
+   },
+   {
+    "id": "rimecall",
+    "name": "Rimecall",
+    "type": "Frost",
+    "category": "status",
+    "power": 0,
+    "accuracy": 80,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "applyStatus",
+      "status": "rimebound",
+      "target": "foe",
+      "chance": 100
+     }
+    ],
+    "description": "Sings a thin, glassy note that invites hoarfrost to crust the foe's limbs. Inflicts Rimebound."
+   },
+   {
+    "id": "shardfall",
+    "name": "Shardfall",
+    "type": "Frost",
+    "category": "physical",
+    "power": 75,
+    "accuracy": 90,
+    "stamina": 4,
+    "effects": [],
+    "description": "Calls down a chandelier of ice shards that shatters over the foe in slow, glittering order."
+   },
+   {
+    "id": "duskgnaw",
+    "name": "Duskgnaw",
+    "type": "Umbral",
+    "category": "physical",
+    "power": 55,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [],
+    "description": "The user's own shadow lunges ahead of it and takes a bite. The user always looks a little embarrassed."
+   },
+   {
+    "id": "lullshade",
+    "name": "Lullshade",
+    "type": "Umbral",
+    "category": "status",
+    "power": 0,
+    "accuracy": 75,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "applyStatus",
+      "status": "drowse",
+      "target": "foe",
+      "chance": 100
+     }
+    ],
+    "description": "Casts a soft pool of dusk over the foe like a blanket being tucked in. Inflicts Drowse."
+   },
+   {
+    "id": "umbra-sigh",
+    "name": "Umbra Sigh",
+    "type": "Umbral",
+    "category": "spirit",
+    "power": 70,
+    "accuracy": 95,
+    "stamina": 3,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "spirit",
+      "stages": -1,
+      "target": "foe",
+      "chance": 20
+     }
+    ],
+    "description": "Exhales a long, heavy ribbon of shadow; 20% chance the gloom dampens the foe's Spirit (-1)."
+   },
+   {
+    "id": "glowdart",
+    "name": "Glowdart",
+    "type": "Lumen",
+    "category": "spirit",
+    "power": 40,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [],
+    "description": "Flings a single mote of condensed lamplight that pops in a shower of warm sparks."
+   },
+   {
+    "id": "dawnsip",
+    "name": "Dawnsip",
+    "type": "Lumen",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "heal",
+      "percent": 50,
+      "target": "self"
+     }
+    ],
+    "description": "The user drinks a mouthful of morning light, restoring 50% of its max HP."
+   },
+   {
+    "id": "lantern-verdict",
+    "name": "Lantern Verdict",
+    "type": "Lumen",
+    "category": "spirit",
+    "power": 80,
+    "accuracy": 90,
+    "stamina": 4,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "attack",
+      "stages": -1,
+      "target": "foe",
+      "chance": 20
+     }
+    ],
+    "description": "Raises a blinding lantern-glare of judgment; 20% chance the foe shrinks from the light (Attack -1)."
+   },
+   {
+    "id": "tale-twirl",
+    "name": "Tale Twirl",
+    "type": "Fable",
+    "category": "spirit",
+    "power": 60,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [
+     {
+      "kind": "applyStatus",
+      "status": "storydaze",
+      "target": "foe",
+      "chance": 20
+     }
+    ],
+    "description": "Spins the foe into a half-told story; 20% chance they lose the plot entirely (Storydaze)."
+   },
+   {
+    "id": "plot-twist",
+    "name": "Plot Twist",
+    "type": "Fable",
+    "category": "status",
+    "power": 0,
+    "accuracy": 90,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "attack",
+      "stages": -1,
+      "target": "foe",
+      "chance": 100
+     },
+     {
+      "kind": "statStage",
+      "stat": "spirit",
+      "stages": -1,
+      "target": "foe",
+      "chance": 100
+     }
+    ],
+    "description": "Rewrites the scene so the foe was never the protagonist; lowers their Attack and Spirit by 1 stage each."
+   },
+   {
+    "id": "grand-finale",
+    "name": "Grand Finale",
+    "type": "Fable",
+    "category": "spirit",
+    "power": 95,
+    "accuracy": 85,
+    "stamina": 4,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "spirit",
+      "stages": -1,
+      "target": "self",
+      "chance": 100
+     }
+    ],
+    "description": "Ends the current chapter with fireworks, confetti, and a crashing final chord; the storyteller's Spirit drops 1 stage from the effort."
+   }
+  ],
+  "species": [
+   {
+    "id": "fernby",
+    "name": "Fernby",
+    "types": [
+     "Verdant"
+    ],
+    "role": "starter-verdant",
+    "stage": 1,
+    "evolvesTo": "frondelle",
+    "evolveLevel": 14,
+    "baseStats": {
+     "hp": 62,
+     "attack": 55,
+     "defense": 66,
+     "spirit": 68,
+     "speed": 57
+    },
+    "syncRate": 1,
+    "xpYield": 55,
+    "dexEntry": "A round chinchilla-like sprout whose tail is a tightly coiled fern fiddlehead. It unrolls the tail a tiny bit each time it feels brave, and rolls it back up when it thinks nobody saw.",
+    "inspiration": "A starter whose evolution is literally visible day to day: its fern tail unfurls with its courage, so players watch it grow between battles, not just at level-ups.",
+    "visualPrompt": "A small round chinchilla-like creature with soft moss-green fur, a cream belly, and a large coiled fern fiddlehead for a tail; big glossy dark eyes, tiny leaf-shaped ears, sitting upright with a shy hopeful smile.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "sproutswat"
+     },
+     {
+      "level": 3,
+      "moveId": "steady-stance"
+     },
+     {
+      "level": 5,
+      "moveId": "cradleroots"
+     },
+     {
+      "level": 9,
+      "moveId": "sapsip"
+     },
+     {
+      "level": 13,
+      "moveId": "petal-pirouette"
+     },
+     {
+      "level": 17,
+      "moveId": "drumroll-flurry"
+     }
+    ]
+   },
+   {
+    "id": "frondelle",
+    "name": "Frondelle",
+    "types": [
+     "Verdant"
+    ],
+    "role": "starter-verdant",
+    "stage": 2,
+    "evolvesTo": "arbrella",
+    "evolveLevel": 30,
+    "baseStats": {
+     "hp": 78,
+     "attack": 70,
+     "defense": 84,
+     "spirit": 86,
+     "speed": 70
+    },
+    "syncRate": 1,
+    "xpYield": 100,
+    "dexEntry": "Its fern tail has unfurled into a graceful frond it carries overhead like a parasol. It insists on holding the frond over its Warden in the rain, even though it barely reaches their knees.",
+    "inspiration": "The awkward middle stage played as chivalry: a creature practicing to be a shelter before it is big enough to shelter anything.",
+    "visualPrompt": "A lanky adolescent chinchilla-fawn creature with moss-green fur and darker leaf markings, holding a single elegant unfurled fern frond above its head like a parasol; earnest determined expression, slightly too-big paws.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "sproutswat"
+     },
+     {
+      "level": 1,
+      "moveId": "cradleroots"
+     },
+     {
+      "level": 1,
+      "moveId": "sapsip"
+     },
+     {
+      "level": 14,
+      "moveId": "petal-pirouette"
+     },
+     {
+      "level": 18,
+      "moveId": "heartened-hum"
+     },
+     {
+      "level": 22,
+      "moveId": "pebbletoss"
+     },
+     {
+      "level": 26,
+      "moveId": "bloomburst"
+     }
+    ]
+   },
+   {
+    "id": "arbrella",
+    "name": "Arbrella",
+    "types": [
+     "Verdant",
+     "Terra"
+    ],
+    "role": "starter-verdant",
+    "stage": 3,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 100,
+     "attack": 85,
+     "defense": 112,
+     "spirit": 108,
+     "speed": 80
+    },
+    "syncRate": 1,
+    "xpYield": 165,
+    "dexEntry": "Its canopy has grown into a vast living umbrella of layered fronds, and wild Gaiamon instinctively gather beneath it when storms roll in. It pretends not to notice them, but always widens the canopy a little.",
+    "inspiration": "A final evolution whose power fantasy is protection, not aggression: a walking shelter-tree that turns the battlefield into its own grove.",
+    "visualPrompt": "A tall, gentle treant-beast with bark-plated legs rooted like boots in fresh soil, its back and head crowned by an enormous layered fern canopy shaped like a round umbrella; warm amber eyes glowing softly under the leaf-shade, small flowers dotting its shoulders.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "sproutswat"
+     },
+     {
+      "level": 1,
+      "moveId": "sapsip"
+     },
+     {
+      "level": 1,
+      "moveId": "petal-pirouette"
+     },
+     {
+      "level": 1,
+      "moveId": "pebbletoss"
+     },
+     {
+      "level": 30,
+      "moveId": "loamslam"
+     },
+     {
+      "level": 34,
+      "moveId": "bloomburst"
+     },
+     {
+      "level": 38,
+      "moveId": "burrowbrace"
+     }
+    ]
+   },
+   {
+    "id": "kindlet",
+    "name": "Kindlet",
+    "types": [
+     "Ember"
+    ],
+    "role": "starter-ember",
+    "stage": 1,
+    "evolvesTo": "scampyre",
+    "evolveLevel": 14,
+    "baseStats": {
+     "hp": 56,
+     "attack": 70,
+     "defense": 52,
+     "spirit": 64,
+     "speed": 70
+    },
+    "syncRate": 1,
+    "xpYield": 55,
+    "dexEntry": "A sooty ferret kit with a topknot of living kindling that crackles when it is excited, which is always. It gifts warm coals to friends on cold mornings and is baffled when they cannot hold them.",
+    "inspiration": "A fire starter built around generosity instead of temper: fire as a gift it keeps trying to share with creatures who cannot carry it.",
+    "visualPrompt": "A tiny soot-grey ferret kit with a cream muzzle and a flickering tuft of orange kindling-flame on its head like a topknot; round amber eyes, ember-freckles on its cheeks, mid-bounce with an eager open-mouthed grin.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "cindersneeze"
+     },
+     {
+      "level": 4,
+      "moveId": "zipnudge"
+     },
+     {
+      "level": 5,
+      "moveId": "wickflick"
+     },
+     {
+      "level": 9,
+      "moveId": "stokeheart"
+     },
+     {
+      "level": 13,
+      "moveId": "duskgnaw"
+     },
+     {
+      "level": 17,
+      "moveId": "heartened-hum"
+     }
+    ]
+   },
+   {
+    "id": "scampyre",
+    "name": "Scampyre",
+    "types": [
+     "Ember"
+    ],
+    "role": "starter-ember",
+    "stage": 2,
+    "evolvesTo": "blazermine",
+    "evolveLevel": 30,
+    "baseStats": {
+     "hp": 68,
+     "attack": 88,
+     "defense": 62,
+     "spirit": 80,
+     "speed": 94
+    },
+    "syncRate": 1,
+    "xpYield": 100,
+    "dexEntry": "A sleek fire-ferret that runs so fast its flame streams behind it like a scarf. Its shadow has started arriving a half-second late, and sometimes in the wrong place.",
+    "inspiration": "A middle stage that foreshadows its final dual-type on screen: the desynced shadow is a visible tell the player notices before the dex explains it.",
+    "visualPrompt": "A sleek, long-bodied ember ferret with charcoal fur, blazing orange flame trailing from its head and tail-tip like a windblown scarf, and a subtly misaligned shadow beneath it; confident smirk, body in a full running stretch.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "cindersneeze"
+     },
+     {
+      "level": 1,
+      "moveId": "wickflick"
+     },
+     {
+      "level": 1,
+      "moveId": "zipnudge"
+     },
+     {
+      "level": 14,
+      "moveId": "stokeheart"
+     },
+     {
+      "level": 18,
+      "moveId": "duskgnaw"
+     },
+     {
+      "level": 22,
+      "moveId": "umbra-sigh"
+     },
+     {
+      "level": 26,
+      "moveId": "pyre-dive"
+     }
+    ]
+   },
+   {
+    "id": "blazermine",
+    "name": "Blazermine",
+    "types": [
+     "Ember",
+     "Umbral"
+    ],
+    "role": "starter-ember",
+    "stage": 3,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 80,
+     "attack": 112,
+     "defense": 72,
+     "spirit": 98,
+     "speed": 126
+    },
+    "syncRate": 1,
+    "xpYield": 165,
+    "dexEntry": "A regal ermine of flame whose smoke-shadow has fully come alive and hunts alongside it. The two share every meal precisely in half, though nobody knows what the shadow does with its portion.",
+    "inspiration": "A fire/dark design where the darkness is not edgy but companionable: the creature and its living smoke-shadow fight as an inseparable duet.",
+    "visualPrompt": "A large elegant ermine with ember-orange and charcoal fur, a mane of low blue-cored flame, and a second creature-shaped shadow of living smoke standing beside it mimicking its pose; sharp but kind golden eyes, long plume tail.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "wickflick"
+     },
+     {
+      "level": 1,
+      "moveId": "zipnudge"
+     },
+     {
+      "level": 1,
+      "moveId": "duskgnaw"
+     },
+     {
+      "level": 1,
+      "moveId": "stokeheart"
+     },
+     {
+      "level": 30,
+      "moveId": "umbra-sigh"
+     },
+     {
+      "level": 34,
+      "moveId": "pyre-dive"
+     },
+     {
+      "level": 38,
+      "moveId": "lullshade"
+     }
+    ]
+   },
+   {
+    "id": "puddlop",
+    "name": "Puddlop",
+    "types": [
+     "Tide"
+    ],
+    "role": "starter-tide",
+    "stage": 1,
+    "evolvesTo": "lagoonet",
+    "evolveLevel": 14,
+    "baseStats": {
+     "hp": 66,
+     "attack": 48,
+     "defense": 60,
+     "spirit": 74,
+     "speed": 58
+    },
+    "syncRate": 1,
+    "xpYield": 55,
+    "dexEntry": "A wobbly little octopod that balances its own personal puddle on its head like a hat and refills it from every rain gutter it passes. If the puddle spills, it sulks until someone helps refill it.",
+    "inspiration": "A water starter that carries its water with it: the tide is a possession it tends, waters plants with, and will eventually learn to sing.",
+    "visualPrompt": "A squishy round blue-lavender octopus blob with stubby ear-like fins, big pearly eyes, and a shallow shimmering puddle balanced flat on its head like a hat; four stubby tentacle-feet, delighted wobbling posture.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "dewdart"
+     },
+     {
+      "level": 4,
+      "moveId": "mistveil"
+     },
+     {
+      "level": 5,
+      "moveId": "riptail"
+     },
+     {
+      "level": 9,
+      "moveId": "tideswell"
+     },
+     {
+      "level": 13,
+      "moveId": "flurrykiss"
+     },
+     {
+      "level": 17,
+      "moveId": "heartened-hum"
+     }
+    ]
+   },
+   {
+    "id": "lagoonet",
+    "name": "Lagoonet",
+    "types": [
+     "Tide"
+    ],
+    "role": "starter-tide",
+    "stage": 2,
+    "evolvesTo": "abyssong",
+    "evolveLevel": 30,
+    "baseStats": {
+     "hp": 82,
+     "attack": 58,
+     "defense": 74,
+     "spirit": 94,
+     "speed": 76
+    },
+    "syncRate": 1,
+    "xpYield": 100,
+    "dexEntry": "Its head-puddle has deepened into a private lagoon, complete with one tiny fish it refuses to explain. At night it hums into the water and listens to the note come back changed.",
+    "inspiration": "An evolution measured in ecosystem: the starter levels up and so does the body of water it carries, from puddle to lagoon to singing abyss.",
+    "visualPrompt": "A taller graceful octopod in deep teal with trailing skirt-like tentacles, its head crowned by a wide bowl-shaped lagoon of glowing turquoise water with one tiny golden fish inside; serene half-closed eyes, faint freckles of light along its arms.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "dewdart"
+     },
+     {
+      "level": 1,
+      "moveId": "riptail"
+     },
+     {
+      "level": 1,
+      "moveId": "mistveil"
+     },
+     {
+      "level": 14,
+      "moveId": "tideswell"
+     },
+     {
+      "level": 18,
+      "moveId": "flurrykiss"
+     },
+     {
+      "level": 22,
+      "moveId": "glowdart"
+     },
+     {
+      "level": 26,
+      "moveId": "maelspout"
+     }
+    ]
+   },
+   {
+    "id": "abyssong",
+    "name": "Abyssong",
+    "types": [
+     "Tide",
+     "Lumen"
+    ],
+    "role": "starter-tide",
+    "stage": 3,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 100,
+     "attack": 66,
+     "defense": 88,
+     "spirit": 122,
+     "speed": 104
+    },
+    "syncRate": 1,
+    "xpYield": 165,
+    "dexEntry": "A deep-sea siren whose head-water has become a bottomless well of starlit brine; its song rises out of the depths a few seconds before it opens its mouth. Sailors' lanterns are said to burn brighter when one passes beneath their hull.",
+    "inspiration": "The abyss reimagined as a lighthouse: instead of horror-of-the-deep, the deep is where the light and the music are kept safe.",
+    "visualPrompt": "A majestic siren-octopus with flowing ribbon tentacles in midnight blue, dotted with constellations of bioluminescent gold lanterns, its head crowned by a deep dark pool of water full of tiny stars; luminous gentle eyes, mouth open mid-song.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "dewdart"
+     },
+     {
+      "level": 1,
+      "moveId": "riptail"
+     },
+     {
+      "level": 1,
+      "moveId": "tideswell"
+     },
+     {
+      "level": 1,
+      "moveId": "glowdart"
+     },
+     {
+      "level": 30,
+      "moveId": "dawnsip"
+     },
+     {
+      "level": 34,
+      "moveId": "lantern-verdict"
+     },
+     {
+      "level": 38,
+      "moveId": "maelspout"
+     }
+    ]
+   },
+   {
+    "id": "dandelamb",
+    "name": "Dandelamb",
+    "types": [
+     "Verdant",
+     "Zephyr"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": "thistleram",
+    "evolveLevel": 16,
+    "baseStats": {
+     "hp": 60,
+     "attack": 50,
+     "defense": 56,
+     "spirit": 64,
+     "speed": 76
+    },
+    "syncRate": 0.65,
+    "xpYield": 50,
+    "dexEntry": "A lamb whose wool is a cloud of dandelion seed-fluff. When startled it scatters into the wind entirely, then regrows overnight, and always looks mildly surprised to still exist.",
+    "inspiration": "A route-1 creature whose defense mechanism is literal dispersal: it plants a meadow everywhere it panics, terraforming the route it lives on.",
+    "visualPrompt": "A tiny lamb with a slate-grey face and legs, its body an oversized puffball of white dandelion seed-fluff with a few seeds always drifting off; huge damp dark eyes, permanently gently startled expression.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "flitfeather"
+     },
+     {
+      "level": 3,
+      "moveId": "sproutswat"
+     },
+     {
+      "level": 5,
+      "moveId": "featherstep"
+     },
+     {
+      "level": 9,
+      "moveId": "zephyr-reel"
+     },
+     {
+      "level": 13,
+      "moveId": "sapsip"
+     },
+     {
+      "level": 17,
+      "moveId": "petal-pirouette"
+     }
+    ]
+   },
+   {
+    "id": "thistleram",
+    "name": "Thistleram",
+    "types": [
+     "Verdant",
+     "Zephyr"
+    ],
+    "role": "wild",
+    "stage": 2,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 76,
+     "attack": 84,
+     "defense": 70,
+     "spirit": 76,
+     "speed": 88
+    },
+    "syncRate": 0.35,
+    "xpYield": 105,
+    "dexEntry": "Its seed-wool has toughened into a bristling mantle of thistledown and its curled horns whistle in the wind. Old shepherds say every meadow on the route was planted by one Thistleram losing its temper, once, long ago.",
+    "inspiration": "The payoff of the dispersal gimmick: the panicky puffball grows into the thing the wind itself gets out of the way for.",
+    "visualPrompt": "A proud ram with storm-grey wool bristling with silver thistledown spikes, sweeping spiral horns carved with wind-grooves, and seed-fluff streaming off its shoulders like a cape; steady golden eyes, braced stance on a hilltop.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "flitfeather"
+     },
+     {
+      "level": 1,
+      "moveId": "sproutswat"
+     },
+     {
+      "level": 1,
+      "moveId": "featherstep"
+     },
+     {
+      "level": 1,
+      "moveId": "zephyr-reel"
+     },
+     {
+      "level": 16,
+      "moveId": "sapsip"
+     },
+     {
+      "level": 20,
+      "moveId": "petal-pirouette"
+     },
+     {
+      "level": 24,
+      "moveId": "drumroll-flurry"
+     },
+     {
+      "level": 28,
+      "moveId": "bloomburst"
+     }
+    ]
+   },
+   {
+    "id": "pottle",
+    "name": "Pottle",
+    "types": [
+     "Terra",
+     "Verdant"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 70,
+     "attack": 58,
+     "defense": 92,
+     "spirit": 60,
+     "speed": 28
+    },
+    "syncRate": 0.55,
+    "xpYield": 60,
+    "dexEntry": "A shy clay hermit that wears abandoned flowerpots as armor, with one stubborn sprout growing from the soil it keeps inside. Kind gardeners in town leave their cracked pots on windowsills, just in case.",
+    "inspiration": "A hermit-crab loop with human culture: the community leaves out pots for it, so the creature's habitat is literally people's kindness.",
+    "visualPrompt": "A small terracotta-orange clay creature peeking out of an upside-down weathered flowerpot worn like a shell, one bright green two-leaf sprout growing from the pot's drainage hole; stubby clay paws, bashful round black eyes.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "pebbletoss"
+     },
+     {
+      "level": 1,
+      "moveId": "sproutswat"
+     },
+     {
+      "level": 4,
+      "moveId": "burrowbrace"
+     },
+     {
+      "level": 5,
+      "moveId": "cradleroots"
+     },
+     {
+      "level": 9,
+      "moveId": "sapsip"
+     },
+     {
+      "level": 13,
+      "moveId": "loamslam"
+     },
+     {
+      "level": 18,
+      "moveId": "heartened-hum"
+     }
+    ]
+   },
+   {
+    "id": "zizzle",
+    "name": "Zizzle",
+    "types": [
+     "Volt"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 48,
+     "attack": 56,
+     "defense": 44,
+     "spirit": 70,
+     "speed": 92
+    },
+    "syncRate": 0.6,
+    "xpYield": 55,
+    "dexEntry": "A static-charged dust bunny that lives under floorboards and collects lost buttons, hairpins, and single earrings. It returns them eventually, arranged in neat rows, sorted by how much it misses you.",
+    "inspiration": "An electric-type born from domestic static instead of storms: the spark you get from a doorknob, given a face and a hoarding habit.",
+    "visualPrompt": "A fist-sized ball of grey-lavender fuzz crackling with tiny yellow static arcs, two long rabbit-like tufts standing up like antennae, several shiny buttons stuck in its fur; wide sparking eyes and a tiny crooked grin.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "zapnibble"
+     },
+     {
+      "level": 3,
+      "moveId": "zipnudge"
+     },
+     {
+      "level": 5,
+      "moveId": "static-serenade"
+     },
+     {
+      "level": 10,
+      "moveId": "drumroll-flurry"
+     },
+     {
+      "level": 14,
+      "moveId": "featherstep"
+     },
+     {
+      "level": 19,
+      "moveId": "stormcrown"
+     }
+    ]
+   },
+   {
+    "id": "nibbin",
+    "name": "Nibbin",
+    "types": [
+     "Neutral"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 64,
+     "attack": 58,
+     "defense": 52,
+     "spirit": 48,
+     "speed": 78
+    },
+    "syncRate": 0.7,
+    "xpYield": 42,
+    "dexEntry": "A round harvest mouse that hoards pretty pebbles and will solemnly trade one for any song hummed at it. Wardens report it always overpays, and always looks like it knows.",
+    "inspiration": "The mandatory route-1 rodent replaced by a tiny merchant of worthless treasures: an economy of pebbles and songs instead of a filler encounter.",
+    "visualPrompt": "A chubby wheat-gold harvest mouse standing upright, cheeks full, clutching a smooth river pebble in both paws like a precious gem; oversized round ears, tiny satchel woven from grass, earnest shiny black eyes.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "zipnudge"
+     },
+     {
+      "level": 3,
+      "moveId": "drumroll-flurry"
+     },
+     {
+      "level": 5,
+      "moveId": "steady-stance"
+     },
+     {
+      "level": 9,
+      "moveId": "heartened-hum"
+     },
+     {
+      "level": 13,
+      "moveId": "glowdart"
+     },
+     {
+      "level": 17,
+      "moveId": "dawnsip"
+     }
+    ]
+   },
+   {
+    "id": "tattertale",
+    "name": "Tattertale",
+    "types": [
+     "Fable",
+     "Umbral"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 56,
+     "attack": 44,
+     "defense": 50,
+     "spirit": 88,
+     "speed": 72
+    },
+    "syncRate": 0.3,
+    "xpYield": 65,
+    "dexEntry": "A small spirit stitched together from the torn pages of unfinished storybooks, forever searching for how its own tale ends. It rewrites one word on any page left open overnight, always for the better.",
+    "inspiration": "A ghost-type haunted not by death but by lack of an ending: the rare creature you sync by, in effect, promising to finish its story.",
+    "visualPrompt": "A small floating wisp-creature made of overlapping torn parchment pages with faded ink script, edges fluttering like a ragged cloak, a single inky ribbon bookmark trailing behind; two soft glowing violet eyes peering from between the pages, curious tilt of the head.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "heartened-hum"
+     },
+     {
+      "level": 1,
+      "moveId": "tale-twirl"
+     },
+     {
+      "level": 4,
+      "moveId": "plot-twist"
+     },
+     {
+      "level": 5,
+      "moveId": "umbra-sigh"
+     },
+     {
+      "level": 10,
+      "moveId": "lullshade"
+     },
+     {
+      "level": 15,
+      "moveId": "grand-finale"
+     }
+    ]
+   },
+   {
+    "id": "cairnoss",
+    "name": "Cairnoss",
+    "types": [
+     "Terra",
+     "Lumen"
+    ],
+    "role": "titan",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 160,
+     "attack": 120,
+     "defense": 150,
+     "spirit": 120,
+     "speed": 50
+    },
+    "syncRate": 0,
+    "xpYield": 500,
+    "dexEntry": "The oldest waystone at the trial site was never a waystone at all, but a colossus that knelt to rest an age ago and let travelers carve runes into its back. When it finally stands, moss avalanches from its shoulders and every carved rune ignites like a lantern.",
+    "inspiration": "The landmark-as-boss: players have used this 'monument' as scenery for hours before the trial reveals the furniture is the Titan.",
+    "visualPrompt": "A colossal kneeling-then-rising stone giant built of stacked cairn boulders, blanketed in deep moss and tiny white flowers, hundreds of carved runes across its body glowing warm lantern-gold; two calm ancient eyes of soft light deep in a weathered stone face.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "pebbletoss"
+     },
+     {
+      "level": 1,
+      "moveId": "loamslam"
+     },
+     {
+      "level": 1,
+      "moveId": "burrowbrace"
+     },
+     {
+      "level": 1,
+      "moveId": "lantern-verdict"
+     },
+     {
+      "level": 1,
+      "moveId": "shardfall"
+     },
+     {
+      "level": 1,
+      "moveId": "dawnsip"
+     }
+    ]
+   }
+  ]
+ },
+ "verify": {
+  "nameCheck": {
+   "ok": false,
+   "problems": [
+    {
+     "severity": "major",
+     "where": "Creature name: Tattertale",
+     "issue": "Yo-kai Watch has a famous early-game yokai named Tattletell (Mysterious tribe, prominent in the anime and first game). Both names are the same pun on the English word 'tattletale' \u2014 Tattertale reads and sounds like a 1:1 riff on that yokai (source: yokaiwatch.fandom.com/wiki/Tattletell).",
+     "suggestion": "Keep the storyteller/frayed-fabric vibe with a different base pun: 'Yarnspool', 'Talespun', 'Fablefray', or 'Threadbard'. Avoid any name derived from 'tattle/tattler'."
+    },
+    {
+     "severity": "major",
+     "where": "Creature name: Blazermine",
+     "issue": "A fire creature whose name leads with 'Blaz-' is evocative of two famous mons at once: Pokemon's Blaziken (fire starter) and Yo-kai Watch's Blazion (fire lion, Brave tribe mascot-tier yokai; source: yokaiwatch.fandom.com/wiki/Blazion). 'Blaze' is also the signature ability of every Pokemon fire starter.",
+     "suggestion": "Drop the 'Blaz-' prefix and keep the fire+mine/ore concept: 'Cinderseam', 'Smoldermine', 'Kilnvein', or 'Emberlode'."
+    },
+    {
+     "severity": "minor",
+     "where": "Move name: Pyre Dive",
+     "issue": "First word is one letter off 'Pyro' from Pyro Ball, Cinderace's iconic signature move. The full name is distinct, but flagging per the default-to-flag rule since a fire move starting 'Pyr-' can read Pokemon-adjacent.",
+     "suggestion": "Low risk; if renaming, 'Ember Dive', 'Bonfire Plunge', or 'Kindled Dive' keep the diving-firebird vibe. Note 'Kindled Dive' also cross-sells creature Kindlet."
+    },
+    {
+     "severity": "minor",
+     "where": "NPC name: Poppy",
+     "issue": "Poppy is the exact name of an Elite Four member in Pokemon Scarlet/Violet (a small girl, notable and recent). Common human names are weakly protectable, but an identical named NPC in a monster-collecting game invites comparison.",
+     "suggestion": "Rename to a nearby flower/texture name: 'Pip', 'Posy', 'Poppet', or 'Clover'."
+    },
+    {
+     "severity": "minor",
+     "where": "NPC name: Warden Lyra",
+     "issue": "The combination is doubly Pokemon-flavored: 'Warden' is the exact NPC title used throughout Pokemon Legends: Arceus (Warden Mai, Warden Lian, etc.), and Lyra is the female protagonist of Pokemon HeartGold/SoulSilver. Either alone is fine; together in a creature-collecting game they read as a reference.",
+     "suggestion": "Change one half: keep Lyra but retitle ('Ranger Lyra', 'Sentinel Lyra', 'Waykeeper Lyra' \u2014 'Keeper' is already used for Solenne/Maren, so 'Sentinel' differentiates), or keep Warden with a different name ('Warden Isolde', 'Warden Bryn')."
+    }
+   ]
+  },
+  "balanceCheck": {
+   "ok": false,
+   "problems": [
+    {
+     "severity": "major",
+     "where": "species: cairnoss (titan) baseStats",
+     "issue": "Base stat total is 600 (160+120+150+120+50), but the titan spec band is ~700. It is 100 points (~14%) under spec \u2014 the boss will hit and tank far below intended difficulty.",
+     "suggestion": "Raise stats by ~100 total, e.g. hp 160\u2192190, attack 120\u2192140, defense 150\u2192170, spirit 120\u2192150, speed 50 unchanged (total 700), or rebalance to taste within ~700."
+    },
+    {
+     "severity": "major",
+     "where": "moves: pyre-dive (power 110, stamina 4)",
+     "issue": "staminaRule says power \u226596 costs 5 pips; Pyre Dive is listed at 4. Data field contradicts the costing rule \u2014 an engine deriving cost from tier will disagree with the data, and the move is undercosted by a full pip.",
+     "suggestion": "Set stamina to 5 (or lower power to \u226495 if 4 is intended)."
+    },
+    {
+     "severity": "major",
+     "where": "moves: maelspout (power 105, stamina 4)",
+     "issue": "Power \u226596 must cost 5 per staminaRule; listed at 4 (undercosted).",
+     "suggestion": "Set stamina to 5, or reduce power to \u226495."
+    },
+    {
+     "severity": "major",
+     "where": "moves: stormcrown (power 100, stamina 4)",
+     "issue": "Power \u226596 must cost 5 per staminaRule; listed at 4 (undercosted).",
+     "suggestion": "Set stamina to 5, or reduce power to \u226495."
+    },
+    {
+     "severity": "major",
+     "where": "moves: bloomburst (power 100, stamina 4)",
+     "issue": "Power \u226596 must cost 5 per staminaRule; listed at 4 (undercosted). Note the pattern: all four 96+ power moves are tagged 4, so either these four data entries or the \u226596\u21925 tier in staminaRule is wrong \u2014 as written the tier-5 cost is never used by any move.",
+     "suggestion": "Either set all four 96+ power moves (bloomburst, pyre-dive, maelspout, stormcrown) to stamina 5, or change staminaRule's top tier to 'power \u2265 96 costs 4' and drop tier 5."
+    },
+    {
+     "severity": "minor",
+     "where": "learnsets: fernby lv17 drumroll-flurry, kindlet lv17 heartened-hum, puddlop lv17 heartened-hum, dandelamb lv17 petal-pirouette",
+     "issue": "These learn levels exceed the species' evolveLevel (14/14/14/16), so on-curve players never see the moves on that stage; they are dead data unless evolution can be deliberately delayed and the evolved form does not relearn them at a matching level (Frondelle/Scampyre/Lagoonet re-list the equivalents, Thistleram covers petal-pirouette at 20, so impact is cosmetic).",
+     "suggestion": "Either move these entries to at/below the evolve level, or delete them if delayed evolution is not a supported mechanic."
+    }
+   ]
+  },
+  "coherenceCheck": {
+   "ok": false,
+   "problems": [
+    {
+     "severity": "blocker",
+     "where": "Codex keeperDesign.partySlots vs Roster",
+     "issue": "keeperDesign.partySlots includes 'keeper-ace-1@lv15' (and xpFormula's example references keeper-ace-1 with xpYield 110), but the roster contains no species with a keeper-ace role \u2014 roles present are only starter-*, wild, and titan.",
+     "suggestion": "Add a keeper-ace species to the roster (e.g. {\"id\":\"brookheron\",\"role\":\"keeper-ace\",\"stage\":1}, Tide-typed to match Maren; her mid-battle line even names her ace 'Brook'), or replace the slot with an existing high-stage species such as thistleram or lagoonet and update the xpFormula example accordingly."
+    },
+    {
+     "severity": "blocker",
+     "where": "World encounter speciesSlots vs Roster",
+     "issue": "The three routes define 10 distinct wild slots (wild-1..wild-8, wild-rare-1, wild-rare-2), but the roster supplies only 6 wild-eligible species: one 2-stage line (dandelamb\u2192thistleram) plus 4 singles (pottle, zizzle, nibbin, tattertale). At least 4 slots cannot resolve to any species, which also breaks Trial battle 3 (wild-7) and the Keeper's party (wild-8).",
+     "suggestion": "Either add 4 wild species to the roster, or define an explicit slot\u2192species map that reuses species across areas, e.g.: wild-1=dandelamb, wild-2=pottle, wild-3=zizzle (meadow); wild-4=nibbin, wild-5=tattertale, wild-6=zizzle (cave variant), wild-rare-1=thistleram (evolved, matches lv7-8); wild-7=thistleram, wild-8=nibbin, wild-rare-2=tattertale (rise). Publish the map in the world doc so trial/keeper references resolve deterministically."
+    },
+    {
+     "severity": "blocker",
+     "where": "World (waystone-rise description, Keeper Solenne dialogue) vs Codex titanDesign vs Roster",
+     "issue": "The Titan has three different identities: the world doc calls it 'Terravox, the sleeping biome-guardian', the Codex titanDesign calls it 'Aurelith, the Waking Waystone', and the roster's only titan id is 'cairnoss'. These are presented as the same single v1 titan.",
+     "suggestion": "Pick one canonical identity keyed to the roster id, e.g. species id 'cairnoss', display name 'Terravox' (or 'Aurelith') everywhere: update waystone-rise description, Solenne's 'Do not try to Sync the Titan' line, and titanDesign.name to the chosen name."
+    },
+    {
+     "severity": "blocker",
+     "where": "Codex syncFormula (statusSyncBonus) vs Combat status ids",
+     "issue": "syncFormula's status tiers name Seared, Soaked, Shocked, Stunned, Rooted, Dozing, and Frozen \u2014 none of these exist; the actual combat status ids are smolder, drowse, rimebound, tangleroot, storydaze. The worked example ('Dozing, bonus 2.0') also uses a nonexistent status. As written the status bonus can never trigger.",
+     "suggestion": "Rewrite the tiers using real ids: damage-over-time (smolder)=1.25; action-impairing (tangleroot, storydaze)=1.5; incapacitating (drowse, rimebound)=2.0. Change the example from 'Dozing' to 'drowse', and update syncFlow step 2's reason chip ('Dozing ++' \u2192 'Drowse ++'). Also update Warden Lyra's meadow dialogue if 'drowsy' should literally name the status."
+    },
+    {
+     "severity": "major",
+     "where": "Codex keeperDesign / map objective vs World areas and NPCs",
+     "issue": "keeperDesign is Maren Tidewell, Tide specialist of the 'Stillwater Sanctum' in a marsh she maps by ear, and the map screen's objective is 'answer the Stillwater Keeper' \u2014 but none of the 4 areas is a marsh, no area hosts Maren, and the only keeper NPC in the world is Solenne at waystone-rise, who declares herself 'specialist of Terra'. The world has no location where the designed keeper fight can occur, and it implies two conflicting keepers.",
+     "suggestion": "Either (a) rewrite keeperDesign around Solenne (Terra specialist, Sanctum at waystone-rise), renaming Stillwater Sigil to a Terra-flavored sigil and updating the map objective, or (b) add a marsh sub-area (e.g. off petalway-meadow) containing the Stillwater Sanctum and Maren, add her as an NPC, and soften Solenne's line so she is the trial/arena keeper, not 'the' Keeper. Her Tide theme also argues for Tide-typed party slots once the wild slot map is fixed (wild-4/wild-8 currently resolve to cave/highland species)."
+    },
+    {
+     "severity": "major",
+     "where": "Lore (professorFigure, openingScript) vs World hearthglow (npc-archivist-maru)",
+     "issue": "Two different Codex-givers: lore has Auntie Bram (Odessa Bramble) handing over the Codex and three starters on her porch, while the world doc says Wardens receive the Codex 'from the Archivists' Annex' and gives Archivist Maru the role 'codex-giver' with matching dialogue ('Take good care of it, Warden'). Auntie Bram does not exist as an NPC in any area.",
+     "suggestion": "Add npc-auntie-bram to hearthglow with role 'codex-giver' (porch scene, starters), change Maru's role to something like 'annex-archivist' (registration/ledger flavor \u2014 her sync-lore lines still work), and update the hearthglow description to say the Codex comes from Auntie Bram / is registered at the Annex."
+    },
+    {
+     "severity": "major",
+     "where": "Codex titanDesign.concept vs World waystone-rise description",
+     "issue": "Conflicting titan embodiment: the Codex says the trial site's central monolith IS the Titan and 'the arena floor IS its back', but the world says the Waystone is a glyph-carved monolith in the trial ring while the Titan stirs separately in the Titan Arena 'beyond a crumbling arch' (a bowl of shattered tiles), reinforced by Edda's 'every cracked tile matches a Titan footstep' and the 'titan-scale-boulder' prop. The monolith also must survive the fight for the Waystone Sigil fast-travel reward.",
+     "suggestion": "Pick one: simplest is the world's version \u2014 the Titan sleeps beneath/around the arena beyond the arch, woken when the Waystone reaches full glow after the Trial. Rewrite titanDesign.concept to match ('the arena bowl is its back' can stay if the arena, not the monolith, is the titan) and drop 'the Waking Waystone' epithet."
+    },
+    {
+     "severity": "minor",
+     "where": "Codex titanDesign.reward",
+     "issue": "Reward text says '600 XP awarded via the normal xpFormula' but the same sentence computes floor(220*18/6)=660 to the active member \u2014 600 contradicts 660.",
+     "suggestion": "Change '600 XP' to '660 XP' (or restate as 'xpYield 220 at level 18, wild mult: 660 active / 165 bench')."
+    },
+    {
+     "severity": "minor",
+     "where": "Codex codexScreens.ledger layout",
+     "issue": "Progress banner example '12 / 24 synced' implies 24 species, but the roster defines only 16 (and the titan is explicitly un-syncable, so the syncable pool is 15).",
+     "suggestion": "Change the example to match the real pool, e.g. '9 / 15 synced', or note that the denominator is computed from roster size excluding titans."
+    },
+    {
+     "severity": "minor",
+     "where": "Codex codexScreens.ledger purpose ('The dex. ...')",
+     "issue": "The spec opens with 'The dex', a pokedex-derived term, violating the terminology rule (Warden/Codex/Sync only, never pokedex); everywhere else the feature is diegetically 'the Ledger'.",
+     "suggestion": "Replace 'The dex.' with 'The Ledger.' (internal spec text can say 'the species index' if a genre gloss is needed). titanDesign's 'NOT capturable' could similarly read 'NOT syncable' for consistency with Maru's 'Syncing isn't capturing' lore."
+    },
+    {
+     "severity": "minor",
+     "where": "World petalway-meadow npc-shepherd-bram vs Lore professorFigure",
+     "issue": "Name collision: the napping shepherd is named 'Bram' while the professor figure is 'Auntie Bram' (Odessa Bramble), inviting player confusion once Bram(ble) enters the world doc per the codex-giver fix.",
+     "suggestion": "Rename the shepherd (e.g. 'Bramwell' \u2192 'Wells', or 'Hob') or make the collision an intentional gag with a dialogue line acknowledging it."
+    }
+   ]
+  }
+ },
+ "renames": {
+  "renames": [
+   {
+    "from": "Tattertale",
+    "to": "Fablefray"
+   },
+   {
+    "from": "Blazermine",
+    "to": "Embermine"
+   }
+  ]
+ }
+}

@@ -1,56 +1,267 @@
-import * as THREE from "three";
-import { buildWorld } from "./world";
-import { Player } from "./player";
+// Gaiamon bootstrap + game flow controller. Owns the transitions between
+// title, overworld, battles, trials, and the Codex — screens do the rendering,
+// this file decides what happens next.
 
-const app = document.getElementById("app")!;
+import "./style.css";
+import { Game } from "./game";
+import { DATA, AREAS } from "../data";
+import { TRAINERS, TRIAL, TITAN_ID } from "../data/trainers";
+import { STRINGS } from "../data/strings";
+import type { MonsterInstance, PlayerState, TrainerDef } from "../shared/model";
+import type { AreaExit, AreaTrigger, NpcPlacement } from "../shared/area";
+import { makeInstance, maxHpAt } from "../shared/stats";
+import { TitleScreen } from "./screens/title";
+import { OverworldScreen, fadeTransition } from "./screens/overworld";
+import { BattleScreen } from "./screens/battle";
+import { openCodex } from "./ui/codex";
+import { runDialogue } from "./ui/dialogue";
+import type { BattleConfig } from "../shared/battle";
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-app.appendChild(renderer.domElement);
+const appHost = document.getElementById("app")!;
+const hudRoot = document.getElementById("hud")!;
+const uiRoot = document.getElementById("ui")!;
 
-const scene = new THREE.Scene();
-buildWorld(scene);
-const player = new Player(scene);
+document.title = `${STRINGS.gameTitle} — ${STRINGS.tagline}`;
 
-// Long lens + tilted-down angle is the 2.5D "diorama" framing.
-const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 100);
-const CAMERA_OFFSET = new THREE.Vector3(0, 11, 10);
+let game: Game;
+let overworld: OverworldScreen;
+/** Guards against re-entrant encounters while a battle/dialogue is active. */
+let busy = false;
 
-window.addEventListener("resize", () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
+function palette(areaId: string) {
+  const area = AREAS[areaId] ?? Object.values(AREAS)[0];
+  return { ground1: area.palette.ground1, ground2: area.palette.ground2, fog: area.palette.fog };
+}
 
-const clock = new THREE.Clock();
-const lookTarget = new THREE.Vector3();
+function healParty(player: PlayerState): void {
+  for (const mon of player.party) {
+    const species = DATA.species[mon.speciesId];
+    mon.currentHp = maxHpAt(species.baseStats.hp, mon.level);
+    mon.status = null;
+  }
+}
 
-renderer.setAnimationLoop(() => {
-  const dt = Math.min(clock.getDelta(), 0.05);
-  player.update(dt);
+function makeTrainerParty(trainer: TrainerDef): MonsterInstance[] {
+  return trainer.party.map((slot, i) => makeInstance(DATA.species[slot.speciesId], slot.level, `foe-${trainer.id}-${i}`));
+}
 
-  // Smooth follow-cam.
-  const desired = player.position.clone().add(CAMERA_OFFSET);
-  camera.position.lerp(desired, 1 - Math.exp(-6 * dt));
-  lookTarget.lerp(player.position, 1 - Math.exp(-6 * dt));
-  camera.lookAt(lookTarget.x, lookTarget.y + 1, lookTarget.z);
+function registerSpecies(player: PlayerState, speciesId: string): void {
+  if (!player.registered.includes(speciesId)) player.registered.push(speciesId);
+}
 
-  renderer.render(scene, camera);
-});
+function addSyncedMon(player: PlayerState, speciesId: string, level: number): "party" | "codex" {
+  registerSpecies(player, speciesId);
+  const mon = makeInstance(DATA.species[speciesId], level, `m${player.nextUid++}`);
+  if (player.party.length < 6) {
+    player.party.push(mon);
+    return "party";
+  }
+  return "codex"; // v1: over-capacity syncs are registered in the dex only
+}
 
-// Server heartbeat — proves the worker API is reachable from the client.
-const statusDot = document.getElementById("status")!;
-const statusText = document.getElementById("status-text")!;
-fetch("/api/health")
-  .then((r) => r.json())
-  .then(() => {
-    statusDot.style.background = "#7ef29a";
-    statusText.textContent = "online";
-  })
-  .catch(() => {
-    statusDot.style.background = "#f2a17e";
-    statusText.textContent = "offline";
+async function afterDefeat(): Promise<void> {
+  healParty(game.player);
+  const home = Object.values(AREAS)[0];
+  await fadeTransition(uiRoot, () => {
+    overworld.loadArea(game, home.id, home.spawn.x, home.spawn.z);
   });
+  await runDialogue(uiRoot, [
+    { text: "You were carried back to safety. Your Gaiamon are rested and ready." },
+  ]);
+  game.save();
+}
+
+function startBattleFlow(
+  config: BattleConfig,
+  foeParty: MonsterInstance[],
+  opponentTitle: string | undefined,
+  wildLevel: number | null,
+  onDone?: (outcome: string) => Promise<void> | void,
+): void {
+  busy = true;
+  hudRoot.classList.add("hud-in-battle");
+  const battle = new BattleScreen({
+    config,
+    playerParty: game.player.party,
+    foeParty,
+    backdrop: palette(game.player.areaId),
+    opponentTitle,
+    onFinish: async ({ outcome, syncedSpeciesId }) => {
+      hudRoot.classList.remove("hud-in-battle");
+      game.setScreen(overworld);
+      overworld.loadArea(game, game.player.areaId, game.player.pos.x, game.player.pos.z);
+      if (outcome === "synced" && syncedSpeciesId) {
+        const where = addSyncedMon(game.player, syncedSpeciesId, wildLevel ?? 3);
+        const species = DATA.species[syncedSpeciesId];
+        await runDialogue(uiRoot, [
+          {
+            text:
+              where === "party"
+                ? `${species.name} joined your party!`
+                : `${species.name} was registered to your Codex — your party is full.`,
+          },
+        ]);
+      } else if (outcome === "defeat") {
+        await afterDefeat();
+      }
+      game.save();
+      await onDone?.(outcome);
+      busy = false;
+    },
+  });
+  game.setScreen(battle);
+}
+
+function wildBattle(speciesId: string, level: number): void {
+  if (busy) return;
+  const foe = makeInstance(DATA.species[speciesId], level, `wild-${speciesId}`);
+  startBattleFlow({ kind: "wild", canFlee: true, canSync: true }, [foe], undefined, level);
+}
+
+function trainerBattle(trainer: TrainerDef, onDone?: (outcome: string) => Promise<void> | void): void {
+  const config: BattleConfig = {
+    kind: trainer.kind === "boss" ? "boss" : "trainer",
+    opponentName: trainer.name,
+    canFlee: false,
+    canSync: false,
+    bossPhases: trainer.bossPhases,
+  };
+  startBattleFlow(config, makeTrainerParty(trainer), `${trainer.name} — ${trainer.title}`, null, onDone);
+}
+
+async function handleNpc(npc: NpcPlacement): Promise<void> {
+  if (busy) return;
+  busy = true;
+  await runDialogue(uiRoot, npc.dialogue.map((text) => ({ speaker: npc.name, text })));
+  busy = false;
+  if (npc.battle) {
+    const trainer = TRAINERS[npc.battle.id];
+    if (trainer && !game.player.flags.includes(trainer.defeatFlag)) {
+      await runDialogue(uiRoot, trainer.dialogue.intro.map((text) => ({ speaker: trainer.name, text })));
+      trainerBattle(trainer, async (outcome) => {
+        if (outcome === "victory") {
+          game.player.flags.push(trainer.defeatFlag);
+          await runDialogue(uiRoot, trainer.dialogue.win.map((text) => ({ speaker: trainer.name, text })));
+        } else if (outcome !== "defeat") {
+          await runDialogue(uiRoot, trainer.dialogue.lose.map((text) => ({ speaker: trainer.name, text })));
+        }
+        game.save();
+      });
+    }
+  }
+}
+
+async function runTrial(): Promise<void> {
+  if (game.player.flags.includes(TRIAL.completeFlag)) {
+    await runDialogue(uiRoot, [{ text: "The waystone is calm. Your trial here is already complete." }]);
+    return;
+  }
+  busy = true;
+  await runDialogue(uiRoot, TRIAL.intro.map((text) => ({ speaker: TRIAL.name, text })));
+  busy = false;
+
+  let round = 0;
+  const nextRound = async (outcome: string): Promise<void> => {
+    if (outcome !== "victory") return; // defeat/flee ends the gauntlet
+    round += 1;
+    if (round >= TRIAL.opponents.length) {
+      game.player.flags.push(TRIAL.completeFlag);
+      await runDialogue(uiRoot, TRIAL.completeText.map((text) => ({ speaker: TRIAL.name, text })));
+      game.save();
+      return;
+    }
+    if (TRIAL.healBetween) healParty(game.player);
+    const trainer = TRAINERS[TRIAL.opponents[round]];
+    await runDialogue(uiRoot, trainer.dialogue.intro.map((text) => ({ speaker: trainer.name, text })));
+    trainerBattle(trainer, nextRound);
+  };
+
+  const first = TRAINERS[TRIAL.opponents[0]];
+  await runDialogue(uiRoot, first.dialogue.intro.map((text) => ({ speaker: first.name, text })));
+  trainerBattle(first, nextRound);
+}
+
+async function handleTrigger(trigger: AreaTrigger): Promise<void> {
+  if (busy) return;
+  switch (trigger.kind) {
+    case "sign":
+      busy = true;
+      await runDialogue(uiRoot, [{ text: trigger.text ?? "…the writing has worn away." }]);
+      busy = false;
+      break;
+    case "heal": {
+      busy = true;
+      healParty(game.player);
+      game.save();
+      await runDialogue(uiRoot, [{ text: trigger.text ?? "A warm hum washes over your party. Fully rested!" }]);
+      busy = false;
+      break;
+    }
+    case "trial":
+      await runTrial();
+      break;
+    case "titan": {
+      const titan = TRAINERS[TITAN_ID];
+      if (game.player.flags.includes(titan.defeatFlag)) {
+        await runDialogue(uiRoot, [{ text: "The arena is quiet now. The Titan rests, at peace." }]);
+        return;
+      }
+      busy = true;
+      await runDialogue(uiRoot, titan.dialogue.intro.map((text) => ({ speaker: titan.name, text })));
+      busy = false;
+      trainerBattle(titan, async (outcome) => {
+        if (outcome === "victory") {
+          game.player.flags.push(titan.defeatFlag);
+          await runDialogue(uiRoot, titan.dialogue.win.map((text) => ({ speaker: titan.name, text })));
+          game.save();
+        }
+      });
+      break;
+    }
+  }
+}
+
+async function handleExit(exit: AreaExit): Promise<void> {
+  if (busy) return;
+  busy = true;
+  await fadeTransition(uiRoot, () => {
+    overworld.loadArea(game, exit.toArea, exit.toX, exit.toZ);
+  });
+  game.save();
+  busy = false;
+}
+
+function startPlaying(player: PlayerState): void {
+  game.player = player;
+  overworld = new OverworldScreen({
+    onEncounter: (speciesId, level) => wildBattle(speciesId, level),
+    onNpc: (npc) => void handleNpc(npc),
+    onExit: (exit) => void handleExit(exit),
+    onTrigger: (trigger) => void handleTrigger(trigger),
+    onCodex: () => {
+      if (busy) return;
+      busy = true;
+      void openCodex(game, {}).then(() => {
+        game.save();
+        busy = false;
+      });
+    },
+  });
+  game.setScreen(overworld);
+  overworld.loadArea(game, player.areaId, player.pos.x, player.pos.z);
+  game.save();
+}
+
+// ---- boot ----------------------------------------------------------------
+const emptyPlayer: PlayerState = {
+  name: "Warden",
+  party: [],
+  registered: [],
+  flags: [],
+  areaId: Object.values(AREAS)[0].id,
+  pos: Object.values(AREAS)[0].spawn,
+  nextUid: 1,
+};
+
+game = new Game(appHost, hudRoot, uiRoot, DATA, emptyPlayer);
+game.setScreen(new TitleScreen({ onStart: (player) => startPlaying(player) }));
