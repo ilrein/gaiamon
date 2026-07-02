@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gaiamon",
+  "main": "src/worker/index.ts",
+  "compatibility_date": "2026-06-01",
+
+  // The worker script itself must stay small (3 MB gzipped on the free plan,
+  // 10 MB paid). Everything heavy — the Three.js client, art, audio — ships as
+  // static assets instead: 20k files, 25 MiB per file. Keep game logic lean here.
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+
+  "workers_dev": true,
+
+  // gaiamon.com currently has DNS records pointing at an older deployment.
+  // Once those are removed (Cloudflare dashboard → gaiamon.com → DNS, or the
+  // old Pages project's custom-domain tab), uncomment and deploy:
+  // "routes": [
+  //   { "pattern": "gaiamon.com", "custom_domain": true },
+  //   { "pattern": "www.gaiamon.com", "custom_domain": true }
+  // ],
+
+  "observability": {
+    "enabled": true
+  }
+}

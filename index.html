@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gaiamon — a cute open-source monster MMO</title>
+    <meta
+      name="description"
+      content="Gaiamon: an open-source, community-driven monster-collecting MMO in your browser."
+    />
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #87c9e8;
+        font-family: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+      }
+      #app {
+        position: fixed;
+        inset: 0;
+      }
+      #hud {
+        position: fixed;
+        top: 14px;
+        left: 16px;
+        color: #fff;
+        text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+        user-select: none;
+        pointer-events: none;
+      }
+      #hud h1 {
+        margin: 0;
+        font-size: 22px;
+        letter-spacing: 2px;
+      }
+      #hud .tag {
+        font-size: 11px;
+        opacity: 0.9;
+      }
+      #status {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #999;
+        margin-right: 5px;
+      }
+      #controls {
+        position: fixed;
+        bottom: 12px;
+        left: 16px;
+        color: #fff;
+        font-size: 11px;
+        opacity: 0.8;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+        user-select: none;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="hud">
+      <h1>GAIAMON</h1>
+      <div class="tag"><span id="status"></span><span id="status-text">connecting…</span> · pre-alpha</div>
+    </div>
+    <div id="controls">WASD / arrows to move</div>
+    <script type="module" src="/src/client/main.ts"></script>
+  </body>
+</html>
