@@ -1,64 +1,11 @@
-// NPC billboards: a procedural pixel-art chibi person drawn on a small canvas
-// and billboarded as a THREE.Sprite anchored at the feet. Clothes are colored
-// from npc.hue. Each NPC carries an exclamation bubble sprite that fades in when
-// the player is close enough to talk.
+// NPC actors: real 4-direction walk-cycle characters from the CC0 Openmon set
+// by Screen Smith (assets/screensmith/openmon-npc-set-1). Each NPC carries an
+// exclamation bubble sprite that fades in when the player is close enough to
+// talk, and turns to face the player.
 
 import * as THREE from "three";
 import type { NpcPlacement } from "../../shared/area";
-
-function personTexture(hue: number): THREE.Texture {
-  const px = 24;
-  const canvas = document.createElement("canvas");
-  canvas.width = px;
-  canvas.height = px;
-  const ctx = canvas.getContext("2d")!;
-
-  const put = (x: number, y: number, w: number, h: number, color: string) => {
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, w, h);
-  };
-
-  const shirt = `hsl(${hue}, 55%, 58%)`;
-  const shirtDark = `hsl(${hue}, 50%, 46%)`;
-  const pants = `hsl(${(hue + 200) % 360}, 30%, 40%)`;
-  const skin = "#f2c79a";
-  const hair = `hsl(${(hue + 30) % 360}, 40%, 30%)`;
-
-  // feet
-  put(8, 21, 3, 2, "#4a3b2e");
-  put(13, 21, 3, 2, "#4a3b2e");
-  // legs
-  put(8, 17, 3, 4, pants);
-  put(13, 17, 3, 4, pants);
-  // body / shirt
-  put(7, 11, 10, 7, shirt);
-  put(6, 12, 12, 5, shirt);
-  put(7, 11, 10, 1, shirtDark);
-  // arms
-  put(5, 12, 2, 4, shirtDark);
-  put(17, 12, 2, 4, shirtDark);
-  // head
-  put(8, 4, 8, 7, skin);
-  put(7, 5, 10, 5, skin);
-  // hair
-  put(7, 3, 10, 3, hair);
-  put(7, 4, 2, 3, hair);
-  put(15, 4, 2, 3, hair);
-  // eyes
-  put(9, 7, 2, 2, "#3a2f2a");
-  put(13, 7, 2, 2, "#3a2f2a");
-  put(9, 7, 1, 1, "#ffffff");
-  put(13, 7, 1, 1, "#ffffff");
-  // blush + mouth
-  put(8, 9, 1, 1, "#f4a9a0");
-  put(15, 9, 1, 1, "#f4a9a0");
-  put(11, 9, 2, 1, "#c96a5a");
-
-  const tex = new THREE.CanvasTexture(canvas);
-  tex.magFilter = THREE.NearestFilter;
-  tex.colorSpace = THREE.SRGBColorSpace;
-  return tex;
-}
+import { WalkerSprite, walkerIndexFor } from "./walker";
 
 function bubbleTexture(): THREE.Texture {
   const px = 24;
@@ -104,11 +51,9 @@ function bubbleTexture(): THREE.Texture {
 export class NpcActor {
   readonly group: THREE.Group;
   readonly npc: NpcPlacement;
-  private readonly sprite: THREE.Sprite;
+  private readonly walker: WalkerSprite;
   private readonly bubble: THREE.Sprite;
-  private readonly personTex: THREE.Texture;
   private readonly bubbleTex: THREE.Texture;
-  private readonly baseScale = 1.5;
   private bubbleShown = 0; // 0..1 eased visibility
 
   constructor(npc: NpcPlacement) {
@@ -116,12 +61,9 @@ export class NpcActor {
     this.group = new THREE.Group();
     this.group.position.set(npc.x, 0, npc.z);
 
-    this.personTex = personTexture(npc.hue);
-    const mat = new THREE.SpriteMaterial({ map: this.personTex, alphaTest: 0.05 });
-    this.sprite = new THREE.Sprite(mat);
-    this.sprite.center.set(0.5, 0.06); // anchor at the feet
-    this.sprite.scale.setScalar(this.baseScale);
-    this.group.add(this.sprite);
+    // The hue picks a stable walk-cycle character per NPC.
+    this.walker = new WalkerSprite(walkerIndexFor(npc.hue), 1.7);
+    this.group.add(this.walker.mesh);
 
     this.bubbleTex = bubbleTexture();
     const bmat = new THREE.SpriteMaterial({ map: this.bubbleTex, transparent: true, opacity: 0, depthTest: false });
@@ -133,11 +75,15 @@ export class NpcActor {
     this.group.add(this.bubble);
   }
 
-  /** `t` elapsed seconds, `showBubble` when player is in talk range. */
-  update(t: number, showBubble: boolean): void {
-    // gentle idle bob
-    const bob = Math.sin(t * 2.2 + this.npc.x) * 0.05 + 0.05;
-    this.sprite.position.y = bob;
+  /** `t` elapsed seconds, `showBubble` when the player is in talk range. */
+  update(t: number, showBubble: boolean, camera: THREE.Camera, playerX: number, playerZ: number): void {
+    if (showBubble) {
+      this.walker.lookToward(this.npc.x, this.npc.z, playerX, playerZ);
+    } else {
+      this.walker.face("down");
+    }
+    this.walker.update(0, false);
+    this.walker.faceCamera(camera, this.npc.x, this.npc.z);
 
     const target = showBubble ? 1 : 0;
     this.bubbleShown += (target - this.bubbleShown) * 0.15;
@@ -148,9 +94,8 @@ export class NpcActor {
   }
 
   dispose(): void {
-    this.personTex.dispose();
+    this.walker.dispose();
     this.bubbleTex.dispose();
-    (this.sprite.material as THREE.SpriteMaterial).dispose();
     (this.bubble.material as THREE.SpriteMaterial).dispose();
   }
 }

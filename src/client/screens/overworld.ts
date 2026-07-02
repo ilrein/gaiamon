@@ -15,6 +15,7 @@ import { el } from "../dom";
 import { buildTerrain, type Terrain } from "../world/terrain";
 import { buildProp } from "../world/props";
 import { NpcActor } from "../world/npc";
+import { WalkerSprite, PLAYER_WALKER } from "../world/walker";
 
 export interface OverworldCallbacks {
   onEncounter: (speciesId: string, level: number) => void;
@@ -70,7 +71,7 @@ export class OverworldScreen implements Screen {
   private readonly sunTarget = new THREE.Object3D();
   private readonly areaGroup = new THREE.Group();
 
-  private player!: THREE.Sprite;
+  private player!: WalkerSprite;
   private area: AreaDef | null = null;
   private terrain: Terrain | null = null;
   private npcs: NpcActor[] = [];
@@ -78,7 +79,6 @@ export class OverworldScreen implements Screen {
   // player kinematics
   private px = 0;
   private pz = 0;
-  private facing = 1;
   private moving = false;
   private animT = 0;
 
@@ -111,12 +111,10 @@ export class OverworldScreen implements Screen {
     this.sun.target = this.sunTarget;
     this.scene.add(new THREE.HemisphereLight(0xbfe3ff, 0x7aa95c, 1.1));
 
-    // Persistent player sprite (survives area transitions).
-    const mat = new THREE.SpriteMaterial({ map: wardenTexture(), alphaTest: 0.05 });
-    this.player = new THREE.Sprite(mat);
-    this.player.center.set(0.5, 0.06);
-    this.player.scale.setScalar(1.6);
-    this.scene.add(this.player);
+    // Persistent player sprite (survives area transitions): a real 4-direction
+    // walk-cycle character (CC0 Openmon set — see assets/screensmith).
+    this.player = new WalkerSprite(PLAYER_WALKER, 1.75);
+    this.scene.add(this.player.mesh);
 
     this.buildHud(game);
   }
@@ -125,8 +123,7 @@ export class OverworldScreen implements Screen {
     this.hudBar?.remove();
     this.hint?.remove();
     this.disposeArea();
-    (this.player.material as THREE.SpriteMaterial).map?.dispose();
-    (this.player.material as THREE.SpriteMaterial).dispose();
+    this.player.dispose();
     this.scene.clear();
     void game;
   }
@@ -192,12 +189,12 @@ export class OverworldScreen implements Screen {
     // Place the player and snap the camera (no lerp across a transition).
     this.px = x;
     this.pz = z;
-    this.facing = 1;
+    this.player.face("down");
     this.moving = false;
     this.lastTileX = Math.round(x);
     this.lastTileZ = Math.round(z);
-    this.player.position.set(x, 0, z);
-    this.camera.position.copy(this.player.position).add(CAM_OFFSET);
+    this.player.mesh.position.set(x, 0, z);
+    this.camera.position.copy(this.player.mesh.position).add(CAM_OFFSET);
     this.camera.lookAt(x, 1, z);
 
     game.player.areaId = areaId;
@@ -229,18 +226,21 @@ export class OverworldScreen implements Screen {
       game.player.pos.z = this.pz;
     }
 
-    this.animatePlayer();
+    const walking = this.moving && !this.busy && !this.pending;
+    this.player.update(dt, walking);
+    this.player.mesh.position.set(this.px, 0, this.pz);
+    this.player.faceCamera(this.camera);
     this.terrain?.update(this.animT);
 
-    // NPC bobs + bubbles (nearest talkable within range shows its bubble).
+    // NPC bubbles; NPCs face the player when in talk range.
     const talk = this.nearestNpc(1.6);
-    for (const n of this.npcs) n.update(this.animT, n === talk);
+    for (const n of this.npcs) n.update(this.animT, n === talk, this.camera, this.px, this.pz);
 
     // Smooth exp-damped follow cam.
     const k = 1 - Math.exp(-6 * dt);
-    this.tmpDesired.copy(this.player.position).add(CAM_OFFSET);
+    this.tmpDesired.copy(this.player.mesh.position).add(CAM_OFFSET);
     this.camera.position.lerp(this.tmpDesired, k);
-    this.tmpDesired.copy(this.player.position);
+    this.tmpDesired.copy(this.player.mesh.position);
     this.camera.lookAt(this.tmpDesired.x, this.tmpDesired.y + 1, this.tmpDesired.z);
 
     game.renderer.render(this.scene, this.camera);
@@ -256,7 +256,7 @@ export class OverworldScreen implements Screen {
       if (this.canStand(area, nx, this.pz)) this.px = nx;
       const nz = this.pz + dir.y * PLAYER_SPEED * dt;
       if (this.canStand(area, this.px, nz)) this.pz = nz;
-      if (dir.x !== 0) this.facing = Math.sign(dir.x);
+      this.player.setDirectionFrom(dir.x, dir.y);
     }
 
     // Exits fire automatically when stepped onto (main handles fade + reload).
@@ -345,18 +345,6 @@ export class OverworldScreen implements Screen {
   }
 
   // -- player animation -----------------------------------------------------
-  private animatePlayer(): void {
-    const t = this.animT;
-    const hop = this.moving
-      ? Math.abs(Math.sin(t * 9)) * 0.22
-      : Math.sin(t * 2.5) * 0.04 + 0.04;
-    const squash = this.moving
-      ? 1 - Math.sin(t * 18) * 0.06
-      : 1 + Math.sin(t * 2.5) * 0.02;
-    const base = 1.6;
-    this.player.position.set(this.px, hop, this.pz);
-    this.player.scale.set(this.facing * base * (2 - squash), base * squash, 1);
-  }
 
   // -- HUD ------------------------------------------------------------------
   private buildHud(game: Game): void {

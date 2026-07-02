@@ -206,6 +206,14 @@ async function handleTrigger(trigger: AreaTrigger): Promise<void> {
         await runDialogue(uiRoot, [{ text: "The arena is quiet now. The Titan rests, at peace." }]);
         return;
       }
+      if (!game.player.flags.includes(TRIAL.completeFlag)) {
+        busy = true;
+        await runDialogue(uiRoot, [
+          { text: "The arena gate is sealed. The great waystone's rune-rings are dark — the Trial of Echoes awaits." },
+        ]);
+        busy = false;
+        return;
+      }
       busy = true;
       await runDialogue(uiRoot, titan.dialogue.intro.map((text) => ({ speaker: titan.name, text })));
       busy = false;
