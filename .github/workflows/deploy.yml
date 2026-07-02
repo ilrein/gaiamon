@@ -16,6 +16,9 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
+      # worker-configuration.d.ts is generated (gitignored) — CI must create it.
+      - run: bun run cf-typegen
+
       - run: bun run check
 
       - run: bun test src
