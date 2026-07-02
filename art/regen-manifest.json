@@ -1,19 +1,7 @@
 [
   {
-    "prompt": "A large elegant ermine with ember-orange and charcoal fur, a mane of low blue-cored flame, and a second creature-shaped shadow of living smoke standing beside it mimicking its pose; sharp but kind golden eyes, long plume tail. Palette of soft warm neutrals. (Creature name: \"Embermine\")",
-    "out": "public/sprites/creatures/blazermine.png",
-    "quality": "medium",
-    "transparent": true
-  },
-  {
-    "prompt": "A tiny lamb with a slate-grey face and legs, its body an oversized puffball of white dandelion seed-fluff with a few seeds always drifting off; huge damp dark eyes, permanently gently startled expression. Palette of soft warm neutrals. (Creature name: \"Dandelamb\")",
-    "out": "public/sprites/creatures/dandelamb.png",
-    "quality": "medium",
-    "transparent": true
-  },
-  {
-    "prompt": "A fist-sized ball of grey-lavender fuzz crackling with tiny yellow static arcs, two long rabbit-like tufts standing up like antennae, several shiny buttons stuck in its fur; wide sparking eyes and a tiny crooked grin. Palette of soft warm neutrals. (Creature name: \"Zizzle\")",
-    "out": "public/sprites/creatures/zizzle.png",
+    "prompt": "A squishy round blue-lavender octopus blob with stubby ear-like fins, big pearly eyes, and a shallow shimmering puddle balanced flat on its head like a hat; four stubby tentacle-feet, delighted wobbling posture. Palette of soft warm neutrals. (Creature name: \"Puddlop\")",
+    "out": "public/sprites/creatures/puddlop.png",
     "quality": "medium",
     "transparent": true
   }

@@ -96,6 +96,78 @@
     "transparent": true
   },
   {
+    "prompt": "A small pearl-grey seal pup with an oversized, gently flared trumpet-bell throat like a soft brass horn, wisps of mist curling from its nose; huge dark hopeful eyes and stubby flippers pressed together mid-toot. Palette of soft warm neutrals. (Creature name: \"Hushpup\")",
+    "out": "public/sprites/creatures/hushpup.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A sleek adolescent seal with a collar-ruff of cloud clinging to its neck like a scarf, faint sound-rings rippling from its chest; long body arched proudly, one flipper raised as if directing fog traffic. Palette of soft warm neutrals. (Creature name: \"Mistcalf\")",
+    "out": "public/sprites/creatures/mistcalf.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A long, majestic seal-leviathan with a vast bellows chest, fins trailing like wind-ribbons, and a crown of slowly coiling fog it continuously breathes; heavy-lidded serene eyes, mouth open in an endless quiet note. Palette of soft warm neutrals. (Creature name: \"Fathomoo\")",
+    "out": "public/sprites/creatures/fathomoo.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A plump snowball-shaped vole with white fur patterned in frost-blue rosettes, cheeks glowing faint sunrise-amber from the sunbeams stored inside; tiny rounded ears, stubby paws clasped, breath visible as a proud little puff. Palette of soft warm neutrals. (Creature name: \"Snugget\")",
+    "out": "public/sprites/creatures/snugget.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A big, round walrus-yak with a snow-white quilted blanket coat stitched in ice-blue seams, two short downward tusks like carved bedposts, and a broad flat back drifted with snow; small kind eyes under heavy frost lashes. Palette of soft warm neutrals. (Creature name: \"Duvetusk\")",
+    "out": "public/sprites/creatures/duvetusk.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A small charcoal fox kit with soft dusk-mist rising off its paws and a single sunset-orange sliver at its tail tip like the last light of day; drowsy half-moon eyes, mid-tiptoe with one paw raised to shush. Palette of soft warm neutrals. (Creature name: \"Dimmet\")",
+    "out": "public/sprites/creatures/dimmet.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A lean, long-legged fox-wolf with a flowing indigo mane speckled with faint stars, night visibly pooling and trailing behind its stride; calm gold eyes, one tiny firefly glowing inside the mane like a lantern. Palette of soft warm neutrals. (Creature name: \"Gloamane\")",
+    "out": "public/sprites/creatures/gloamane.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A plump moss-yellow frog with a storm-grey croak sac that flickers from inside with tiny lightning, faint zigzag markings down its back; smug closed-mouth smile of something holding in a very big noise. Palette of soft warm neutrals. (Creature name: \"Rumblit\")",
+    "out": "public/sprites/creatures/rumblit.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A small upright teardrop of warm lamplight wearing a weathered wooden sign-arm across its head like a crooked hat, hovering a coin's height above the ground; a steady golden core for a heart and patient round eyes. Palette of soft warm neutrals. (Creature name: \"Waylume\")",
+    "out": "public/sprites/creatures/waylume.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A diamond-shaped paper kite creature with crayon-scribbled eyes, patched corners, and a long ribbon-bow tail rippling behind it; its loose string trails below like a leash hoping to be held. Palette of soft warm neutrals. (Creature name: \"Kipkite\")",
+    "out": "public/sprites/creatures/kipkite.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A tiny drifting spirit shaped like a swaddled crescent moon crossed with a musical note, wrapped in a blanket of pale mist that trails faint silver notation behind it; eyes closed in a contented sleeping smile. Palette of soft warm neutrals. (Creature name: \"Hummabye\")",
+    "out": "public/sprites/creatures/hummabye.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A vast, serene polar guardian beast of frost and dream: translucent glacier-fur rippling with slow aurora colors (teal, violet, rose), a crown of dark ice crystals, closed sleepy eyes leaking soft light, sitting curled like a mountain that is also a lullaby. Palette of soft warm neutrals. Imposing and ancient but still charming, moss and stone details. (Creature name: \"Aurvela\")",
+    "out": "public/sprites/creatures/aurvela.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
     "prompt": "A cute chibi human adventurer seen from behind at a 3/4 angle, rounded pixel-art style, wearing a moss-green traveling cloak and a small satchel, holding a small glowing teal handheld device (an ancient-tech field terminal), short fluffy hair, full body, standing. HD-2D pixel sprite, soft painterly lighting.",
     "out": "public/sprites/warden.png",
     "quality": "medium",

@@ -5,7 +5,7 @@
 import "./style.css";
 import { Game } from "./game";
 import { DATA, AREAS } from "../data";
-import { TRAINERS, TRIAL, TITAN_ID } from "../data/trainers";
+import { TRAINERS, TRIAL, TITAN_ID, TITAN_GATES } from "../data/trainers";
 import { STRINGS } from "../data/strings";
 import type { MonsterInstance, PlayerState, TrainerDef } from "../shared/model";
 import type { AreaExit, AreaTrigger, NpcPlacement } from "../shared/area";
@@ -223,22 +223,23 @@ async function handleTrigger(trigger: AreaTrigger): Promise<void> {
       await runTrial();
       break;
     case "titan": {
-      const titan = TRAINERS[TITAN_ID];
+      // Data-driven titan gates: the trigger's id selects the gate + boss.
+      const gate = TITAN_GATES[trigger.id];
+      const titan = TRAINERS[gate?.trainerId ?? TITAN_ID];
+      if (!titan) return;
+      busy = true;
       if (game.player.flags.includes(titan.defeatFlag)) {
         await say([{ text: "The arena is quiet now. The Titan rests, at peace." }]);
-        return;
-      }
-      if (!game.player.flags.includes(TRIAL.completeFlag)) {
-        busy = true;
-        await say([
-          { text: "The arena gate is sealed. The great waystone's rune-rings are dark — the Trial of Echoes awaits." },
-        ]);
         busy = false;
         return;
       }
-      busy = true;
+      const missing = gate ? gate.requiredFlags.filter((f) => !game.player.flags.includes(f)) : [];
+      if (missing.length > 0) {
+        await say(gate.deniedText.map((text) => ({ text })));
+        busy = false;
+        return;
+      }
       await say(titan.dialogue.intro.map((text) => ({ speaker: titan.name, text })));
-      busy = false;
       trainerBattle(titan, async (outcome) => {
         if (outcome === "victory") {
           game.player.flags.push(titan.defeatFlag);

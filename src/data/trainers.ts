@@ -115,6 +115,164 @@ export const TRAINERS: Record<string, TrainerDef> = {
     },
     defeatFlag: "trial-3-cleared",
   },
+
+  // --- Act 2: the Mistmere Coast --------------------------------------------
+  // Route Wardens each carry a Chimeshard. NOTE on orientation: `win` is spoken
+  // when the PLAYER wins (trainer defeated, hands over the shard); `lose` is the
+  // player's loss (the "come back later" line). This inverts the design JSON's
+  // trainer-perspective win/lose, exactly like keeper-solenne above.
+  "warden-quill": {
+    id: "warden-quill",
+    name: "Quill",
+    title: "Boardwalk Angler",
+    kind: "trainer",
+    // coast-1@lv10 -> hushpup, coast-2@lv11 -> mistcalf.
+    party: [
+      { speciesId: "hushpup", level: 10 },
+      { speciesId: "mistcalf", level: 11 },
+    ],
+    dialogue: {
+      intro: [
+        "Shh — you'll scare the ripples. ...Too late. They know you're here.",
+        "I fish with a battle rod: no hooks, just a polite challenge. You're today's catch.",
+      ],
+      win: [
+        "Fine catch. I mean fine battle. My Codex is logging you as 'the one that got away.'",
+        "Here — my Chimeshard. It rings low, like the lake at dusk. The summit gate wants it more than I do.",
+      ],
+      lose: [
+        "The lake says you telegraph your switches. Don't take it hard — the lake gossips.",
+        "Rest up at Saltwhistle and come try my line again.",
+      ],
+    },
+    defeatFlag: "warden-quill-defeated",
+  },
+
+  "warden-teasel": {
+    id: "warden-teasel",
+    name: "Teasel",
+    title: "Mushroom-Cap Knight",
+    kind: "trainer",
+    // umbral-1@lv14 -> dimmet, umbral-2@lv15 -> gloamane.
+    party: [
+      { speciesId: "dimmet", level: 14 },
+      { speciesId: "gloamane", level: 15 },
+    ],
+    dialogue: {
+      intro: [
+        "HALT. None shall pass the maze unbattled! ...Sorry for shouting. The helmet muffles me.",
+        "I am the knight of this wood! The fireflies knighted me. Mostly by landing on my head.",
+      ],
+      win: [
+        "A worthy quest-giver moment! Take my Chimeshard — it rings middle, like dusk deciding to stay.",
+        "You woke the sleeping stone in the Vale, didn't you? Knights hear things. Fireflies talk.",
+      ],
+      lose: [
+        "The maze remains undefeated! Also me! Mostly the maze, though.",
+        "Train in the deep grass and return, brave stranger. The wood will re-lose you happily.",
+      ],
+    },
+    defeatFlag: "warden-teasel-defeated",
+  },
+
+  "warden-halla": {
+    id: "warden-halla",
+    name: "Halla",
+    title: "Summit Postwoman",
+    kind: "trainer",
+    // frost-1@lv17 -> snugget, umbral-2@lv17 -> gloamane, frost-2@lv19 -> duvetusk.
+    party: [
+      { speciesId: "snugget", level: 17 },
+      { speciesId: "gloamane", level: 17 },
+      { speciesId: "duvetusk", level: 19 },
+    ],
+    dialogue: {
+      intro: [
+        "Letter for you! Kidding. Nobody writes to Wardens — you're all outside already.",
+        "I battle on every delivery run. Keeps the blood warm and the route honest. En garde!",
+      ],
+      win: [
+        "Signed, sealed, defeated. Here — my Chimeshard. It rings high, like the first bell of the aurora.",
+        "Three shards and Voss's sigil, and that gate will sing itself open. Give the sleeper my regards. Gently.",
+      ],
+      lose: [
+        "Undelivered! Come back when your team stops shivering between moves.",
+        "Warm up at Yule's hut. The cocoa is a strategy, not a treat.",
+      ],
+    },
+    defeatFlag: "warden-halla-defeated",
+  },
+
+  "keeper-voss": {
+    id: "keeper-voss",
+    name: "Keeper Voss",
+    title: "Keeper of the Stormglass Sanctum",
+    kind: "trainer",
+    // Volt specialist by fiction; her stormlight ace is the only Volt species.
+    // coast-2@lv15 -> mistcalf, umbral-1@lv16 -> dimmet, keeper-ace-2@lv18 -> rumblit.
+    party: [
+      { speciesId: "mistcalf", level: 15 },
+      { speciesId: "dimmet", level: 16 },
+      { speciesId: "rumblit", level: 18 },
+    ],
+    dialogue: {
+      intro: [
+        "Lot one: a challenger, slightly windblown, excellent posture. Do I hear an opening move?",
+        "The Sanctum beacon runs on my ace's stormlight — so every challenger is a bid on the town's electricity.",
+      ],
+      win: [
+        "SOLD! To the Warden with the singing slab. The Stormglass Sigil — no refunds, all sparks final.",
+        "Solenne's map calls you 'the quiet current.' Loud auction, quiet current — Rimeveil will like you.",
+        "Take my bell's blessing up the mountain, and mind the snow that doesn't drift.",
+      ],
+      lose: [
+        "Going once, going twice — withdrawn! The lot is pulled for today.",
+        "Come back with a stronger opening bid, and I'll ring the bell for you yet.",
+      ],
+    },
+    defeatFlag: "keeper-voss-defeated",
+  },
+
+  "titan-aurvela": {
+    id: "titan-aurvela",
+    name: "Aurvela",
+    title: "The Dreaming Aurora",
+    kind: "boss",
+    party: [{ speciesId: "aurvela", level: 24 }],
+    dialogue: {
+      intro: [
+        "The windless snow of the Hushbowl swells, then unfolds — it was never snow. It was wings.",
+        "The aurora you admired all the way up the coast pours down into the bowl. It was her dream, leaking.",
+        "RESONANCE TOO VAST — SYNC IMPOSSIBLE. The Codex offers only to STUDY: 'The Dream Above the Snow.'",
+      ],
+      win: [
+        "Aurvela folds her wings back over the bowl and the aurora dims to a soft, sleeping shimmer.",
+        "The mountain's lullaby resumes, unhurried. She will dream on — lighter now, and unafraid.",
+      ],
+      lose: [
+        "The wings settle. The snow lies flat and windless again, as if nothing ever stirred.",
+        "Aurvela returns to sleep, a little pointedly. The Chimegate will wait for you to try once more.",
+      ],
+    },
+    // Design phases translated to engine stage-boosts:
+    //  - VEILED -> AURORA-WOKEN at 50% HP: defense x0.8 (down), spirit x1.5 &
+    //    speed x1.3 (up) as she unfurls and the aurora floods the arena.
+    //  - a final dawn-flare near the end as the dream brightens to waking.
+    bossPhases: [
+      {
+        hpThreshold: 0.5,
+        statBoosts: { spirit: 2, speed: 1, defense: -1 },
+        announcement:
+          "AURORA-WOKEN. Aurvela's wings unfold and the whole bowl lifts on a tide of dreaming light.",
+      },
+      {
+        hpThreshold: 0.2,
+        statBoosts: { spirit: 1, speed: 1 },
+        announcement: "The dream brightens toward waking — every aurora-mote in the bowl blazes at once.",
+      },
+    ],
+    defeatFlag: "titan-aurvela-defeated",
+  },
 };
 
 /** The Waystone Trial: a gauntlet of trainer battles taken back-to-back. */
@@ -150,3 +308,38 @@ export const TRIAL: TrialDef = {
 };
 
 export const TITAN_ID = "titan-cairnoss";
+
+/**
+ * A gated Titan arena. The `titan` trigger for `trainerId` stays sealed until
+ * every flag in `requiredFlags` is set; while sealed it shows `deniedText`.
+ * main.ts owns the wiring — this table just declares the gate per Titan.
+ */
+export interface TitanGate {
+  trainerId: string;
+  requiredFlags: string[];
+  deniedText: string[];
+}
+
+export const TITAN_GATES: Record<string, TitanGate> = {
+  "titan-cairnoss": {
+    trainerId: "titan-cairnoss",
+    requiredFlags: ["trial-complete"],
+    deniedText: [
+      "The arena gate is sealed. The great waystone's rune-rings are dark — the Trial of Echoes awaits.",
+    ],
+  },
+  "titan-aurvela": {
+    trainerId: "titan-aurvela",
+    requiredFlags: [
+      "warden-quill-defeated",
+      "warden-teasel-defeated",
+      "warden-halla-defeated",
+      "keeper-voss-defeated",
+    ],
+    deniedText: [
+      "The Chimegate's three crystal sockets sit dark and empty, and its resonance slot is cold.",
+      "Quill's low note, Teasel's dusk note, Halla's high note — and Keeper Voss's Stormglass Sigil.",
+      "Beat each of them in spirit and the chord completes; until then, the snow beyond will not stir.",
+    ],
+  },
+};

@@ -229,7 +229,95 @@ Designed in full, simplified or deferred for the v1 engine:
 
 ---
 
+## Act 2 — the Mistmere Coast
+
+Past the Waystone Rise, the road bends down to the water. Act 2 climbs from a
+misty lakeshore, through a harbor town and a forest where dusk never leaves, up
+to a frozen summit — and the whole time the aurora overhead is watching back.
+
+### The twelve new Gaiamon
+
+- **Hushpup → Mistcalf → Fathomoo** *(Tide; Tide; Tide/Zephyr)* — a lake-seal pup
+  whose bark comes out as a tiny foghorn. Its line is built on *sound as safety*:
+  Mistcalf ferries lost rowboats home for applause, and Fathomoo's endless low
+  MOO *is* the coast's mist, exhaled. (Fathomoo is evolution-only — the "big one"
+  is never a wild slot.) *Inspiration: a water line where the weapon is a voice
+  that keeps people from being lost.*
+- **Snugget → Duvetusk** *(Frost)* — a round snow-vole that hoards sunbeams in its
+  cheeks and gifts its last one to shivering travelers; Duvetusk is a walrus-yak
+  whose quilted coat is a living duvet, built to be *slept on*. *Inspiration: a
+  frost line whose treasure is heat and whose defense stat is hospitality.*
+- **Dimmet → Gloamane** *(Umbral)* — a dusk-fox kit that tucks sleeping creatures
+  in on its nightly rounds; Gloamane's mane is a fold of actual night sky, so
+  evening arrives wherever it walks. *Inspiration: Umbral reimagined as care
+  work — the dark type does the bedtime rounds.*
+- **Rumblit** *(Volt)* — a pond frog that swallows thunderclaps and burps them
+  back weeks later at the worst moment. Keeper Voss's stormlight ace. *Inspiration:
+  an electric type that stores sound, not charge — thunder as a perishable snack.*
+- **Waylume** *(Lumen)* — a sprite of road-light that stands very straight at
+  forks, pretending to be a waymarker so travelers pick the way home. *Inspiration:
+  a light type descended from the first mapmakers' surveying lanterns.*
+- **Kipkite** *(Zephyr)* — a paper kite the wind loved so much it woke up, still
+  looking for the hand that let its string go. *Inspiration: a wind type made
+  from a toy, animated by being played with.*
+- **Hummabye** *(Fable, rare)* — the region's oldest lullaby, escaped from every
+  cradle that ever hummed it, now drifting where the mist meets the lake at dusk.
+  The act-long Fable rumor made flesh; the rare encounter in all three routes.
+- **Aurvela** *(Frost/Fable, Titan)* — see below.
+
+### The four new areas
+
+1. **Mistmere Shallows** *(40×24, misty-lakeshore)* — zigzag boardwalks over still
+   silver water, reed-grass banks taller than most Wardens. *(Hushpup, Mistcalf,
+   Rumblit, rare Hummabye; Lv 8–12.)* Warden **Quill** fishes here with a battle
+   rod. West to Gloamlight Caverns, east to Saltwhistle.
+2. **Saltwhistle Harbor** *(36×26, coastal town, no encounters)* — a crescent of
+   shingled houses around a working harbor named for the note the wind plays
+   through its sea-arch. Chowder heals at the inn; the **Stormglass Sanctum** on
+   the lighthouse point is Keeper Voss's hall.
+3. **Murmurwood** *(38×26, dusk-mushroom forest)* — watchtower-sized mushrooms
+   under a canopy the sun only rumors through, grass mazes the Umbral ones re-grow
+   nightly. *(Dimmet, Gloamane, Waylume, rare Hummabye; Lv 12–16.)* Warden
+   **Teasel**, the Mushroom-Cap Knight, guards the maze.
+4. **Rimeveil Summit** *(36×28, frost highland)* — wind-carved snowfields where
+   crystal outcrops ring as the aurora moves. *(Snugget, Duvetusk, Kipkite, rare
+   Hummabye; Lv 16–20.)* Warden **Halla** the postwoman holds the last switchback;
+   Yule's hut and a mini-waystone heal the party. A steep connector drops east to
+   Waystone Rise.
+
+### Keeper Voss & the Chimegate
+
+**Keeper Meridee Voss** of the Stormglass Sanctum is a retired fish-market
+auctioneer who calls every battle like a live lot — opening bids, going-once, a
+brass bell (a chowder-stall spoon) for every Keen Hit. Her beacon runs entirely
+on her ace Rumblit's stormlight. Party: Mistcalf (Lv 15), Dimmet (Lv 16), ace
+Rumblit (Lv 18). Beat her for the **Stormglass Sigil**.
+
+At the summit's crown stands the **Chimegate** — a dark-ice arch with three empty
+crystal sockets and a resonance slot. Each road Warden (Quill, Teasel, Halla)
+carries a **Chimeshard** ringing one note of a chord; socketing all three *and*
+presenting Voss's Stormglass Sigil makes the gate ring the full chord and melt
+open. Everything is earnable within Act 2 — three route battles and the Sanctum —
+and Fenwick the crystal-tuner explains the chord the moment you arrive.
+
+### Aurvela, the Dreaming Aurora
+
+The coast has always believed the aurora is weather. It is not: it is the leaking
+dream of a colossal **Frost/Fable** moth-titan curled beneath the summit snow, her
+wings folded so long ago that the windless Hushbowl arena *is* them. The crystals
+ring because she breathes; the "summit bells" the townsfolk hear are her sleeping
+heartbeat. Where Cairnoss was furniture-as-boss, **Aurvela is weather-as-boss** —
+the sky the player admired all act was the encounter. Enormous, soft, moth-fuzzy
+and unbearably sleepy, she fights like someone whose beautiful dream you just
+stepped on. She is **not syncable** (the Codex reads *RESONANCE TOO VAST*; SYNC
+becomes STUDY, stamping "The Dream Above the Snow" into the Ledger). She wakes in
+phases: a **Veiled** opening, then at 50% HP she unfolds — **Aurora-Woken** —
+wings up, spirit and speed surging, the aurora flooding down into the bowl.
+
+---
+
 *Gaiamon's world, roster, and systems were designed by a team of AI agents and
 then verified adversarially against the genre's greats — which is how a sleeping
-stone giant ended up hiding in plain sight as a waystone, and why not one
-creature name is a pun you've heard before.*
+stone giant ended up hiding in plain sight as a waystone, a whole act's aurora
+turned out to be a sleeping moth, and why not one creature name is a pun you've
+heard before.*

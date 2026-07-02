@@ -658,5 +658,151 @@ export const MOVES: Record<string, MoveDef> = {
       }
     ],
     "description": "Ends the current chapter with fireworks, confetti, and a crashing final chord; the storyteller's Spirit drops 1 stage from the effort."
+  },
+  "powderpounce": {
+    "id": "powderpounce",
+    "name": "Powderpounce",
+    "type": "frost",
+    "category": "physical",
+    "power": 55,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [
+      {
+        "kind": "flinch",
+        "chance": 0.1
+      }
+    ],
+    "description": "Leaps at the foe inside a burst of fresh powder snow; 10% chance the soft WHUMPH startles them into flinching."
+  },
+  "foghorn-lull": {
+    "id": "foghorn-lull",
+    "name": "Foghorn Lull",
+    "type": "tide",
+    "category": "spirit",
+    "power": 75,
+    "accuracy": 90,
+    "stamina": 4,
+    "effects": [
+      {
+        "kind": "applyStatus",
+        "status": "drowse",
+        "chance": 0.15,
+        "target": "foe"
+      }
+    ],
+    "description": "A deep, mournful foghorn note rolls off the water and through the foe's bones; 15% chance they drift off into Drowse."
+  },
+  "gustloop": {
+    "id": "gustloop",
+    "name": "Gustloop",
+    "type": "zephyr",
+    "category": "spirit",
+    "power": 55,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [
+      {
+        "kind": "statStage",
+        "stat": "speed",
+        "stages": -1,
+        "target": "foe",
+        "chance": 0.2
+      }
+    ],
+    "description": "Ties the air around the foe into one neat loop and pulls it snug; 20% chance their footing tangles (Speed -1)."
+  },
+  "rumblecroak": {
+    "id": "rumblecroak",
+    "name": "Rumblecroak",
+    "type": "volt",
+    "category": "spirit",
+    "power": 55,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [
+      {
+        "kind": "flinch",
+        "chance": 0.1
+      }
+    ],
+    "description": "Releases a swallowed thunderclap, weeks stale but still loud; 10% chance the delayed BOOM makes the foe flinch."
+  },
+  "gleamsweep": {
+    "id": "gleamsweep",
+    "name": "Gleamsweep",
+    "type": "lumen",
+    "category": "spirit",
+    "power": 60,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [],
+    "description": "Sweeps a broad lantern-beam across the field like a keeper checking every corner before bed. It always finds the foe."
+  },
+  "shadenip": {
+    "id": "shadenip",
+    "name": "Shadenip",
+    "type": "umbral",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+      {
+        "kind": "statStage",
+        "stat": "attack",
+        "stages": -1,
+        "target": "foe",
+        "chance": 0.1
+      }
+    ],
+    "description": "A quick nip delivered from inside the foe's own shadow; 10% chance the sheer nerve of it dents their Attack (-1)."
+  },
+  "gloamrush": {
+    "id": "gloamrush",
+    "name": "Gloamrush",
+    "type": "umbral",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 95,
+    "stamina": 4,
+    "effects": [],
+    "description": "Charges wrapped in a rolling fold of early evening, arriving the way night does: gently, and then all at once."
+  },
+  "lullanote": {
+    "id": "lullanote",
+    "name": "Lullanote",
+    "type": "fable",
+    "category": "spirit",
+    "power": 45,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [
+      {
+        "kind": "applyStatus",
+        "status": "drowse",
+        "chance": 0.25,
+        "target": "foe"
+      }
+    ],
+    "description": "Hums a single bar of a lullaby older than the valley; 15% chance the foe's eyelids lose the argument (Drowse)."
+  },
+  "whiteout-hymn": {
+    "id": "whiteout-hymn",
+    "name": "Whiteout Hymn",
+    "type": "frost",
+    "category": "spirit",
+    "power": 85,
+    "accuracy": 90,
+    "stamina": 4,
+    "effects": [
+      {
+        "kind": "applyStatus",
+        "status": "rimebound",
+        "chance": 0.1,
+        "target": "foe"
+      }
+    ],
+    "description": "Sings the low, patient song of a three-day blizzard in about four seconds; 10% chance hoarfrost takes hold (Rimebound)."
   }
 };

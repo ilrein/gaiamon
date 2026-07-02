@@ -7,7 +7,42 @@
 import { readFile, writeFile } from "node:fs/promises";
 
 const design = JSON.parse(await readFile("design/design.json", "utf8"));
-const { combat, roster } = design;
+const { combat } = design;
+
+// Merge expansion packs into one roster. Expansion verify-stage patches are
+// applied per pack below.
+const expansion = JSON.parse(await readFile("design/expansion-1.json", "utf8"));
+
+// ---- expansion-1 verifier-driven patches -----------------------------------
+for (const s of expansion.roster.species) {
+  // Titan contradiction: the boss is Aurvela the Dreaming Aurora (frost/fable),
+  // not a frost/terra "Rimegarde" (name also flagged as Mr. Rime + -garde echo).
+  if (s.id === "rimegarde") {
+    s.id = "aurvela";
+    s.name = "Aurvela";
+    s.types = ["frost", "fable"];
+  }
+  // Sync-rate band corrections.
+  if (s.id === "duvetusk" || s.id === "gloamane") s.syncRate = 0.35;
+  if (s.id === "fathomoo") s.syncRate = 0.3;
+  if (s.id === "hummabye") s.xpYield = 75;
+  // Evolve levels compressed so wild stage-2s aren't below their own evolution.
+  if (s.id === "hushpup") s.evolveLevel = 9;
+  if (s.id === "mistcalf") { s.evolveLevel = 21; s.evolvesTo = "fathomoo"; }
+  if (s.id === "dimmet") s.evolveLevel = 13;
+  if (s.id === "snugget") s.evolveLevel = 17;
+}
+for (const m of expansion.roster.moves) {
+  // lullanote was near-dominated by tale-twirl: make the status trade real.
+  if (m.id === "lullanote") {
+    for (const e of m.effects) if (e.kind === "applyStatus") e.chance = 25;
+  }
+}
+
+const roster = {
+  moves: [...design.roster.moves, ...expansion.roster.moves],
+  species: [...design.roster.species, ...expansion.roster.species],
+};
 
 const header = "// GENERATED from design/design.json by scripts/build-data.mjs — edit the design, not this file.\n";
 

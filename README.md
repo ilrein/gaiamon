@@ -13,14 +13,20 @@ open — the repo *is* the dev log.
 ## What's playable today
 
 Explore **Elowen Vale** as a Warden with an ancient-tech **Codex**: pick one of
-three starters (Fernby 🌿, Kindlet 🔥, Puddlop 💧), walk the tall grass of
-Petalway Meadow and the Gloam Caverns, battle wild Gaiamon in turn-based
-combat (11 original types, stamina pips, 5 status effects), **Sync** the ones
-you weaken (no balls here — the Codex projects a resonance glyph), level up,
-evolve, take on the three-round **Trial of Echoes**, challenge **Keeper
-Solenne**, and wake **Cairnoss**, the Titan that was pretending to be a
-waystone. 16 original species, 40 moves, playable one-thumb on your phone.
-Progress saves to your browser. Full design bible: [design/DESIGN.md](design/DESIGN.md).
+three starters (Fernby 🌿, Kindlet 🔥, Puddlop 💧), battle wild Gaiamon in
+turn-based combat (11 original types, stamina pips, 5 status effects), **Sync**
+the ones you weaken (no balls here — the Codex projects a resonance glyph),
+level up, evolve, take on the three-round **Trial of Echoes**, challenge the
+Sanctum Keepers, and wake the Titans.
+
+Two acts are live: Act 1 runs from Hearthglow Village through the Gloam
+Caverns to **Cairnoss**, the Titan that was pretending to be a waystone. Act 2
+crosses the **Mistmere Coast** — boardwalk shallows, Saltwhistle Harbor, the
+Murmurwood, and the Rimeveil Summit, where the Chimegate holds back
+**Aurvela, the Dreaming Aurora**. **28 original species, 49 moves, 8 areas,
+10 named battles**, 4-direction walk sprites, playable one-thumb on your
+phone. Progress saves to your browser. Full design bible:
+[design/DESIGN.md](design/DESIGN.md).
 
 ## Why
 

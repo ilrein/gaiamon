@@ -1,0 +1,1369 @@
+{
+ "roster": {
+  "moves": [
+   {
+    "id": "powderpounce",
+    "name": "Powderpounce",
+    "type": "Frost",
+    "category": "physical",
+    "power": 55,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [
+     {
+      "kind": "flinch",
+      "chance": 10
+     }
+    ],
+    "description": "Leaps at the foe inside a burst of fresh powder snow; 10% chance the soft WHUMPH startles them into flinching."
+   },
+   {
+    "id": "foghorn-lull",
+    "name": "Foghorn Lull",
+    "type": "Tide",
+    "category": "spirit",
+    "power": 75,
+    "accuracy": 90,
+    "stamina": 4,
+    "effects": [
+     {
+      "kind": "applyStatus",
+      "status": "drowse",
+      "target": "foe",
+      "chance": 15
+     }
+    ],
+    "description": "A deep, mournful foghorn note rolls off the water and through the foe's bones; 15% chance they drift off into Drowse."
+   },
+   {
+    "id": "gustloop",
+    "name": "Gustloop",
+    "type": "Zephyr",
+    "category": "spirit",
+    "power": 55,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "speed",
+      "stages": -1,
+      "target": "foe",
+      "chance": 20
+     }
+    ],
+    "description": "Ties the air around the foe into one neat loop and pulls it snug; 20% chance their footing tangles (Speed -1)."
+   },
+   {
+    "id": "rumblecroak",
+    "name": "Rumblecroak",
+    "type": "Volt",
+    "category": "spirit",
+    "power": 55,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [
+     {
+      "kind": "flinch",
+      "chance": 10
+     }
+    ],
+    "description": "Releases a swallowed thunderclap, weeks stale but still loud; 10% chance the delayed BOOM makes the foe flinch."
+   },
+   {
+    "id": "gleamsweep",
+    "name": "Gleamsweep",
+    "type": "Lumen",
+    "category": "spirit",
+    "power": 60,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [],
+    "description": "Sweeps a broad lantern-beam across the field like a keeper checking every corner before bed. It always finds the foe."
+   },
+   {
+    "id": "shadenip",
+    "name": "Shadenip",
+    "type": "Umbral",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "attack",
+      "stages": -1,
+      "target": "foe",
+      "chance": 10
+     }
+    ],
+    "description": "A quick nip delivered from inside the foe's own shadow; 10% chance the sheer nerve of it dents their Attack (-1)."
+   },
+   {
+    "id": "gloamrush",
+    "name": "Gloamrush",
+    "type": "Umbral",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 95,
+    "stamina": 4,
+    "effects": [],
+    "description": "Charges wrapped in a rolling fold of early evening, arriving the way night does: gently, and then all at once."
+   },
+   {
+    "id": "lullanote",
+    "name": "Lullanote",
+    "type": "Fable",
+    "category": "spirit",
+    "power": 45,
+    "accuracy": 100,
+    "stamina": 3,
+    "effects": [
+     {
+      "kind": "applyStatus",
+      "status": "drowse",
+      "target": "foe",
+      "chance": 15
+     }
+    ],
+    "description": "Hums a single bar of a lullaby older than the valley; 15% chance the foe's eyelids lose the argument (Drowse)."
+   },
+   {
+    "id": "whiteout-hymn",
+    "name": "Whiteout Hymn",
+    "type": "Frost",
+    "category": "spirit",
+    "power": 85,
+    "accuracy": 90,
+    "stamina": 4,
+    "effects": [
+     {
+      "kind": "applyStatus",
+      "status": "rimebound",
+      "target": "foe",
+      "chance": 10
+     }
+    ],
+    "description": "Sings the low, patient song of a three-day blizzard in about four seconds; 10% chance hoarfrost takes hold (Rimebound)."
+   }
+  ],
+  "species": [
+   {
+    "id": "hushpup",
+    "name": "Hushpup",
+    "types": [
+     "Tide"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": "mistcalf",
+    "evolveLevel": 16,
+    "baseStats": {
+     "hp": 62,
+     "attack": 50,
+     "defense": 58,
+     "spirit": 70,
+     "speed": 65
+    },
+    "syncRate": 0.6,
+    "xpYield": 52,
+    "dexEntry": "A lake-seal pup whose bark comes out as a tiny, faraway foghorn no matter how close it is standing. It practices against the coast cliffs every evening and mistakes its own echo for a friend answering.",
+    "inspiration": "A water line built on sound as safety rather than water as weapon: a species whose entire biology is a living foghorn, so its evolution is measured in how far its voice can keep someone from being lost.",
+    "visualPrompt": "A small pearl-grey seal pup with an oversized, gently flared trumpet-bell throat like a soft brass horn, wisps of mist curling from its nose; huge dark hopeful eyes and stubby flippers pressed together mid-toot.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "dewdart"
+     },
+     {
+      "level": 4,
+      "moveId": "mistveil"
+     },
+     {
+      "level": 6,
+      "moveId": "riptail"
+     },
+     {
+      "level": 10,
+      "moveId": "tideswell"
+     },
+     {
+      "level": 14,
+      "moveId": "heartened-hum"
+     }
+    ]
+   },
+   {
+    "id": "mistcalf",
+    "name": "Mistcalf",
+    "types": [
+     "Tide"
+    ],
+    "role": "wild",
+    "stage": 2,
+    "evolvesTo": "fathomoo",
+    "evolveLevel": 32,
+    "baseStats": {
+     "hp": 78,
+     "attack": 60,
+     "defense": 72,
+     "spirit": 90,
+     "speed": 85
+    },
+    "syncRate": 0.35,
+    "xpYield": 102,
+    "dexEntry": "Its horn-call has grown strong enough to part the fog into a clean corridor, and it spends whole evenings ferrying lost rowboats home. It accepts payment only in applause, and counts it.",
+    "inspiration": "A middle stage whose power-up is civic: the awkward teen phase spent doing volunteer harbor work, so the player watches it grow into a public service before it grows into a legend.",
+    "visualPrompt": "A sleek adolescent seal with a collar-ruff of cloud clinging to its neck like a scarf, faint sound-rings rippling from its chest; long body arched proudly, one flipper raised as if directing fog traffic.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "dewdart"
+     },
+     {
+      "level": 1,
+      "moveId": "riptail"
+     },
+     {
+      "level": 1,
+      "moveId": "mistveil"
+     },
+     {
+      "level": 1,
+      "moveId": "tideswell"
+     },
+     {
+      "level": 18,
+      "moveId": "foghorn-lull"
+     },
+     {
+      "level": 22,
+      "moveId": "zephyr-reel"
+     },
+     {
+      "level": 26,
+      "moveId": "flurrykiss"
+     },
+     {
+      "level": 30,
+      "moveId": "maelspout"
+     }
+    ]
+   },
+   {
+    "id": "fathomoo",
+    "name": "Fathomoo",
+    "types": [
+     "Tide",
+     "Zephyr"
+    ],
+    "role": "wild",
+    "stage": 3,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 100,
+     "attack": 72,
+     "defense": 88,
+     "spirit": 118,
+     "speed": 102
+    },
+    "syncRate": 0.2,
+    "xpYield": 168,
+    "dexEntry": "A great fog-siren whose single low MOO can be heard two days' sail apart; the coast's mist is simply its song, exhaled. When one Fathomoo fell silent for a week, every lighthouse keeper on the coast whispered until it sang again.",
+    "inspiration": "A final form whose ultimate power is atmosphere itself: the biome's signature weather is revealed to be one creature's ongoing lullaby, making the map a character the player has been walking through all along.",
+    "visualPrompt": "A long, majestic seal-leviathan with a vast bellows chest, fins trailing like wind-ribbons, and a crown of slowly coiling fog it continuously breathes; heavy-lidded serene eyes, mouth open in an endless quiet note.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "riptail"
+     },
+     {
+      "level": 1,
+      "moveId": "tideswell"
+     },
+     {
+      "level": 1,
+      "moveId": "foghorn-lull"
+     },
+     {
+      "level": 1,
+      "moveId": "zephyr-reel"
+     },
+     {
+      "level": 34,
+      "moveId": "featherstep"
+     },
+     {
+      "level": 38,
+      "moveId": "maelspout"
+     }
+    ]
+   },
+   {
+    "id": "snugget",
+    "name": "Snugget",
+    "types": [
+     "Frost"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": "duvetusk",
+    "evolveLevel": 18,
+    "baseStats": {
+     "hp": 66,
+     "attack": 54,
+     "defense": 68,
+     "spirit": 62,
+     "speed": 55
+    },
+    "syncRate": 0.55,
+    "xpYield": 56,
+    "dexEntry": "A round snow-vole that hoards sunbeams in its cheek pouches to get through blizzards. It will give a shivering traveler its very last one, then insist, teeth chattering, that it wasn't even cold out.",
+    "inspiration": "An ice-type whose treasure is heat: inverting the frost archetype so the coldest creature on the mountain is the one whose whole life is collecting and gifting warmth.",
+    "visualPrompt": "A plump snowball-shaped vole with white fur patterned in frost-blue rosettes, cheeks glowing faint sunrise-amber from the sunbeams stored inside; tiny rounded ears, stubby paws clasped, breath visible as a proud little puff.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "flurrykiss"
+     },
+     {
+      "level": 4,
+      "moveId": "steady-stance"
+     },
+     {
+      "level": 8,
+      "moveId": "powderpounce"
+     },
+     {
+      "level": 12,
+      "moveId": "rimecall"
+     },
+     {
+      "level": 16,
+      "moveId": "dawnsip"
+     }
+    ]
+   },
+   {
+    "id": "duvetusk",
+    "name": "Duvetusk",
+    "types": [
+     "Frost"
+    ],
+    "role": "wild",
+    "stage": 2,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 92,
+     "attack": 76,
+     "defense": 96,
+     "spirit": 74,
+     "speed": 52
+    },
+    "syncRate": 0.3,
+    "xpYield": 110,
+    "dexEntry": "A walrus-yak whose quilted coat is a living duvet, warm on the inside and snowproof on the out. It has waited out a three-day blizzard without moving because a lost climber was asleep against its flank, and would do it again.",
+    "inspiration": "A tank species whose defense stat is literally hospitality: its evolutionary niche is being slept on, so its bulk exists to shelter others rather than to win.",
+    "visualPrompt": "A big, round walrus-yak with a snow-white quilted blanket coat stitched in ice-blue seams, two short downward tusks like carved bedposts, and a broad flat back drifted with snow; small kind eyes under heavy frost lashes.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "flurrykiss"
+     },
+     {
+      "level": 1,
+      "moveId": "powderpounce"
+     },
+     {
+      "level": 1,
+      "moveId": "rimecall"
+     },
+     {
+      "level": 1,
+      "moveId": "steady-stance"
+     },
+     {
+      "level": 18,
+      "moveId": "shardfall"
+     },
+     {
+      "level": 22,
+      "moveId": "dawnsip"
+     },
+     {
+      "level": 26,
+      "moveId": "whiteout-hymn"
+     },
+     {
+      "level": 30,
+      "moveId": "loamslam"
+     }
+    ]
+   },
+   {
+    "id": "dimmet",
+    "name": "Dimmet",
+    "types": [
+     "Umbral"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": "gloamane",
+    "evolveLevel": 15,
+    "baseStats": {
+     "hp": 56,
+     "attack": 62,
+     "defense": 50,
+     "spirit": 60,
+     "speed": 82
+    },
+    "syncRate": 0.55,
+    "xpYield": 54,
+    "dexEntry": "A dusk-fox kit that patrols the forest at nightfall, pulling leaf-blankets over sleeping creatures and dimming glow-mushrooms with a polite pat. It always tucks its own tail in last, and usually misses.",
+    "inspiration": "A dark-type built from bedtime instead of menace: the scary forest at night reframed as a creature doing rounds, so Umbral reads as care work the player only notices by its results.",
+    "visualPrompt": "A small charcoal fox kit with soft dusk-mist rising off its paws and a single sunset-orange sliver at its tail tip like the last light of day; drowsy half-moon eyes, mid-tiptoe with one paw raised to shush.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "shadenip"
+     },
+     {
+      "level": 5,
+      "moveId": "lullshade"
+     },
+     {
+      "level": 7,
+      "moveId": "duskgnaw"
+     },
+     {
+      "level": 11,
+      "moveId": "umbra-sigh"
+     },
+     {
+      "level": 14,
+      "moveId": "zipnudge"
+     }
+    ]
+   },
+   {
+    "id": "gloamane",
+    "name": "Gloamane",
+    "types": [
+     "Umbral"
+    ],
+    "role": "wild",
+    "stage": 2,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 72,
+     "attack": 88,
+     "defense": 66,
+     "spirit": 74,
+     "speed": 100
+    },
+    "syncRate": 0.3,
+    "xpYield": 108,
+    "dexEntry": "Its mane is a fold of actual night sky, and evening arrives in the forest wherever it chooses to walk. It keeps one firefly in its mane as a nightlight and insists, to anyone who asks, that this is for the firefly's benefit.",
+    "inspiration": "A creature that is the schedule: dusk in its home forest is not a time but a place this animal carries, letting level designers move nightfall around like a prop.",
+    "visualPrompt": "A lean, long-legged fox-wolf with a flowing indigo mane speckled with faint stars, night visibly pooling and trailing behind its stride; calm gold eyes, one tiny firefly glowing inside the mane like a lantern.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "shadenip"
+     },
+     {
+      "level": 1,
+      "moveId": "duskgnaw"
+     },
+     {
+      "level": 1,
+      "moveId": "lullshade"
+     },
+     {
+      "level": 1,
+      "moveId": "umbra-sigh"
+     },
+     {
+      "level": 19,
+      "moveId": "gloamrush"
+     },
+     {
+      "level": 24,
+      "moveId": "featherstep"
+     }
+    ]
+   },
+   {
+    "id": "rumblit",
+    "name": "Rumblit",
+    "types": [
+     "Volt"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 60,
+     "attack": 52,
+     "defense": 56,
+     "spirit": 78,
+     "speed": 66
+    },
+    "syncRate": 0.5,
+    "xpYield": 58,
+    "dexEntry": "A round pond frog that swallows thunderclaps during storms and burps them back out weeks later, always at the worst possible moment. The village archive bans it every reading season, and every reading season it sneaks back in.",
+    "inspiration": "An electric type that stores sound instead of charge: thunder as a perishable snack with a delayed-release mechanic, making its whole personality a mistimed punchline.",
+    "visualPrompt": "A plump moss-yellow frog with a storm-grey croak sac that flickers from inside with tiny lightning, faint zigzag markings down its back; smug closed-mouth smile of something holding in a very big noise.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "zapnibble"
+     },
+     {
+      "level": 6,
+      "moveId": "rumblecroak"
+     },
+     {
+      "level": 10,
+      "moveId": "static-serenade"
+     },
+     {
+      "level": 14,
+      "moveId": "tideswell"
+     },
+     {
+      "level": 20,
+      "moveId": "stormcrown"
+     }
+    ]
+   },
+   {
+    "id": "waylume",
+    "name": "Waylume",
+    "types": [
+     "Lumen"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 64,
+     "attack": 44,
+     "defense": 70,
+     "spirit": 82,
+     "speed": 50
+    },
+    "syncRate": 0.5,
+    "xpYield": 60,
+    "dexEntry": "A little sprite of road-light that stands very straight at forks in the path, pretending to be a waymarker so travelers pick the right way home. One still waits at a crossroads outside town for the traveler who used to wave goodnight to it.",
+    "inspiration": "A light-type descended from infrastructure kindness: the first mapmakers' surveying lights left burning so long they woke up, tying the species directly into the region's waymarker-stone lore.",
+    "visualPrompt": "A small upright teardrop of warm lamplight wearing a weathered wooden sign-arm across its head like a crooked hat, hovering a coin's height above the ground; a steady golden core for a heart and patient round eyes.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "glowdart"
+     },
+     {
+      "level": 1,
+      "moveId": "steady-stance"
+     },
+     {
+      "level": 7,
+      "moveId": "gleamsweep"
+     },
+     {
+      "level": 11,
+      "moveId": "dawnsip"
+     },
+     {
+      "level": 15,
+      "moveId": "lantern-verdict"
+     },
+     {
+      "level": 19,
+      "moveId": "heartened-hum"
+     }
+    ]
+   },
+   {
+    "id": "kipkite",
+    "name": "Kipkite",
+    "types": [
+     "Zephyr"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 52,
+     "attack": 58,
+     "defense": 48,
+     "spirit": 62,
+     "speed": 95
+    },
+    "syncRate": 0.55,
+    "xpYield": 55,
+    "dexEntry": "A paper kite the wind loved so much it woke up. It naps on updrafts with its string curled beneath it like a cat's tail, and every festival it loops low over the village, looking for the hand that let it go.",
+    "inspiration": "A wind-type made from a toy instead of a bird: an object animated by being played with, whose sync fiction is simply someone finally picking the string back up.",
+    "visualPrompt": "A diamond-shaped paper kite creature with crayon-scribbled eyes, patched corners, and a long ribbon-bow tail rippling behind it; its loose string trails below like a leash hoping to be held.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "flitfeather"
+     },
+     {
+      "level": 1,
+      "moveId": "zipnudge"
+     },
+     {
+      "level": 6,
+      "moveId": "gustloop"
+     },
+     {
+      "level": 10,
+      "moveId": "featherstep"
+     },
+     {
+      "level": 14,
+      "moveId": "zephyr-reel"
+     },
+     {
+      "level": 18,
+      "moveId": "drumroll-flurry"
+     }
+    ]
+   },
+   {
+    "id": "hummabye",
+    "name": "Hummabye",
+    "types": [
+     "Fable"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 60,
+     "attack": 40,
+     "defense": 56,
+     "spirit": 92,
+     "speed": 70
+    },
+    "syncRate": 0.2,
+    "xpYield": 90,
+    "dexEntry": "The region's oldest lullaby, escaped from every cradle that ever hummed it, now drifting where the mist touches the lake at dusk. It puts the parents to sleep first, out of professional courtesy, and finishes the verse for the baby alone.",
+    "inspiration": "A mythic that is a song, not a creature that sings: a piece of shared culture old enough to have grown a body, so syncing it means the oldest thing in the valley chooses to be hummed by you.",
+    "visualPrompt": "A tiny drifting spirit shaped like a swaddled crescent moon crossed with a musical note, wrapped in a blanket of pale mist that trails faint silver notation behind it; eyes closed in a contented sleeping smile.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "lullanote"
+     },
+     {
+      "level": 1,
+      "moveId": "heartened-hum"
+     },
+     {
+      "level": 6,
+      "moveId": "tale-twirl"
+     },
+     {
+      "level": 10,
+      "moveId": "lullshade"
+     },
+     {
+      "level": 14,
+      "moveId": "plot-twist"
+     },
+     {
+      "level": 18,
+      "moveId": "dawnsip"
+     },
+     {
+      "level": 22,
+      "moveId": "grand-finale"
+     }
+    ]
+   },
+   {
+    "id": "rimegarde",
+    "name": "Rimegarde",
+    "types": [
+     "Frost",
+     "Terra"
+    ],
+    "role": "titan",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 195,
+     "attack": 135,
+     "defense": 180,
+     "spirit": 130,
+     "speed": 60
+    },
+    "syncRate": 0,
+    "xpYield": 520,
+    "dexEntry": "A mountain-sized elk of glacier ice and buried stone, frozen mid-stride an age ago while shouldering back an endless blizzard; the highland pass exists because it has never once moved. Each solstice the shepherds hang lanterns from its antler tips, and it has never once said it minds.",
+    "inspiration": "A guardian whose heroism is stillness: the boss fight is the one time in an age it allows itself to move, which means winning is convincing it the valley is safe enough for it to rest.",
+    "visualPrompt": "A colossal recumbent elk of deep blue glacier ice veined with dark stone, its back drifted into a snowfield and its vast antlers rising like frozen aurora curtains hung with tiny lanterns; slow-blinking calm eyes under heavy frost lashes.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "shardfall"
+     },
+     {
+      "level": 1,
+      "moveId": "whiteout-hymn"
+     },
+     {
+      "level": 1,
+      "moveId": "powderpounce"
+     },
+     {
+      "level": 1,
+      "moveId": "loamslam"
+     },
+     {
+      "level": 1,
+      "moveId": "burrowbrace"
+     },
+     {
+      "level": 1,
+      "moveId": "rimecall"
+     }
+    ]
+   }
+  ]
+ },
+ "world": {
+  "areas": [
+   {
+    "id": "mistmere-shallows",
+    "name": "Mistmere Shallows",
+    "biome": "misty-lakeshore",
+    "description": "A long lakeshore path east of the Gloamlight Caverns, where weathered boardwalks zigzag over still, silver water and reed grass grows taller than most Wardens. Morning mist rolls off the lake in slow, friendly waves \u2014 locals wave back, out of politeness. Fishing spots glimmer beside the boardwalk posts, though everyone knows the 'fish' are Tide Gaiamon who bite the line purely to say hello, and hand-lanterns on the rails hum in Codex-key when the fog gets thick enough to lose your own feet.",
+    "sizeHint": "40x24",
+    "palette": {
+     "ground1": "#8FCB9B",
+     "ground2": "#7CBA8A",
+     "accent": "#7FD4E8",
+     "fog": "#C9DDE4"
+    },
+    "props": [
+     "bush",
+     "fence",
+     "lantern",
+     "tree",
+     "rock",
+     "stump"
+    ],
+    "encounters": [
+     {
+      "speciesSlot": "coast-1",
+      "weight": 40,
+      "minLevel": 8,
+      "maxLevel": 10
+     },
+     {
+      "speciesSlot": "coast-2",
+      "weight": 30,
+      "minLevel": 9,
+      "maxLevel": 11
+     },
+     {
+      "speciesSlot": "coast-3",
+      "weight": 25,
+      "minLevel": 10,
+      "maxLevel": 12
+     },
+     {
+      "speciesSlot": "rare-fable",
+      "weight": 5,
+      "minLevel": 11,
+      "maxLevel": 12
+     }
+    ],
+    "npcs": [
+     {
+      "id": "npc-reedcutter-tansy",
+      "name": "Tansy",
+      "role": "reed-cutter",
+      "dialogue": [
+       "Mind the boardwalk gaps. The lake isn't deep, but it IS smug.",
+       "The mist rolls in when the lake dreams. Wave at it \u2014 everything here is polite.",
+       "You came through the caverns? Oona's moss-light reaches all the way to my reeds some nights."
+      ]
+     },
+     {
+      "id": "npc-angler-dob",
+      "name": "Dob",
+      "role": "boardwalk-angler",
+      "dialogue": [
+       "No hooks on my line. Just a bell and good intentions. The Tide ones ring it when they're bored.",
+       "My Codex logged today's catch as 'zero fish, four friends.' Best season yet.",
+       "Follow the boardwalks east and you'll smell Saltwhistle before you see it. Chowder travels."
+      ]
+     }
+    ],
+    "connections": [
+     "gloam-caverns",
+     "saltwhistle-harbor"
+    ],
+    "pointsOfInterest": [
+     "The Long Boardwalk \u2014 a zigzag of planks over open water, rails hung with humming lanterns",
+     "Reed maze on the north bank where tall grass hides Tide and Zephyr Gaiamon",
+     "Three glimmering fishing spots beside boardwalk posts (flavor encounters)",
+     "Dob's bait shack \u2014 a stump-and-fence lean-to where anglers trade sync stories",
+     "A half-sunken old pier the mist never quite uncovers"
+    ]
+   },
+   {
+    "id": "saltwhistle-harbor",
+    "name": "Saltwhistle Harbor",
+    "biome": "coastal-harbor-town",
+    "description": "A crescent of shingled houses around a working harbor, named for the note the wind plays through the sea-arch at the pier's end \u2014 every door in town is painted to match its owner's favorite tide. Market stalls line the quay selling reed-weave, lake-glass, and chowder that Wardens describe as 'a heal trigger with a spoon.' The Stormglass Sanctum stands on the lighthouse point, its beacon run entirely on the Keeper's stormlight, and on clear nights the whole town goes quiet to listen for the summit bells ringing far up on Rimeveil.",
+    "sizeHint": "36x26",
+    "palette": {
+     "ground1": "#E8D9A8",
+     "ground2": "#D9C68F",
+     "accent": "#FF8E6B",
+     "fog": "#BFE0EA"
+    },
+    "props": [
+     "house",
+     "lantern",
+     "fence",
+     "arch",
+     "tree",
+     "rock",
+     "bush"
+    ],
+    "encounters": [],
+    "npcs": [
+     {
+      "id": "npc-harbormaster-odla",
+      "name": "Harbormaster Odla",
+      "role": "harbormaster",
+      "dialogue": [
+       "The tide's been humming ever since that waystone inland woke up. Everything hums now.",
+       "Boats out, boats in. My Codex logs them all. It likes the ferry best. Plays favorites, that slab.",
+       "You're the Warden who woke Cairnoss? The gulls have NOT stopped talking about it."
+      ]
+     },
+     {
+      "id": "npc-fishmonger-marlow",
+      "name": "Marlow",
+      "role": "market-fishmonger",
+      "dialogue": [
+       "Fresh! Caught this morning \u2014 by asking nicely. The lake shares. We never just take.",
+       "A Synced Tide-type makes the best fishing partner. It negotiates. In bubbles.",
+       "Buy a skewer, get a rumor free: the summit gate up on Rimeveil sings when you touch it."
+      ]
+     },
+     {
+      "id": "npc-kid-skiff",
+      "name": "Skiff",
+      "role": "harbor-kid",
+      "dialogue": [
+       "On clear nights the summit rings like a bell. Grandpa says it's wind. Wind doesn't RING.",
+       "I'm gonna be a Warden and Sync something with SNOW on it. Write that in your Ledger.",
+       "A traveler said the Trial of Echoes lets you borrow the monsters you beat. That's so unfair. I want that."
+      ]
+     },
+     {
+      "id": "npc-ferry-brenna",
+      "name": "Captain Brenna",
+      "role": "ferry-captain",
+      "dialogue": [
+       "A Warden from the Vale, eh? Keeper Solenne drew you on her marsh map. 'The quiet current.' Fancy.",
+       "The ferry runs when the mist agrees. Today the mist is thinking about it.",
+       "Up past Murmurwood it snows sideways. Pack a warm heart and a Frost move or two."
+      ]
+     },
+     {
+      "id": "npc-sanctum-ilio",
+      "name": "Ilio",
+      "role": "sanctum-attendant",
+      "dialogue": [
+       "Keeper Voss is in. Mind the brass bell \u2014 she rings it for good battles and good gossip alike.",
+       "She auctioned off my lunch break once. I bid on it. I lost. She's very good."
+      ]
+     },
+     {
+      "id": "npc-oldsalt-petrel",
+      "name": "Nan Petrel",
+      "role": "retired-mountaineer",
+      "dialogue": [
+       "I climbed Rimeveil once. Left a lantern, lost a mitten, gained a philosophy.",
+       "The aurora up there isn't weather, dear. Weather doesn't check if you're watching.",
+       "There's a little waystone near the summit hut. Small, but it hums like it knows the big one personally."
+      ]
+     }
+    ],
+    "connections": [
+     "mistmere-shallows",
+     "murmurwood"
+    ],
+    "pointsOfInterest": [
+     "The Stormglass Sanctum \u2014 a lighthouse-point hall where Keeper Voss holds court, beacon lit by her ace",
+     "Quay market \u2014 a row of fenced stalls under strung lanterns (chowder heals the party)",
+     "The Whistling Arch \u2014 the sea-arch that gives the town its name; changes note with the tide",
+     "Ferry dock with Captain Brenna's boat (future travel hook)",
+     "Sanctum Link terminal at the harbor inn for party storage"
+    ]
+   },
+   {
+    "id": "murmurwood",
+    "name": "Murmurwood",
+    "biome": "dusk-mushroom-forest",
+    "description": "A forest where dusk arrived one evening long ago and liked it so much it stayed. Mushrooms grow to the size of watchtowers, their violet caps holding up a canopy the sun only rumors through, and fireflies drift in slow constellations that rearrange themselves when a Codex passes \u2014 Wardens swear the lights are spelling something, slowly. The grass grows in dense, winding mazes that Umbral Gaiamon prune into new dead-ends nightly, purely because they think getting lost builds character.",
+    "sizeHint": "38x26",
+    "palette": {
+     "ground1": "#3D3554",
+     "ground2": "#332B47",
+     "accent": "#C98BFF",
+     "fog": "#2A2342"
+    },
+    "props": [
+     "tree",
+     "pine",
+     "stump",
+     "bush",
+     "lantern",
+     "crystal",
+     "rock"
+    ],
+    "encounters": [
+     {
+      "speciesSlot": "umbral-1",
+      "weight": 40,
+      "minLevel": 12,
+      "maxLevel": 14
+     },
+     {
+      "speciesSlot": "umbral-2",
+      "weight": 30,
+      "minLevel": 13,
+      "maxLevel": 15
+     },
+     {
+      "speciesSlot": "umbral-3",
+      "weight": 25,
+      "minLevel": 13,
+      "maxLevel": 16
+     },
+     {
+      "speciesSlot": "rare-fable",
+      "weight": 5,
+      "minLevel": 15,
+      "maxLevel": 16
+     }
+    ],
+    "npcs": [
+     {
+      "id": "npc-firefly-vesper",
+      "name": "Vesper",
+      "role": "firefly-counter",
+      "dialogue": [
+       "Four hundred nine... four hundred ten... please Sync quietly, I'm mid-census.",
+       "The fireflies spell things. Last week they spelled 'soup.' Science is humbling.",
+       "The Umbral ones re-grow the grass maze every night. For fun. Their fun. Not ours."
+      ]
+     },
+     {
+      "id": "npc-sporeling-juno",
+      "name": "Juno",
+      "role": "mycologists-apprentice",
+      "dialogue": [
+       "My cousin Oona farms the glowing kind back in the caverns. Mine are just TALL.",
+       "Don't nap under the big caps. You'll wake up Drowsed, dewy, and deeply judged.",
+       "Keep north for Rimeveil. When the mushrooms turn frosty at the edges, you're close."
+      ]
+     }
+    ],
+    "connections": [
+     "saltwhistle-harbor",
+     "rimeveil-summit"
+    ],
+    "pointsOfInterest": [
+     "The Watchtower Caps \u2014 three colossal mushrooms whose stalks form the forest's landmarks",
+     "Dense grass mazes (highest encounter rate) that rearrange between visits",
+     "Firefly hollow \u2014 a clearing where the lights gather into slow constellations",
+     "A moss-swallowed lantern trail left by old cavern miners, tying back to Gloamlight",
+     "Frost-rimed northern treeline where pine takes over and the climb to Rimeveil begins"
+    ]
+   },
+   {
+    "id": "rimeveil-summit",
+    "name": "Rimeveil Summit",
+    "biome": "frost-highland-summit",
+    "description": "The roof of the region: wind-carved snowfields above Murmurwood where pines wear sleeves of ice and crystal outcrops ring faint, glassy notes whenever the aurora moves. A tiny waystone \u2014 cousin to the great one on the Rise \u2014 hums beside a warm rest hut, purring brighter for Wardens who have met its family. At the summit's crown stands the Chimegate, an arch of dark ice with three empty crystal sockets, and beyond it a bowl of untouched snow that no wind ever disturbs... because something under it is breathing very, very slowly.",
+    "sizeHint": "36x28",
+    "palette": {
+     "ground1": "#E9F2FA",
+     "ground2": "#D6E4F2",
+     "accent": "#8FD5FF",
+     "fog": "#DDEBF7"
+    },
+    "props": [
+     "pine",
+     "crystal",
+     "rock",
+     "waystone",
+     "lantern",
+     "arch",
+     "fence",
+     "stump"
+    ],
+    "encounters": [
+     {
+      "speciesSlot": "frost-1",
+      "weight": 45,
+      "minLevel": 16,
+      "maxLevel": 18
+     },
+     {
+      "speciesSlot": "frost-2",
+      "weight": 30,
+      "minLevel": 17,
+      "maxLevel": 19
+     },
+     {
+      "speciesSlot": "frost-3",
+      "weight": 20,
+      "minLevel": 18,
+      "maxLevel": 20
+     },
+     {
+      "speciesSlot": "rare-fable",
+      "weight": 5,
+      "minLevel": 19,
+      "maxLevel": 20
+     }
+    ],
+    "npcs": [
+     {
+      "id": "npc-hutkeeper-yule",
+      "name": "Yule",
+      "role": "rest-hut-keeper",
+      "dialogue": [
+       "The little waystone hums warmer for you. You've met its big cousin, haven't you? It's practically purring.",
+       "Cocoa's on. Rest here \u2014 frostbite is nobody's origin story.",
+       "The snow past the Chimegate never drifts. Never. Snow that behaves is snow that's LYING."
+      ]
+     },
+     {
+      "id": "npc-tuner-fenwick",
+      "name": "Fenwick",
+      "role": "crystal-tuner",
+      "dialogue": [
+       "Every crystal up here rings a different note. The gate wants a chord: three shards, one sigil.",
+       "The Wardens on the roads below each carry a Chimeshard. Beat them kindly \u2014 the shards remember rudeness.",
+       "When the aurora dances, my Codex hums along. Off-key. I've stopped mentioning it. Feelings."
+      ]
+     }
+    ],
+    "connections": [
+     "murmurwood",
+     "waystone-rise"
+    ],
+    "pointsOfInterest": [
+     "The Chimegate \u2014 a dark-ice arch with three crystal sockets; the second Titan's arena lies beyond",
+     "Mini waystone rest circle beside Yule's warm hut (full party heal, lantern-lit)",
+     "Singing crystal field where outcrops ring notes as the aurora moves",
+     "The Hushbowl \u2014 the windless snow arena that is, in fact, the Titan's folded wings",
+     "A steep switchback trail descending to Waystone Rise (opens as a shortcut once climbed)"
+    ]
+   }
+  ],
+  "keeper": {
+   "name": "Meridee Voss",
+   "title": "Keeper of the Stormglass Sanctum",
+   "specialtyType": "Volt",
+   "personality": "A retired fish-market auctioneer turned lighthouse keeper who calls every battle like a live auction \u2014 opening bids, lot numbers, a going-once-going-twice for each of your Gaiamon, and a small brass bell she rings whenever anyone lands a Keen Hit, hers or yours. The Sanctum lighthouse runs entirely on her ace's stormlight, so she considers every challenger a bid on the town's electricity. Cute-first: she cannot stop auctioning compliments she meant to keep to herself, and her gavel is a wooden spoon from the chowder stall.",
+   "partySlots": [
+    "coast-2@lv15",
+    "umbral-1@lv16",
+    "keeper-ace-2@lv18"
+   ],
+   "dialogue": [
+    "Lot one: a challenger, slightly windblown, excellent posture. Do I hear an opening move?",
+    "(mid-battle, first faint) Going once \u2014 going twice \u2014 oh, you're still standing! The bidding continues, and so does the storm.",
+    "(defeated) SOLD! To the Warden with the singing slab. The Stormglass Sigil \u2014 no refunds, all sparks final.",
+    "(post-battle) Solenne's map calls you 'the quiet current.' Loud auction, quiet current \u2014 Rimeveil will like you. Take my bell's blessing up the mountain, and mind the snow that doesn't drift."
+   ],
+   "areaId": "saltwhistle-harbor"
+  },
+  "titan": {
+   "name": "Aurvela, the Dreaming Aurora",
+   "speciesSlot": "titan-2",
+   "concept": "The coast has always believed the aurora is weather. It is not: it is the leaking dream of a colossal Frost/Fable moth-titan curled beneath Rimeveil's summit snow, wings folded so long ago that the windless Hushbowl arena IS them. The crystal outcrops ring because she breathes; the summit 'bells' the townsfolk hear are her sleeping heartbeat. Where Cairnoss was furniture-as-boss, Aurvela is weather-as-boss \u2014 the sky the player admired all act was the encounter. Cute-first: enormous, soft, moth-fuzzy and unbearably sleepy, she fights like someone whose beautiful dream you just stepped on. NOT syncable: the Codex reads RESONANCE TOO VAST \u2014 SYNC IMPOSSIBLE and offers STUDY, stamping 'The Dream Above the Snow' lore into the Ledger.",
+   "phase1": "VEILED (100% to 50% HP). Level 22 statline with HP x6.0, spirit x1.3, speed x0.7. Wings stay folded; she acts once per turn on a readable 3-turn loop \u2014 turn A: single-target Frost strike (wing-dust with a 20% chance to inflict Rimebound); turn B: 'Hushdraw' telegraph \u2014 the snowfall freezes mid-air and a pale glyph glows under the player's active Gaiamon; turn C: 'Hushfall', a heavy Frost slam (~40% of a same-level mon's max HP) that swapping on turn C dodges entirely \u2014 the swap-dodge lesson from Cairnoss, graduated. Every 25% HP lost, one 'Dream-Mote' (destructible sub-target, 35 HP) drifts into orbit; while any Mote glows, Aurvela takes 30% reduced damage, pushing target-switching.",
+   "phase2": "AURORA-WOKEN (at 50% HP, hard trigger). The wings unfold \u2014 the whole arena floor lifts and the aurora floods down into the bowl. Defense drops to x0.8, spirit rises to x1.5, speed to x1.3, and every second turn she acts twice. Hushfall is replaced by 'Storyglow' (Fable, single-target, ~50% max-HP, every 3rd turn, telegraphed one turn ahead) with a 30% chance to inflict Storydaze \u2014 the target briefly believes it is the one dreaming. Arena mechanic: drifting aurora motes chip 5% max HP from the player's active Gaiamon at end of each turn UNLESS it used a Frost or Fable move that turn (attuning to her dream), rewarding coverage of both her types. No healing between phases; wipe = free retry from the Chimegate, Aurvela fully resets and goes straight back to sleep, a little pointedly.",
+   "areaId": "rimeveil-summit",
+   "gating": "THE CHIMEGATE CHORD. The dark-ice arch before the Hushbowl has three empty crystal sockets and a resonance slot. Each of act 2's three road Wardens (Quill, Sorrel, Halla) carries a Chimeshard \u2014 a tuned crystal earned by defeating them in battle, each ringing one note of a chord. Socketing all three plus presenting the Stormglass Sigil from Keeper Voss makes the gate ring the full chord and melt itself open \u2014 Aurvela half-wakes at the sound, because it is the lullaby the mountain used to sing her. Everything is earnable within act 2 (three route battles + the Sanctum), and Fenwick at the summit explains the chord so the goal is legible the moment the player arrives."
+  },
+  "routeTrainers": [
+   {
+    "id": "warden-quill",
+    "name": "Quill",
+    "title": "Boardwalk Angler",
+    "areaId": "mistmere-shallows",
+    "partySlots": [
+     "coast-1@lv10",
+     "coast-2@lv11"
+    ],
+    "dialogue": {
+     "intro": [
+      "Shh \u2014 you'll scare the ripples. ...Too late. They know you're here.",
+      "I fish with a battle rod: no hooks, just a polite challenge. You're today's catch."
+     ],
+     "win": [
+      "The lake says you telegraph your switches. Don't take it hard \u2014 the lake gossips.",
+      "Rest up at Saltwhistle and come try my line again."
+     ],
+     "lose": [
+      "Fine catch. I mean fine battle. My Codex is logging you as 'the one that got away.'",
+      "Here \u2014 my Chimeshard. It rings low, like the lake at dusk. The summit gate wants it more than I do."
+     ]
+    }
+   },
+   {
+    "id": "warden-sorrel",
+    "name": "Sorrel",
+    "title": "Mushroom-Cap Knight",
+    "areaId": "murmurwood",
+    "partySlots": [
+     "umbral-1@lv14",
+     "umbral-2@lv15"
+    ],
+    "dialogue": {
+     "intro": [
+      "HALT. None shall pass the maze unbattled! ...Sorry for shouting. The helmet muffles me.",
+      "I am the knight of this wood! The fireflies knighted me. Mostly by landing on my head."
+     ],
+     "win": [
+      "The maze remains undefeated! Also me! Mostly the maze, though.",
+      "Train in the deep grass and return, brave stranger. The wood will re-lose you happily."
+     ],
+     "lose": [
+      "A worthy quest-giver moment! Take my Chimeshard \u2014 it rings middle, like dusk deciding to stay.",
+      "You woke the sleeping stone in the Vale, didn't you? Knights hear things. Fireflies talk."
+     ]
+    }
+   },
+   {
+    "id": "warden-halla",
+    "name": "Halla",
+    "title": "Summit Postwoman",
+    "areaId": "rimeveil-summit",
+    "partySlots": [
+     "frost-1@lv17",
+     "umbral-2@lv17",
+     "frost-2@lv19"
+    ],
+    "dialogue": {
+     "intro": [
+      "Letter for you! Kidding. Nobody writes to Wardens \u2014 you're all outside already.",
+      "I battle on every delivery run. Keeps the blood warm and the route honest. En garde!"
+     ],
+     "win": [
+      "Undelivered! Come back when your team stops shivering between moves.",
+      "Warm up at Yule's hut. The cocoa is a strategy, not a treat."
+     ],
+     "lose": [
+      "Signed, sealed, defeated. Here \u2014 my Chimeshard. It rings high, like the first bell of the aurora.",
+      "Three shards and Voss's sigil, and that gate will sing itself open. Give the sleeper my regards. Gently."
+     ]
+    }
+   }
+  ]
+ },
+ "verify": {
+  "nameCheck": {
+   "ok": false,
+   "problems": [
+    {
+     "severity": "major",
+     "where": "NPC list: Sorrel",
+     "issue": "Exact match with Sorrel, one of Ash's two companions in Pokemon the Movie: I Choose You (2017) (bulbapedia.bulbagarden.net/wiki/Sorrel). Same genre, same role category (friendly NPC in a monster world). It's a common plant/horse-color word so legal risk is low, but it reads as a direct Pokemon character name.",
+     "suggestion": "Rename to Teasel or Chervil (keeps the rustic herb-name vibe). Avoid Fennel, Mallow, Milo, and Yarrow - all already Pokemon character names."
+    },
+    {
+     "severity": "major",
+     "where": "NPC list: Nan Petrel",
+     "issue": "Surname exactly matches Petrel, the Team Rocket Executive from HeartGold/SoulSilver (bulbapedia.bulbagarden.net/wiki/Petrel). Exact character-name collision with the flagship monster-taming franchise.",
+     "suggestion": "Swap to another seabird surname not used by Pokemon: Nan Fulmar or Nan Shearwater (same salty harbor-granny vibe)."
+    },
+    {
+     "severity": "major",
+     "where": "NPC list: Marlow",
+     "issue": "One letter from Mallow (M-a-l-l-o-w vs M-a-r-l-o-w), the Alola trial captain who is prominent in both the games and the anime.",
+     "suggestion": "Rename to Merrow (Irish sea-folk legend - fits the harbor setting) or Barlow/Wenlow if you want it to stay surname-like."
+    },
+    {
+     "severity": "major",
+     "where": "NPC list: Ilio",
+     "issue": "Two letters from Iono (the extremely famous Scarlet/Violet streamer gym leader) and two letters from Ilima (Alola trial captain). Short vowel-heavy name lands in a crowded Pokemon namespace.",
+     "suggestion": "Rename to Nalu (Hawaiian for 'wave' - keeps the island/coastal feel) or Kailo."
+    },
+    {
+     "severity": "major",
+     "where": "NPC list: Harbormaster Odla",
+     "issue": "One letter from Orla (O-r-l-a vs O-d-l-a), the ship engineer of the Brave Olivine in the current Pokemon Horizons anime - and both are nautical crew/ship roles, which compounds the resemblance.",
+     "suggestion": "Rename to Harbormaster Ondra or Harbormaster Ulda (keeps the gruff Nordic port-official vibe)."
+    },
+    {
+     "severity": "minor",
+     "where": "Creature list: Rimegarde",
+     "issue": "Coined and defensible, but it stitches together 'Rime' (reads as Mr. Rime, the Galar Pokemon) and '-garde' (echoes Gardevoir, and Palworld's Beegarde). Flagged per default-to-flag; no exact or 1-2-letter collision exists.",
+     "suggestion": "If you want more distance, try Rimehild (frost + valkyrie-guardian, keeps the stately sentinel vibe) or Rimewarden. Note Rimeveil Summit stays fine either way - shared 'rime' across the frost region is internal consistency, not a conflict."
+    },
+    {
+     "severity": "minor",
+     "where": "Creature list: Kipkite",
+     "issue": "The 'kip-' element can momentarily evoke Mudkip for Pokemon-literate players, though the intended read (kip = nap, fitting the sleepy theme) is clear and there is no letter-distance or homophone collision.",
+     "suggestion": "Likely fine to keep. If you want zero echo: Dozekite or Kipsail."
+    },
+    {
+     "severity": "minor",
+     "where": "Move list: Powderpounce",
+     "issue": "Both halves are literal Pokemon move names - Powder (Gen 6, Vivillon) and Pounce (Gen 9). The portmanteau itself is distinct and both words are generic English, so this is a completeness note, not a conflict.",
+     "suggestion": "Keep as-is, or use Flurrypounce if you want neither half to be an exact Pokemon move name. All other moves (Foghorn Lull, Gustloop, Rumblecroak, Gleamsweep, Shadenip, Gloamrush, Lullanote, Whiteout Hymn) are clean."
+    }
+   ]
+  },
+  "balanceCheck": {
+   "ok": true,
+   "problems": [
+    {
+     "severity": "minor",
+     "where": "species.duvetusk.syncRate",
+     "issue": "syncRate 0.3 is below the uncommon (evolved stage-2) band of .35-.5; the existing stage-2 wild comparable, thistleram, sits at 0.35.",
+     "suggestion": "Raise to 0.35."
+    },
+    {
+     "severity": "minor",
+     "where": "species.gloamane.syncRate",
+     "issue": "syncRate 0.3 is below the uncommon band of .35-.5 for a stage-2 wild.",
+     "suggestion": "Raise to 0.35."
+    },
+    {
+     "severity": "minor",
+     "where": "species.fathomoo.syncRate",
+     "issue": "syncRate 0.2 falls in the rare-fable band (.15-.25) rather than the uncommon band (.35-.5); no existing wild stage-3 exists to justify a new lower tier, so this is out of every defined band for a non-fable wild.",
+     "suggestion": "Either raise to ~0.3-0.35, or explicitly define a 'rare apex stage-3' sync band (~.2-.25) in the combat/codex rules so the value is covered by a rule instead of falling between bands."
+    },
+    {
+     "severity": "minor",
+     "where": "species.hummabye.xpYield",
+     "issue": "xpYield 90 exceeds the documented early-route species band of 40-70 (xpFormula text) and is well above the closest existing comparable, tattertale (Fable rare, xpYield 65, syncRate 0.3); it is within 20 of the keeper-ace tier (~110).",
+     "suggestion": "Lower to ~70-75, or if the 'rare jackpot' feel is intended, amend the xpFormula band note to carve out mythic rares (e.g. 'mythic rares 85-95') so the value is documented rather than out of band."
+    },
+    {
+     "severity": "minor",
+     "where": "moves.lullanote",
+     "issue": "Near-dominated by existing same-type tale-twirl (Fable/spirit/100 acc/3 stamina in both): tale-twirl has 60 power vs 45 and a 20% status vs 15%; lullanote survives strict dominance only because Drowse (syncBonus 2.0, incapacitating) outclasses Storydaze (1.3). At 45 power for 3 stamina it also has worse damage-per-pip (15/pip) than any 40-power/2-cost move (20/pip).",
+     "suggestion": "Either raise Drowse chance to 20-25% to make the status trade unambiguous, or drop power to 40 so it costs 2 stamina and becomes the cheap utility option."
+    }
+   ]
+  },
+  "coherenceCheck": {
+   "ok": false,
+   "problems": [
+    {
+     "severity": "major",
+     "where": "titan (Aurvela) vs expansion species rimegarde",
+     "issue": "titan-2 must map to rimegarde (the only titan-role species), but rimegarde's types are Frost/Terra while Aurvela is designed as a Frost/Fable moth: Storyglow is a Fable move, and the phase-2 arena mechanic explicitly rewards 'a Frost or Fable move that turn'. The species name/flavor (rimegarde = a guard) also contradicts the dreaming-aurora-moth concept.",
+     "suggestion": "Mapping: titan-2 -> rimegarde. Fix the contradiction one of two ways: (a) change rimegarde's types to [Frost, Fable] and rename/reflavor it (e.g. 'aurvela') to match the moth concept, or (b) rewrite phase 2 so Storyglow is Terra-flavored and the attunement mechanic reads 'Frost or Terra move'. Option (a) is strongly preferred \u2014 the entire act's foreshadowing (aurora, bells, Fable rumors, rare-fable encounters) is Fable-coded."
+    },
+    {
+     "severity": "major",
+     "where": "mistmere-shallows encounters, slot coast-3 (lv 10-12)",
+     "issue": "By elimination coast-3 must be fathomoo (stage 3, Tide/Zephyr). Existing convention puts stage-3 evolve levels at 30 (frondelle/scampyre/lagoonet all evolve at 30), so a wild stage-3 at lv 10-12 is ~20 levels under its evolve level. The existing thistleram precedent (stage 2 at lv10 vs evolveLevel 16) does not stretch to a stage 3.",
+     "suggestion": "Either (a) keep coast-3 -> fathomoo but give the hushpup line compressed evolve levels (hushpup->mistcalf at ~9, mistcalf->fathomoo at ~20) and raise coast-3 to minLevel 11-12 as a rare 'big one in the lake' encounter, or (b) swap coast-3 -> kipkite (Zephyr fits the reed-maze flavor text) and reserve fathomoo as an evolution-only species. If (b), then umbral-3/frost-3 take waylume and fathomoo becomes unused-in-slots, which is acceptable (not every species needs a slot)."
+    },
+    {
+     "severity": "minor",
+     "where": "murmurwood slot umbral-3 and rimeveil-summit slot frost-3",
+     "issue": "Only two Umbral species (dimmet, gloamane) and two Frost species (snugget, duvetusk) exist, so the third slot in each family cannot be filled by an on-type species; the bijection forces kipkite (Zephyr) and waylume (Lumen) into these slots.",
+     "suggestion": "REQUIRED full slot->speciesId mapping: coast-1 -> hushpup; coast-2 -> mistcalf; coast-3 -> fathomoo; umbral-1 -> dimmet; umbral-2 -> gloamane; umbral-3 -> waylume (Lumen \u2014 fits the firefly-hollow/'lights spelling something' flavor of Murmurwood); frost-1 -> snugget; frost-2 -> duvetusk; frost-3 -> kipkite (Zephyr \u2014 fits the wind-carved summit); rare-fable -> hummabye; keeper-ace-2 -> rumblit; titan-2 -> rimegarde. Acceptable alternative: swap umbral-3 <-> frost-3 (waylume at the summit resonating with the mini waystone, kipkite drifting in the dusk forest); pick one and rename the slots (e.g. 'dusk-3', 'summit-3') so the slot names stop implying a type that doesn't match."
+    },
+    {
+     "severity": "minor",
+     "where": "keeper Meridee Voss (saltwhistle-harbor), partySlots",
+     "issue": "Voss is a Volt specialist but her party maps to mistcalf (Tide) @15, dimmet (Umbral) @16, rumblit (Volt) @18 \u2014 only 1 of 3 on-type, no dominant Volt. Also rumblit is a stage-1 wild-role species; as the ace whose 'stormlight' powers the whole lighthouse at lv18 it reads underwhelming, and there is no other Volt species to promote.",
+     "suggestion": "Mapping: keeper-ace-2 -> rumblit (forced; only Volt species). This matches the existing precedent \u2014 Keeper Solenne (Tide) also fields nibbin/thistleram off-type with only her ace (lagoonet) on-type \u2014 so it is consistent, but consider adding a stage-2 Volt evolution for rumblit in the species pass so the ace fiction lands. If a new species is off the table, keep rumblit@18 and lean on the dialogue ('lighthouse runs on a very small, very committed storm')."
+    },
+    {
+     "severity": "minor",
+     "where": "connections: mistmere-shallows <-> gloam-caverns and rimeveil-summit <-> waystone-rise",
+     "issue": "The chain gloam-caverns -> mistmere -> saltwhistle -> murmurwood -> rimeveil -> waystone-rise is fully connected with no orphans, but the reverse halves of both attachment points do not exist in src/data/areas.ts: gloam-caverns has only south (petalway) and north (waystone-rise) exits, and waystone-rise has only a south exit. The rimeveil POI also says the switchback to Waystone Rise 'opens as a shortcut once climbed', i.e. it is one-way until a flag is set.",
+     "suggestion": "When implementing, add an east exit in gloam-caverns tiles/exits to mistmere-shallows and a matching west exit in mistmere; add a rimeveil-summit exit to waystone-rise plus a reciprocal exit in waystone-rise gated behind a simple flag (e.g. 'rimeveil-climbed', set on first entry to rimeveil-summit). Both are additive edits to existing areas; no design change needed."
+    },
+    {
+     "severity": "minor",
+     "where": "mistmere-shallows coast-2 (lv 9-11) and murmurwood umbral-2 (lv 13-15) encounter bands",
+     "issue": "Stage-2 species mistcalf and gloamane appear wild slightly below plausible evolve levels if the expansion follows the existing convention (stage1->2 at 14-16). Precedent exists (thistleram wild at 10-12 vs evolveLevel 16), so this is a tuning note, not a contradiction.",
+     "suggestion": "When authoring the species pass, set hushpup->mistcalf evolveLevel <= 9-10 and dimmet->gloamane <= 13 (both plausible for early-mid act 2), or explicitly accept the existing wild-below-evolve-level precedent. snugget->duvetusk at 14-16 already clears the frost-2 band (17-19) with no change. Trainer parties are all safe: Quill coast-2@11, Voss coast-2@15, Sorrel umbral-2@15, Halla umbral-2@17/frost-2@19 all at or above these proposed evolve levels."
+    },
+    {
+     "severity": "minor",
+     "where": "titan gating (Chimegate) and remaining checklist items",
+     "issue": "No defect \u2014 recording verification results: the Chimegate gating is implementable with four existing-style progression flags (warden-quill-defeated, warden-sorrel-defeated, warden-halla-defeated, keeper-voss-defeated checked by a 'titan' trigger, mirroring trial-complete gating Cairnoss); area count is exactly 4; and there are zero NPC name or id collisions between the 16 new NPCs (Tansy, Dob, Odla, Marlow, Skiff, Brenna, Ilio, Nan Petrel, Vesper, Juno, Yule, Fenwick, Voss, Quill, Sorrel, Halla) and the 12 existing ones (Maru, Posy, Nib, Fenn, Lyra, Wren, Oona, Silas, Perl, Solenne, Edda, Tam); Juno's and Tansy's Oona references correctly point at the existing gloam-caverns NPC.",
+     "suggestion": "No change needed; implement the gate as a trigger at rimeveil-summit that requires the four defeat flags, with Fenwick's dialogue as the in-world explainer (already present)."
+    }
+   ]
+  }
+ },
+ "renames": {
+  "renames": [
+   {
+    "from": "Sorrel",
+    "to": "Teasel"
+   },
+   {
+    "from": "Nan Petrel",
+    "to": "Nan Shearwater"
+   },
+   {
+    "from": "Marlow",
+    "to": "Merrow"
+   },
+   {
+    "from": "Ilio",
+    "to": "Kailo"
+   },
+   {
+    "from": "Harbormaster Odla",
+    "to": "Harbormaster Ondra"
+   }
+  ]
+ }
+}

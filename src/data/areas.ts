@@ -478,7 +478,7 @@ export const AREAS: Record<string, AreaDef> = {
       "#####.gg.........#############",
       "#####............#############",
       "#####....#####################",
-      "#####.....................####",
+      "#####........................p",
       "#####.....ggg.............####",
       "#####.....................####",
       "######################....####",
@@ -661,6 +661,14 @@ export const AREAS: Record<string, AreaDef> = {
         "toX": 13,
         "toZ": 21,
         "label": "North — Waystone Rise"
+      },
+      {
+        "x": 29,
+        "z": 6,
+        "toArea": "mistmere-shallows",
+        "toX": 1,
+        "toZ": 12,
+        "label": "East — Mistmere Shallows"
       }
     ],
     "encounters": [
@@ -732,7 +740,7 @@ export const AREAS: Record<string, AreaDef> = {
       "############ppp#############",
       "###.........ppp..........###",
       "###..........pp..........###",
-      "###...g......pp.....g....###",
+      "p.....g......pp.....g....###",
       "###..........pp..........###",
       "###..........pp..........###",
       "###..........pp..........###",
@@ -914,11 +922,19 @@ export const AREAS: Record<string, AreaDef> = {
         "toX": 14,
         "toZ": 2,
         "label": "South — Gloamlight Caverns"
+      },
+      {
+        "x": 0,
+        "z": 14,
+        "toArea": "rimeveil-summit",
+        "toX": 34,
+        "toZ": 14,
+        "label": "West — Rimeveil Summit"
       }
     ],
     "encounters": [
       {
-        "speciesId": "thistleram",
+        "speciesId": "dandelamb",
         "weight": 55,
         "minLevel": 10,
         "maxLevel": 12
@@ -957,6 +973,1015 @@ export const AREAS: Record<string, AreaDef> = {
         "z": 4,
         "id": "titan-cairnoss",
         "text": "The plateau itself draws a slow breath. Moss stirs on ancient stone — the Sleeper wakes."
+      }
+    ],
+    "encounterRate": 8
+  },
+  "mistmere-shallows": {
+    "id": "mistmere-shallows",
+    "name": "Mistmere Shallows",
+    "biome": "misty-lakeshore",
+    "palette": {
+      "ground1": "#8FCB9B",
+      "ground2": "#7CBA8A",
+      "accent": "#7FD4E8",
+      "fog": "#C9DDE4"
+    },
+    "tiles": [
+      "########################################",
+      "#.gggggggggggggg...f..gggggggggggggggg.#",
+      "#.gggggggggggggg.wwwwwgggggggggggggggg.#",
+      "#.gggggggggggggg.wwwwwgggggggggwwwwwwg.#",
+      "#.gggggggggggggg.wwwwwgggggggggwwwwwwg.#",
+      "#.gggggggggggggg.wwwwwgggggggggwwwwwwg.#",
+      "#.gggggggggggggg......gggggggggggggggg.#",
+      "#........pppppppppppp..................#",
+      "#........p..........p..................#",
+      "#.gggggggpg..wwwwww.p......ggggggggggg.#",
+      "#.gggggggpg..wwwwww.p......ggggggggggg.#",
+      "#.gggggggpg..wwwwww.p......ggggggggggg.#",
+      "ppppppppppg.........p......ggggppppppppp",
+      "#.ggggggggg.........p......ggggpgggggg.#",
+      "#.ggggggggg.........p......ggggpgggggg.#",
+      "#...................ppppppppppppgggggg.#",
+      "#.f...................................f#",
+      "#..ggggggggggggg......wwwwww...........#",
+      "#..ggggggggggggg......wwwwww...........#",
+      "#..ggggggggggggg......wwwwww...........#",
+      "#..ggggggggggggg......wwwwww...........#",
+      "#..ggggggggggggg....................f..#",
+      "#..f....................f..............#",
+      "########################################"
+    ],
+    "spawn": {
+      "x": 2,
+      "z": 12
+    },
+    "props": [
+      {
+        "kind": "lantern",
+        "x": 9,
+        "z": 11,
+        "tint": "#7FD4E8"
+      },
+      {
+        "kind": "lantern",
+        "x": 20,
+        "z": 8,
+        "tint": "#7FD4E8"
+      },
+      {
+        "kind": "lantern",
+        "x": 31,
+        "z": 11,
+        "tint": "#7FD4E8"
+      },
+      {
+        "kind": "lantern",
+        "x": 15,
+        "z": 12
+      },
+      {
+        "kind": "fence",
+        "x": 6,
+        "z": 18
+      },
+      {
+        "kind": "fence",
+        "x": 7,
+        "z": 18
+      },
+      {
+        "kind": "stump",
+        "x": 5,
+        "z": 18
+      },
+      {
+        "kind": "tree",
+        "x": 2,
+        "z": 8
+      },
+      {
+        "kind": "tree",
+        "x": 38,
+        "z": 8
+      },
+      {
+        "kind": "tree",
+        "x": 24,
+        "z": 22
+      },
+      {
+        "kind": "rock",
+        "x": 12,
+        "z": 16
+      },
+      {
+        "kind": "rock",
+        "x": 29,
+        "z": 8
+      },
+      {
+        "kind": "bush",
+        "x": 3,
+        "z": 20
+      },
+      {
+        "kind": "bush",
+        "x": 35,
+        "z": 19
+      },
+      {
+        "kind": "bush",
+        "x": 18,
+        "z": 16
+      }
+    ],
+    "npcs": [
+      {
+        "id": "npc-reedcutter-tansy",
+        "name": "Tansy",
+        "role": "reed-cutter",
+        "x": 12,
+        "z": 8,
+        "hue": 80,
+        "dialogue": [
+          "Mind the boardwalk gaps. The lake isn't deep, but it IS smug.",
+          "The mist rolls in when the lake dreams. Wave at it — everything here is polite.",
+          "You came through the caverns? Oona's moss-light reaches all the way to my reeds some nights."
+        ]
+      },
+      {
+        "id": "npc-angler-dob",
+        "name": "Dob",
+        "role": "boardwalk-angler",
+        "x": 8,
+        "z": 17,
+        "hue": 200,
+        "dialogue": [
+          "No hooks on my line. Just a bell and good intentions. The Tide ones ring it when they're bored.",
+          "My Codex logged today's catch as 'zero fish, four friends.' Best season yet.",
+          "Follow the boardwalks east and you'll smell Saltwhistle before you see it. Chowder travels."
+        ]
+      },
+      {
+        "id": "npc-warden-quill",
+        "name": "Quill",
+        "role": "boardwalk-warden",
+        "x": 20,
+        "z": 9,
+        "hue": 300,
+        "dialogue": [
+          "Shh — you'll scare the ripples. ...Too late. They know you're here.",
+          "I fish with a battle rod: no hooks, just a polite challenge. You're today's catch."
+        ],
+        "battle": {
+          "kind": "trainer",
+          "id": "warden-quill"
+        }
+      }
+    ],
+    "exits": [
+      {
+        "x": 0,
+        "z": 12,
+        "toArea": "gloam-caverns",
+        "toX": 28,
+        "toZ": 6,
+        "label": "West — Gloamlight Caverns"
+      },
+      {
+        "x": 39,
+        "z": 12,
+        "toArea": "saltwhistle-harbor",
+        "toX": 1,
+        "toZ": 13,
+        "label": "East — Saltwhistle Harbor"
+      }
+    ],
+    "encounters": [
+      {
+        "speciesId": "hushpup",
+        "weight": 40,
+        "minLevel": 8,
+        "maxLevel": 10
+      },
+      {
+        "speciesId": "mistcalf",
+        "weight": 30,
+        "minLevel": 9,
+        "maxLevel": 11
+      },
+      {
+        "speciesId": "rumblit",
+        "weight": 25,
+        "minLevel": 9,
+        "maxLevel": 11
+      },
+      {
+        "speciesId": "hummabye",
+        "weight": 5,
+        "minLevel": 11,
+        "maxLevel": 12
+      }
+    ],
+    "triggers": [
+      {
+        "kind": "sign",
+        "x": 3,
+        "z": 13,
+        "id": "mistmere-sign-west",
+        "text": "Mistmere Shallows. Boardwalks east to Saltwhistle, caverns west. Wave at the mist."
+      },
+      {
+        "kind": "sign",
+        "x": 37,
+        "z": 13,
+        "id": "mistmere-sign-east",
+        "text": "→ Saltwhistle Harbor. Mind the planks; the lake likes to gossip about your footing."
+      }
+    ],
+    "encounterRate": 9
+  },
+  "saltwhistle-harbor": {
+    "id": "saltwhistle-harbor",
+    "name": "Saltwhistle Harbor",
+    "biome": "coastal-harbor-town",
+    "palette": {
+      "ground1": "#E8D9A8",
+      "ground2": "#D9C68F",
+      "accent": "#FF8E6B",
+      "fog": "#BFE0EA"
+    },
+    "tiles": [
+      "##################p#################",
+      "#.................p................#",
+      "#.f...............p..............f.#",
+      "#...##...##.......p......##...##...#",
+      "#...##...##.......p......##...##...#",
+      "#.................p................#",
+      "#.................p....###.........#",
+      "#.................p....###.........#",
+      "#...##............p....###....##...#",
+      "#...##............p...........##...#",
+      "#.................p................#",
+      "#..............f..p..f.............#",
+      "#.................p................#",
+      "p.................p................#",
+      "#.................p................#",
+      "#.................p................#",
+      "#.....ppppppppp...p................#",
+      "#.................p................#",
+      "#.................p................#",
+      "#.f..............pp..............f.#",
+      "#................pp................#",
+      "#..wwwwwwwwwwwwwwppwwwwwwwwwwwwww..#",
+      "#..wwwwwwwwwwwwwwppwwwwwwwwwwwwww..#",
+      "#..wwwwwwwwwwwwwwppwwwwwwwwwwwwww..#",
+      "#..................................#",
+      "####################################"
+    ],
+    "spawn": {
+      "x": 2,
+      "z": 13
+    },
+    "props": [
+      {
+        "kind": "house",
+        "x": 4.5,
+        "z": 3.5
+      },
+      {
+        "kind": "house",
+        "x": 9.5,
+        "z": 3.5
+      },
+      {
+        "kind": "house",
+        "x": 25.5,
+        "z": 3.5
+      },
+      {
+        "kind": "house",
+        "x": 30.5,
+        "z": 3.5
+      },
+      {
+        "kind": "house",
+        "x": 4.5,
+        "z": 8.5
+      },
+      {
+        "kind": "house",
+        "x": 30.5,
+        "z": 8.5
+      },
+      {
+        "kind": "house",
+        "x": 24,
+        "z": 7,
+        "scale": 1.5,
+        "tint": "#FF8E6B"
+      },
+      {
+        "kind": "arch",
+        "x": 24,
+        "z": 9,
+        "tint": "#FF8E6B"
+      },
+      {
+        "kind": "arch",
+        "x": 17.5,
+        "z": 20,
+        "tint": "#BFE0EA"
+      },
+      {
+        "kind": "lantern",
+        "x": 6,
+        "z": 15,
+        "tint": "#FF8E6B"
+      },
+      {
+        "kind": "lantern",
+        "x": 14,
+        "z": 15,
+        "tint": "#FF8E6B"
+      },
+      {
+        "kind": "lantern",
+        "x": 24,
+        "z": 10
+      },
+      {
+        "kind": "fence",
+        "x": 7,
+        "z": 16
+      },
+      {
+        "kind": "fence",
+        "x": 11,
+        "z": 16
+      },
+      {
+        "kind": "fence",
+        "x": 13,
+        "z": 16
+      },
+      {
+        "kind": "tree",
+        "x": 2,
+        "z": 6
+      },
+      {
+        "kind": "tree",
+        "x": 33,
+        "z": 6
+      },
+      {
+        "kind": "rock",
+        "x": 33,
+        "z": 12
+      },
+      {
+        "kind": "bush",
+        "x": 2,
+        "z": 11
+      },
+      {
+        "kind": "bush",
+        "x": 15,
+        "z": 6
+      }
+    ],
+    "npcs": [
+      {
+        "id": "npc-harbormaster-ondra",
+        "name": "Harbormaster Ondra",
+        "role": "harbormaster",
+        "x": 6,
+        "z": 18,
+        "hue": 20,
+        "dialogue": [
+          "The tide's been humming ever since that waystone inland woke up. Everything hums now.",
+          "Boats out, boats in. My Codex logs them all. It likes the ferry best. Plays favorites, that slab.",
+          "You're the Warden who woke Cairnoss? The gulls have NOT stopped talking about it."
+        ]
+      },
+      {
+        "id": "npc-fishmonger-merrow",
+        "name": "Merrow",
+        "role": "market-fishmonger",
+        "x": 10,
+        "z": 15,
+        "hue": 190,
+        "dialogue": [
+          "Fresh! Caught this morning — by asking nicely. The lake shares. We never just take.",
+          "A Synced Tide-type makes the best fishing partner. It negotiates. In bubbles.",
+          "Buy a skewer, get a rumor free: the summit gate up on Rimeveil sings when you touch it."
+        ]
+      },
+      {
+        "id": "npc-kid-skiff",
+        "name": "Skiff",
+        "role": "harbor-kid",
+        "x": 14,
+        "z": 11,
+        "hue": 55,
+        "dialogue": [
+          "On clear nights the summit rings like a bell. Grandpa says it's wind. Wind doesn't RING.",
+          "I'm gonna be a Warden and Sync something with SNOW on it. Write that in your Ledger.",
+          "A traveler said the Trial of Echoes lets you borrow the monsters you beat. That's so unfair. I want that."
+        ]
+      },
+      {
+        "id": "npc-ferry-brenna",
+        "name": "Captain Brenna",
+        "role": "ferry-captain",
+        "x": 28,
+        "z": 19,
+        "hue": 210,
+        "dialogue": [
+          "A Warden from the Vale, eh? Keeper Solenne drew you on her marsh map. 'The quiet current.' Fancy.",
+          "The ferry runs when the mist agrees. Today the mist is thinking about it.",
+          "Up past Murmurwood it snows sideways. Pack a warm heart and a Frost move or two."
+        ]
+      },
+      {
+        "id": "npc-sanctum-kailo",
+        "name": "Kailo",
+        "role": "sanctum-attendant",
+        "x": 21,
+        "z": 9,
+        "hue": 100,
+        "dialogue": [
+          "Keeper Voss is in. Mind the brass bell — she rings it for good battles and good gossip alike.",
+          "She auctioned off my lunch break once. I bid on it. I lost. She's very good."
+        ]
+      },
+      {
+        "id": "npc-oldsalt-shearwater",
+        "name": "Nan Shearwater",
+        "role": "retired-mountaineer",
+        "x": 32,
+        "z": 12,
+        "hue": 250,
+        "dialogue": [
+          "I climbed Rimeveil once. Left a lantern, lost a mitten, gained a philosophy.",
+          "The aurora up there isn't weather, dear. Weather doesn't check if you're watching.",
+          "There's a little waystone near the summit hut. Small, but it hums like it knows the big one personally."
+        ]
+      },
+      {
+        "id": "npc-keeper-voss",
+        "name": "Keeper Voss",
+        "role": "sanctum-keeper",
+        "x": 24,
+        "z": 11,
+        "hue": 285,
+        "dialogue": [
+          "Lot one: a challenger, slightly windblown, excellent posture. Do I hear an opening move?",
+          "The Sanctum beacon runs on my ace's stormlight. Every challenger is a bid on the town's electricity."
+        ],
+        "battle": {
+          "kind": "trainer",
+          "id": "keeper-voss"
+        }
+      }
+    ],
+    "exits": [
+      {
+        "x": 0,
+        "z": 13,
+        "toArea": "mistmere-shallows",
+        "toX": 38,
+        "toZ": 12,
+        "label": "West — Mistmere Shallows"
+      },
+      {
+        "x": 18,
+        "z": 0,
+        "toArea": "murmurwood",
+        "toX": 18,
+        "toZ": 24,
+        "label": "North — Murmurwood"
+      }
+    ],
+    "encounters": [],
+    "triggers": [
+      {
+        "kind": "heal",
+        "x": 6,
+        "z": 9,
+        "id": "saltwhistle-inn",
+        "text": "You rest at the harbor inn. A bowl of chowder later, your Gaiamon are fully restored."
+      },
+      {
+        "kind": "sign",
+        "x": 3,
+        "z": 14,
+        "id": "saltwhistle-sign-west",
+        "text": "Saltwhistle Harbor. Chowder heals, the arch whistles, and Keeper Voss is taking bids."
+      },
+      {
+        "kind": "sign",
+        "x": 18,
+        "z": 2,
+        "id": "saltwhistle-sign-north",
+        "text": "↑ Murmurwood. Dusk lives there year-round. Bring a lantern and lower your voice."
+      }
+    ],
+    "encounterRate": 0
+  },
+  "murmurwood": {
+    "id": "murmurwood",
+    "name": "Murmurwood",
+    "biome": "dusk-mushroom-forest",
+    "palette": {
+      "ground1": "#3D3554",
+      "ground2": "#332B47",
+      "accent": "#C98BFF",
+      "fog": "#2A2342"
+    },
+    "tiles": [
+      "##################p###################",
+      "#.................p..................#",
+      "#.#######.####.ggggggg..####.#######.#",
+      "#.#######.####.ggggggg..####.#######.#",
+      "#.#######.####.ggggggg..####.#######.#",
+      "#.ggggggggggggggg.p..gggggggggggggggg#",
+      "#....................................#",
+      "#.................p..................#",
+      "#.#####..#####....p....######..#####.#",
+      "#.#####..#####....p....######..#####.#",
+      "#.#####..#####....p....######..#####.#",
+      "#.ggggggggggggggg.p..gggggggggggggggg#",
+      "#....................................#",
+      "#.................p..................#",
+      "#..#####..#####...p...######..######.#",
+      "#..#####..#####...p...######..######.#",
+      "#..#####..#####...p...######..######.#",
+      "#..#####..#####...p...######..######.#",
+      "#..#####..#####...p...######..######.#",
+      "#.ggggggggggggggg.p..gggggggggggggggg#",
+      "#....................................#",
+      "#.................p..................#",
+      "#.#######..####ggggggg#####..#######.#",
+      "#.#######..####ggggggg#####..#######.#",
+      "#.#######..####ggggggg#####..#######.#",
+      "##################p###################"
+    ],
+    "spawn": {
+      "x": 18,
+      "z": 24
+    },
+    "props": [
+      {
+        "kind": "pine",
+        "x": 18,
+        "z": 2,
+        "tint": "#C98BFF"
+      },
+      {
+        "kind": "tree",
+        "x": 5,
+        "z": 3
+      },
+      {
+        "kind": "tree",
+        "x": 32,
+        "z": 3
+      },
+      {
+        "kind": "tree",
+        "x": 5,
+        "z": 16
+      },
+      {
+        "kind": "tree",
+        "x": 33,
+        "z": 16
+      },
+      {
+        "kind": "stump",
+        "x": 12,
+        "z": 9
+      },
+      {
+        "kind": "stump",
+        "x": 25,
+        "z": 9
+      },
+      {
+        "kind": "crystal",
+        "x": 9,
+        "z": 6,
+        "tint": "#C98BFF"
+      },
+      {
+        "kind": "crystal",
+        "x": 28,
+        "z": 6,
+        "tint": "#C98BFF"
+      },
+      {
+        "kind": "crystal",
+        "x": 9,
+        "z": 20,
+        "tint": "#C98BFF"
+      },
+      {
+        "kind": "crystal",
+        "x": 28,
+        "z": 20,
+        "tint": "#C98BFF"
+      },
+      {
+        "kind": "crystal",
+        "x": 18,
+        "z": 4,
+        "tint": "#C98BFF"
+      },
+      {
+        "kind": "lantern",
+        "x": 18,
+        "z": 12
+      },
+      {
+        "kind": "lantern",
+        "x": 18,
+        "z": 18
+      },
+      {
+        "kind": "rock",
+        "x": 16,
+        "z": 6
+      },
+      {
+        "kind": "bush",
+        "x": 20,
+        "z": 6
+      }
+    ],
+    "npcs": [
+      {
+        "id": "npc-firefly-vesper",
+        "name": "Vesper",
+        "role": "firefly-counter",
+        "x": 9,
+        "z": 12,
+        "hue": 270,
+        "dialogue": [
+          "Four hundred nine... four hundred ten... please Sync quietly, I'm mid-census.",
+          "The fireflies spell things. Last week they spelled 'soup.' Science is humbling.",
+          "The Umbral ones re-grow the grass maze every night. For fun. Their fun. Not ours."
+        ]
+      },
+      {
+        "id": "npc-sporeling-juno",
+        "name": "Juno",
+        "role": "mycologists-apprentice",
+        "x": 27,
+        "z": 12,
+        "hue": 120,
+        "dialogue": [
+          "My cousin Oona farms the glowing kind back in the caverns. Mine are just TALL.",
+          "Don't nap under the big caps. You'll wake up Drowsed, dewy, and deeply judged.",
+          "Keep north for Rimeveil. When the mushrooms turn frosty at the edges, you're close."
+        ]
+      },
+      {
+        "id": "npc-warden-teasel",
+        "name": "Teasel",
+        "role": "mushroom-cap-knight",
+        "x": 18,
+        "z": 13,
+        "hue": 300,
+        "dialogue": [
+          "HALT. None shall pass the maze unbattled! ...Sorry for shouting. The helmet muffles me.",
+          "I am the knight of this wood! The fireflies knighted me. Mostly by landing on my head."
+        ],
+        "battle": {
+          "kind": "trainer",
+          "id": "warden-teasel"
+        }
+      }
+    ],
+    "exits": [
+      {
+        "x": 18,
+        "z": 25,
+        "toArea": "saltwhistle-harbor",
+        "toX": 18,
+        "toZ": 1,
+        "label": "South — Saltwhistle Harbor"
+      },
+      {
+        "x": 18,
+        "z": 0,
+        "toArea": "rimeveil-summit",
+        "toX": 18,
+        "toZ": 26,
+        "label": "North — Rimeveil Summit"
+      }
+    ],
+    "encounters": [
+      {
+        "speciesId": "dimmet",
+        "weight": 40,
+        "minLevel": 12,
+        "maxLevel": 14
+      },
+      {
+        "speciesId": "gloamane",
+        "weight": 30,
+        "minLevel": 13,
+        "maxLevel": 15
+      },
+      {
+        "speciesId": "waylume",
+        "weight": 25,
+        "minLevel": 13,
+        "maxLevel": 16
+      },
+      {
+        "speciesId": "hummabye",
+        "weight": 5,
+        "minLevel": 15,
+        "maxLevel": 16
+      }
+    ],
+    "triggers": [
+      {
+        "kind": "sign",
+        "x": 17,
+        "z": 23,
+        "id": "murmurwood-sign-south",
+        "text": "Murmurwood. Dusk decided to stay. The grass maze rearranges when it thinks you're comfortable."
+      },
+      {
+        "kind": "sign",
+        "x": 17,
+        "z": 2,
+        "id": "murmurwood-sign-north",
+        "text": "↑ Rimeveil Summit. The mushrooms rime over up ahead. Warm hearts only past here."
+      }
+    ],
+    "encounterRate": 8
+  },
+  "rimeveil-summit": {
+    "id": "rimeveil-summit",
+    "name": "Rimeveil Summit",
+    "biome": "frost-highland-summit",
+    "palette": {
+      "ground1": "#E9F2FA",
+      "ground2": "#D6E4F2",
+      "accent": "#8FD5FF",
+      "fog": "#DDEBF7"
+    },
+    "tiles": [
+      "####################################",
+      "#.................p................#",
+      "#..................................#",
+      "#..................................#",
+      "#..................................#",
+      "#.................p................#",
+      "#.................p................#",
+      "#.........ggggggggggggggggg........#",
+      "#.........ggggggggggggggggg........#",
+      "#.................p................#",
+      "#.................p..#############.#",
+      "#.................p................#",
+      "#..ggggggg........p.......gggggggg.#",
+      "#.................p................#",
+      "#.#############....................p",
+      "#.................p.......gggggggg.#",
+      "#..ggggggg........p.......gggggggg.#",
+      "#.................p................#",
+      "#.................p..#############.#",
+      "#.................p................#",
+      "#..ggggggg........p.......gggggggg.#",
+      "#.................p................#",
+      "#.#############...p................#",
+      "#.................p................#",
+      "#.................p................#",
+      "#.................p................#",
+      "#.................p................#",
+      "##################p#################"
+    ],
+    "spawn": {
+      "x": 18,
+      "z": 26
+    },
+    "props": [
+      {
+        "kind": "arch",
+        "x": 18,
+        "z": 5,
+        "scale": 1.4,
+        "tint": "#8FD5FF"
+      },
+      {
+        "kind": "crystal",
+        "x": 16,
+        "z": 5,
+        "tint": "#8FD5FF"
+      },
+      {
+        "kind": "crystal",
+        "x": 20,
+        "z": 5,
+        "tint": "#8FD5FF"
+      },
+      {
+        "kind": "crystal",
+        "x": 13,
+        "z": 8,
+        "tint": "#8FD5FF"
+      },
+      {
+        "kind": "crystal",
+        "x": 23,
+        "z": 8,
+        "tint": "#8FD5FF"
+      },
+      {
+        "kind": "crystal",
+        "x": 30,
+        "z": 12,
+        "tint": "#8FD5FF"
+      },
+      {
+        "kind": "waystone",
+        "x": 6,
+        "z": 21,
+        "scale": 1.3,
+        "tint": "#8FD5FF"
+      },
+      {
+        "kind": "lantern",
+        "x": 7,
+        "z": 22
+      },
+      {
+        "kind": "fence",
+        "x": 5,
+        "z": 22
+      },
+      {
+        "kind": "fence",
+        "x": 8,
+        "z": 22
+      },
+      {
+        "kind": "pine",
+        "x": 11,
+        "z": 22,
+        "tint": "#8FD5FF"
+      },
+      {
+        "kind": "pine",
+        "x": 25,
+        "z": 18,
+        "tint": "#8FD5FF"
+      },
+      {
+        "kind": "pine",
+        "x": 18,
+        "z": 2,
+        "tint": "#8FD5FF"
+      },
+      {
+        "kind": "rock",
+        "x": 24,
+        "z": 22
+      },
+      {
+        "kind": "rock",
+        "x": 13,
+        "z": 16
+      },
+      {
+        "kind": "stump",
+        "x": 29,
+        "z": 20
+      }
+    ],
+    "npcs": [
+      {
+        "id": "npc-hutkeeper-yule",
+        "name": "Yule",
+        "role": "rest-hut-keeper",
+        "x": 6,
+        "z": 19,
+        "hue": 200,
+        "dialogue": [
+          "The little waystone hums warmer for you. You've met its big cousin, haven't you? It's practically purring.",
+          "Cocoa's on. Rest here — frostbite is nobody's origin story.",
+          "The snow past the Chimegate never drifts. Never. Snow that behaves is snow that's LYING."
+        ]
+      },
+      {
+        "id": "npc-tuner-fenwick",
+        "name": "Fenwick",
+        "role": "crystal-tuner",
+        "x": 26,
+        "z": 12,
+        "hue": 170,
+        "dialogue": [
+          "Every crystal up here rings a different note. The gate wants a chord: three shards, one sigil.",
+          "The Wardens on the roads below each carry a Chimeshard. Beat them kindly — the shards remember rudeness.",
+          "When the aurora dances, my Codex hums along. Off-key. I've stopped mentioning it. Feelings."
+        ]
+      },
+      {
+        "id": "npc-warden-halla",
+        "name": "Halla",
+        "role": "summit-postwoman",
+        "x": 18,
+        "z": 10,
+        "hue": 40,
+        "dialogue": [
+          "Letter for you! Kidding. Nobody writes to Wardens — you're all outside already.",
+          "I battle on every delivery run. Keeps the blood warm and the route honest. En garde!"
+        ],
+        "battle": {
+          "kind": "trainer",
+          "id": "warden-halla"
+        }
+      }
+    ],
+    "exits": [
+      {
+        "x": 18,
+        "z": 27,
+        "toArea": "murmurwood",
+        "toX": 18,
+        "toZ": 1,
+        "label": "South — Murmurwood"
+      },
+      {
+        "x": 35,
+        "z": 14,
+        "toArea": "waystone-rise",
+        "toX": 2,
+        "toZ": 14,
+        "label": "East — Waystone Rise"
+      }
+    ],
+    "encounters": [
+      {
+        "speciesId": "snugget",
+        "weight": 45,
+        "minLevel": 16,
+        "maxLevel": 18
+      },
+      {
+        "speciesId": "duvetusk",
+        "weight": 30,
+        "minLevel": 17,
+        "maxLevel": 19
+      },
+      {
+        "speciesId": "kipkite",
+        "weight": 20,
+        "minLevel": 18,
+        "maxLevel": 20
+      },
+      {
+        "speciesId": "hummabye",
+        "weight": 5,
+        "minLevel": 19,
+        "maxLevel": 20
+      }
+    ],
+    "triggers": [
+      {
+        "kind": "heal",
+        "x": 8,
+        "z": 20,
+        "id": "rimeveil-waystone",
+        "text": "The little waystone brightens as you rest at Yule's hut. Your Gaiamon are fully restored."
+      },
+      {
+        "kind": "sign",
+        "x": 17,
+        "z": 25,
+        "id": "rimeveil-sign-south",
+        "text": "Rimeveil Summit. The Chimegate crowns the peak — three shards and a sigil open its song."
+      },
+      {
+        "kind": "sign",
+        "x": 16,
+        "z": 6,
+        "id": "rimeveil-sign-gate",
+        "text": "THE CHIMEGATE. Three empty sockets, one resonance slot. Beyond: the snow that never drifts."
+      },
+      {
+        "kind": "titan",
+        "x": 18,
+        "z": 3,
+        "id": "titan-aurvela",
+        "text": "The windless snow of the Hushbowl rises and unfolds. It was never snow. It was wings — and they are waking."
       }
     ],
     "encounterRate": 8
