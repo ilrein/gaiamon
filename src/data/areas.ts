@@ -740,7 +740,7 @@ export const AREAS: Record<string, AreaDef> = {
       "############ppp#############",
       "###.........ppp..........###",
       "###..........pp..........###",
-      "p.....g......pp.....g....###",
+      "p.....g......pp.....g......p",
       "###..........pp..........###",
       "###..........pp..........###",
       "###..........pp..........###",
@@ -930,6 +930,14 @@ export const AREAS: Record<string, AreaDef> = {
         "toX": 34,
         "toZ": 14,
         "label": "West — Rimeveil Summit"
+      },
+      {
+        "x": 27,
+        "z": 14,
+        "toArea": "ashfern-downs",
+        "toX": 1,
+        "toZ": 13,
+        "label": "East — Ashfern Downs"
       }
     ],
     "encounters": [
@@ -1982,6 +1990,717 @@ export const AREAS: Record<string, AreaDef> = {
         "z": 3,
         "id": "titan-aurvela",
         "text": "The windless snow of the Hushbowl rises and unfolds. It was never snow. It was wings — and they are waking."
+      }
+    ],
+    "encounterRate": 8
+  },
+  "ashfern-downs": {
+    "id": "ashfern-downs",
+    "name": "Ashfern Downs",
+    "biome": "warm-ash-badlands",
+    "palette": {
+      "ground1": "#C9A886",
+      "ground2": "#B89773",
+      "accent": "#FF9E6B",
+      "fog": "#E7CDAB"
+    },
+    "tiles": [
+      "########################################",
+      "#......................................#",
+      "#..ggggggggggg.....gggggggggggggg......#",
+      "#..ggggggggggg.....gggggggggggggg......#",
+      "#..ggggggggggg.....gggggggggggggg...f..#",
+      "#..ggggggggggg.....gggggggggggggg......#",
+      "#..ggggggggggg.....gggggggggggggg......#",
+      "#......ggggg.......ggggggggggg.........#",
+      "#..................ggggggggggg.........#",
+      "#..f...................................#",
+      "#......................................#",
+      "#......................................#",
+      "#pppppppppppppppppppppppppppppppppppppp#",
+      "pppppppppppppppppppppppppppppppppppppppp",
+      "#pppppppppppppppppppppppppppppppppppppp#",
+      "#......................................#",
+      "#..f...................................#",
+      "#..ggggggggggg.....gggggggggggggg......#",
+      "#..ggggggggggg.....gggggggggggggg......#",
+      "#..ggggggggggg.....gggggggggggggg...f..#",
+      "#..ggggggggggg.....gggggggggggggg......#",
+      "#..ggggggggggg.....gggggggggggggg......#",
+      "#......ggggg.......gggggggggg..........#",
+      "#......................................#",
+      "#......................................#",
+      "########################################"
+    ],
+    "spawn": {
+      "x": 2,
+      "z": 13
+    },
+    "props": [
+      { "kind": "fence", "x": 5, "z": 9 },
+      { "kind": "fence", "x": 6, "z": 9 },
+      { "kind": "lantern", "x": 6, "z": 11, "tint": "#FF9E6B" },
+      { "kind": "stump", "x": 8, "z": 10 },
+      { "kind": "bush", "x": 22, "z": 10 },
+      { "kind": "bush", "x": 30, "z": 16 },
+      { "kind": "rock", "x": 16, "z": 8 },
+      { "kind": "rock", "x": 24, "z": 16 },
+      { "kind": "rock", "x": 12, "z": 15 },
+      { "kind": "tree", "x": 35, "z": 5, "tint": "#FF9E6B" },
+      { "kind": "tree", "x": 4, "z": 20 },
+      { "kind": "lantern", "x": 19, "z": 12 },
+      { "kind": "lantern", "x": 30, "z": 14 }
+    ],
+    "npcs": [
+      {
+        "id": "npc-ventbaker-prue",
+        "name": "Prue",
+        "role": "vent-baker",
+        "x": 6,
+        "z": 10,
+        "hue": 30,
+        "dialogue": [
+          "Vent-bread! Proofed by the mountain, baked by the mountain. I mostly supervise.",
+          "The smoke vents sigh in Codex-key around noon. My loaves rise better when I sing back.",
+          "Mind the silver ferns — the wild ones nap in the warm ash and wake up SO cuddly. And bitey."
+        ]
+      },
+      {
+        "id": "npc-ventmapper-embla",
+        "name": "Embla",
+        "role": "vent-cartographer",
+        "x": 33,
+        "z": 9,
+        "hue": 200,
+        "dialogue": [
+          "I map the smoke vents. They move. Politely, but they move.",
+          "My Codex marks the warm patches with a little bread icon. I never taught it that.",
+          "The ash falls warm as bathwater and the ferns drink it up. 'Badlands.' Honestly. Rude."
+        ]
+      },
+      {
+        "id": "npc-sledder-rye",
+        "name": "Rye",
+        "role": "ash-sledding-kid",
+        "x": 20,
+        "z": 24,
+        "hue": 280,
+        "dialogue": [
+          "Ash-sledding rule one: mouth CLOSED. I learned that for you. You're welcome.",
+          "The dunes are comfiest at dusk. Sometimes something twilight-colored sleds down after me. It wins.",
+          "When I get a Codex I'm Syncing whatever that is. It has EXCELLENT form."
+        ]
+      },
+      {
+        "id": "warden-peat",
+        "name": "Peat",
+        "role": "ash-gardener",
+        "x": 24,
+        "z": 15,
+        "hue": 90,
+        "dialogue": [
+          "You're standing in my garden. It's fine. It's a battle garden now.",
+          "I rake this ash into spirals every dawn. The wild ones roll in them by noon. Critics, all."
+        ],
+        "battle": { "kind": "trainer", "id": "warden-peat" }
+      }
+    ],
+    "exits": [
+      {
+        "x": 0,
+        "z": 13,
+        "toArea": "waystone-rise",
+        "toX": 26,
+        "toZ": 14,
+        "label": "West — Waystone Rise"
+      },
+      {
+        "x": 39,
+        "z": 13,
+        "toArea": "kilnhollow",
+        "toX": 1,
+        "toZ": 13,
+        "label": "East — Kilnhollow"
+      }
+    ],
+    "encounters": [
+      {
+        "speciesId": "tumblecoal",
+        "weight": 40,
+        "minLevel": 18,
+        "maxLevel": 20
+      },
+      {
+        "speciesId": "trundember",
+        "weight": 30,
+        "minLevel": 19,
+        "maxLevel": 21
+      },
+      {
+        "speciesId": "fossette",
+        "weight": 25,
+        "minLevel": 20,
+        "maxLevel": 22
+      },
+      {
+        "speciesId": "eventideer",
+        "weight": 5,
+        "minLevel": 21,
+        "maxLevel": 22
+      }
+    ],
+    "triggers": [
+      {
+        "kind": "sign",
+        "x": 10,
+        "z": 11,
+        "id": "ashfern-sign-west",
+        "text": "Ashfern Downs. The Cinder Road runs east to Kilnhollow; the Rise lies west. Mind the cuddly ferns."
+      },
+      {
+        "kind": "sign",
+        "x": 30,
+        "z": 15,
+        "id": "ashfern-sign-ring",
+        "text": "The Sighing Ring exhales in Codex-key at noon. The ferns lean in to listen. So should you."
+      }
+    ],
+    "encounterRate": 8
+  },
+  "kilnhollow": {
+    "id": "kilnhollow",
+    "name": "Kilnhollow",
+    "biome": "caldera-forge-town",
+    "palette": {
+      "ground1": "#C98E62",
+      "ground2": "#B87D52",
+      "accent": "#FFAE52",
+      "fog": "#E3B489"
+    },
+    "tiles": [
+      "##################p#################",
+      "#..................................#",
+      "#...####....####.......####........#",
+      "#...####....####.......####........#",
+      "#...####....####.......####........#",
+      "#..................................#",
+      "#..................................#",
+      "#....####.......####......####.....#",
+      "#....####.......####......####.....#",
+      "#....####.......####......####.....#",
+      "#..................................#",
+      "#..................................#",
+      "#..................................#",
+      "p..................................#",
+      "#..................................#",
+      "#..................................#",
+      "#..................................#",
+      "#..................................#",
+      "#.....########.....##########......#",
+      "#.....########.....##########......#",
+      "#.....########.....##########......#",
+      "#..................................#",
+      "#..................................#",
+      "#..................................#",
+      "#..................................#",
+      "####################################"
+    ],
+    "spawn": {
+      "x": 18,
+      "z": 12
+    },
+    "props": [
+      { "kind": "arch", "x": 18, "z": 1, "tint": "#FFAE52" },
+      { "kind": "house", "x": 5, "z": 3 },
+      { "kind": "house", "x": 13, "z": 3 },
+      { "kind": "house", "x": 24, "z": 3 },
+      { "kind": "house", "x": 6, "z": 8 },
+      { "kind": "house", "x": 17, "z": 8 },
+      { "kind": "house", "x": 27, "z": 8 },
+      { "kind": "house", "x": 9, "z": 19, "scale": 1.3 },
+      { "kind": "house", "x": 23, "z": 19, "scale": 1.5, "tint": "#FFAE52" },
+      { "kind": "waystone", "x": 18, "z": 13, "scale": 1.6, "tint": "#FFAE52" },
+      { "kind": "lantern", "x": 15, "z": 12 },
+      { "kind": "lantern", "x": 21, "z": 12 },
+      { "kind": "lantern", "x": 18, "z": 16 },
+      { "kind": "crystal", "x": 30, "z": 11, "tint": "#FFAE52" },
+      { "kind": "fence", "x": 11, "z": 16 },
+      { "kind": "fence", "x": 12, "z": 16 },
+      { "kind": "bush", "x": 4, "z": 14 }
+    ],
+    "npcs": [
+      {
+        "id": "npc-forgemaster-ferra",
+        "name": "Ferra",
+        "role": "forgemaster",
+        "x": 8,
+        "z": 6,
+        "hue": 20,
+        "dialogue": [
+          "The ground's kept a new beat since the stone one woke in the Vale. My hammer likes it.",
+          "Every smith here works to the crater's heartbeat. Nobody asks whose heartbeat. Manners.",
+          "Bring me obsidian from the Crown and I'll pretend I wasn't already giving you a discount."
+        ]
+      },
+      {
+        "id": "npc-springkeeper-tilde",
+        "name": "Tilde",
+        "role": "hot-springs-innkeeper",
+        "x": 28,
+        "z": 10,
+        "hue": 190,
+        "dialogue": [
+          "Soak's free for Wardens. The spring is exactly bath-warm. Always. Suspiciously.",
+          "Saltwhistle has chowder, we have vent-bread and a soak. We don't call it a rivalry. THEY do.",
+          "Your whole team can steep. The Umbral ones pretend to hate it, then stay longest."
+        ]
+      },
+      {
+        "id": "npc-cinderwright-otho",
+        "name": "Otho",
+        "role": "retired-cinderwright",
+        "x": 14,
+        "z": 5,
+        "hue": 45,
+        "dialogue": [
+          "Two Titans woke this year. Both nights, every forge in town burned taller. I counted.",
+          "They say a Titan lit Hearthglow's hearth as an apology. Old smiths know what it was sorry FOR.",
+          "The Downs were an eruption once. Look how gently the ash falls now. That's remorse, that is."
+        ]
+      },
+      {
+        "id": "npc-kid-pumice",
+        "name": "Pumice",
+        "role": "floaty-rock-kid",
+        "x": 30,
+        "z": 6,
+        "hue": 55,
+        "dialogue": [
+          "I found a rock that FLOATS. The Codex logged it as 'pumice (enthusiastic).' That's ME. Kind of!",
+          "When the Chimegate rang its chord, our kettles hummed along. Ma says I imagined it. The kettles didn't.",
+          "Someday I'll Sync something with lava on it. Warm lava. POLITE lava."
+        ]
+      },
+      {
+        "id": "npc-merchant-galena",
+        "name": "Galena",
+        "role": "traveling-merchant",
+        "x": 6,
+        "z": 11,
+        "hue": 280,
+        "dialogue": [
+          "Lake-glass from Saltwhistle, marsh-charts from the Vale — and gossip, free with purchase.",
+          "Keeper Voss auctioned the tale of the Chimegate chord for forty credits. I bid fifty. Worth it.",
+          "Everything I stock hums a little now. Two woken Titans will do that to inventory."
+        ]
+      },
+      {
+        "id": "npc-sanctum-kelda",
+        "name": "Kelda",
+        "role": "sanctum-attendant",
+        "x": 11,
+        "z": 22,
+        "hue": 320,
+        "dialogue": [
+          "Keeper Vesta's at the anvil. Knock loud — she answers in hammer-beats. Two means welcome.",
+          "She starts forging your sigil the moment the battle starts. No pressure. The pressure is the point.",
+          "The anvil rings the same three notes as that gate on Rimeveil. She says metal remembers songs."
+        ]
+      },
+      {
+        "id": "keeper-vesta",
+        "name": "Keeper Vesta",
+        "role": "sanctum-keeper",
+        "x": 18,
+        "z": 22,
+        "hue": 15,
+        "dialogue": [
+          "A challenger! Hold that thought — the billet's at temper... there. Now. Let's see what you're made of. Literally. I take notes in hammer.",
+          "My ace answers to Bellows. Every Keen Hit is a hammer-strike, every swap a quench-hiss — and your sigil's finished on the blow that ends this."
+        ],
+        "battle": { "kind": "trainer", "id": "keeper-vesta" }
+      }
+    ],
+    "exits": [
+      {
+        "x": 0,
+        "z": 13,
+        "toArea": "ashfern-downs",
+        "toX": 38,
+        "toZ": 13,
+        "label": "West — Ashfern Downs"
+      },
+      {
+        "x": 18,
+        "z": 0,
+        "toArea": "prismglass-canyon",
+        "toX": 18,
+        "toZ": 24,
+        "label": "North — Prismglass Canyon"
+      }
+    ],
+    "encounters": [],
+    "triggers": [
+      {
+        "kind": "heal",
+        "x": 28,
+        "z": 11,
+        "id": "kilnhollow-inn",
+        "text": "You steep your team in Tilde's Cinderspring. Bath-warm, always. Your Gaiamon are fully restored (and their opinions)."
+      },
+      {
+        "kind": "sign",
+        "x": 20,
+        "z": 1,
+        "id": "kilnhollow-sign-north",
+        "text": "↑ Prismglass Canyon, through the Bellows Arch. The wind hums through it in time with the forges."
+      },
+      {
+        "kind": "sign",
+        "x": 15,
+        "z": 21,
+        "id": "kilnhollow-sign-sanctum",
+        "text": "The Kilnheart Sanctum. Third of its name, built over the old lava tube. Keeper Vesta forges within."
+      }
+    ],
+    "encounterRate": 0
+  },
+  "prismglass-canyon": {
+    "id": "prismglass-canyon",
+    "name": "Prismglass Canyon",
+    "biome": "lumen-glass-canyon",
+    "palette": {
+      "ground1": "#F2E4C4",
+      "ground2": "#E4D2A6",
+      "accent": "#FFD98F",
+      "fog": "#FAF0D8"
+    },
+    "tiles": [
+      "##################p###################",
+      "#.................p..................#",
+      "#..ggggggg........p.....ggggggg......#",
+      "#..ggggggg........p.....ggggggg......#",
+      "#..ggggggg........p.....ggggggg......#",
+      "#..ggggggg........p.....ggggggg......#",
+      "#..ggggggg........p.....ggggggg......#",
+      "#.................p..................#",
+      "#.................p..................#",
+      "#.................p..................#",
+      "#..www............p.......www........#",
+      "#..www............p.......www........#",
+      "#.................p..................#",
+      "#.................p..................#",
+      "#.................p..................#",
+      "#..ggggggg........p.....ggggggg......#",
+      "#..ggggggg........p.....ggggggg......#",
+      "#..ggggggg........p.....ggggggg......#",
+      "#..ggggggg........p.....ggggggg......#",
+      "#..ggggggg........p.....ggggggg......#",
+      "#.................p..................#",
+      "#.....www.........p.........www......#",
+      "#.....www.........p.........www......#",
+      "#.................p..................#",
+      "#.................p..................#",
+      "##################p###################"
+    ],
+    "spawn": {
+      "x": 18,
+      "z": 12
+    },
+    "props": [
+      { "kind": "arch", "x": 18, "z": 1, "tint": "#FFD98F" },
+      { "kind": "arch", "x": 18, "z": 24, "tint": "#FFD98F" },
+      { "kind": "crystal", "x": 2, "z": 8, "tint": "#FFD98F" },
+      { "kind": "crystal", "x": 35, "z": 8, "tint": "#FFD98F" },
+      { "kind": "crystal", "x": 2, "z": 20, "tint": "#FFD98F" },
+      { "kind": "crystal", "x": 35, "z": 20, "tint": "#FFD98F" },
+      { "kind": "crystal", "x": 10, "z": 13, "tint": "#FFD98F" },
+      { "kind": "crystal", "x": 27, "z": 13, "tint": "#FFD98F" },
+      { "kind": "lantern", "x": 18, "z": 9 },
+      { "kind": "lantern", "x": 18, "z": 20 },
+      { "kind": "rock", "x": 21, "z": 12 },
+      { "kind": "stump", "x": 14, "z": 8 },
+      { "kind": "bush", "x": 23, "z": 8 }
+    ],
+    "npcs": [
+      {
+        "id": "npc-glazier-miren",
+        "name": "Miren",
+        "role": "glass-glazier",
+        "x": 12,
+        "z": 4,
+        "hue": 50,
+        "dialogue": [
+          "The canyon grows glass panes like orchards grow fruit. I harvest the ripe ones. Sun-warm.",
+          "Don't Sync anything mid-refraction, dear. My last glyph split in seven and rainbow-stamped three Ledger pages.",
+          "Kilnhollow smiths trade me billets for panes. Ferra calls it 'the light economy.' She's not wrong."
+        ]
+      },
+      {
+        "id": "npc-scholar-prisca",
+        "name": "Prisca",
+        "role": "refraction-scholar",
+        "x": 24,
+        "z": 13,
+        "hue": 170,
+        "dialogue": [
+          "Every wall bends light its own way. I've named forty-one of the ways. They keep inventing more.",
+          "The prism pools at noon show you as a kid. Science cannot explain it. Science has stopped trying.",
+          "My Codex calls the light-geysers 'enthusiastic windows.' I have adopted the term professionally."
+        ]
+      },
+      {
+        "id": "npc-timer-bopp",
+        "name": "Bopp",
+        "role": "geyser-timer",
+        "x": 11,
+        "z": 20,
+        "hue": 300,
+        "dialogue": [
+          "Geyser in nine... eight... stand THERE for a rainbow. There. No — THERE. ...Perfect.",
+          "I time the light-geysers. They're never late. I'm sometimes early. It balances.",
+          "At dusk the vents blow violet and something rare comes to bathe in it. I don't time THAT. It times me."
+        ]
+      },
+      {
+        "id": "warden-gilda",
+        "name": "Gilda",
+        "role": "prism-painter",
+        "x": 14,
+        "z": 12,
+        "hue": 285,
+        "dialogue": [
+          "Hold still — no, battle still. The light is PERFECT and I only paint what fights back.",
+          "Golden hour lasts all day here. My excuses lasted shorter. En garde."
+        ],
+        "battle": { "kind": "trainer", "id": "warden-gilda" }
+      }
+    ],
+    "exits": [
+      {
+        "x": 18,
+        "z": 25,
+        "toArea": "kilnhollow",
+        "toX": 18,
+        "toZ": 1,
+        "label": "South — Kilnhollow"
+      },
+      {
+        "x": 18,
+        "z": 0,
+        "toArea": "obsidian-crown",
+        "toX": 17,
+        "toZ": 24,
+        "label": "North — Obsidian Crown"
+      }
+    ],
+    "encounters": [
+      {
+        "speciesId": "escarglow",
+        "weight": 40,
+        "minLevel": 22,
+        "maxLevel": 24
+      },
+      {
+        "speciesId": "cathedrail",
+        "weight": 30,
+        "minLevel": 23,
+        "maxLevel": 25
+      },
+      {
+        "speciesId": "canyodel",
+        "weight": 25,
+        "minLevel": 24,
+        "maxLevel": 26
+      },
+      {
+        "speciesId": "eventideer",
+        "weight": 5,
+        "minLevel": 25,
+        "maxLevel": 26
+      }
+    ],
+    "triggers": [
+      {
+        "kind": "sign",
+        "x": 20,
+        "z": 8,
+        "id": "prismglass-sign-south",
+        "text": "Prismglass Canyon. Every hour is golden hour. Do NOT Sync mid-refraction — the Ledger gets opinions."
+      },
+      {
+        "kind": "sign",
+        "x": 16,
+        "z": 3,
+        "id": "prismglass-sign-north",
+        "text": "↑ Obsidian Crown. The glass gives way to black glass, and the day pools violet at the rim."
+      }
+    ],
+    "encounterRate": 8
+  },
+  "obsidian-crown": {
+    "id": "obsidian-crown",
+    "name": "Obsidian Crown",
+    "biome": "volcanic-dusk-summit",
+    "palette": {
+      "ground1": "#584458",
+      "ground2": "#473647",
+      "accent": "#FF7B58",
+      "fog": "#3B2E44"
+    },
+    "tiles": [
+      "##################################",
+      "#................................#",
+      "#..............ppppp.............#",
+      "#..............ppppp.............#",
+      "#................p...............#",
+      "#................p...............#",
+      "#....gggggg......p......gggggg...#",
+      "#....gggggg......p......gggggg...#",
+      "#....gggggg......p......gggggg...#",
+      "#................p...............#",
+      "#................p...............#",
+      "#....gggggg......p......gggggg...#",
+      "#....gggggg......p......gggggg...#",
+      "p....gggggg......p......gggggg...#",
+      "#................p...............#",
+      "#....gggggg......p......gggggg...#",
+      "#....gggggg......p......gggggg...#",
+      "#................p...............#",
+      "#................p...............#",
+      "#................p...............#",
+      "#....######......p......######...#",
+      "#....######......p......######...#",
+      "#................p...............#",
+      "#................p...............#",
+      "#................p...............#",
+      "#################p################"
+    ],
+    "spawn": {
+      "x": 17,
+      "z": 23
+    },
+    "props": [
+      { "kind": "arch", "x": 17, "z": 4, "scale": 1.4, "tint": "#FF7B58" },
+      { "kind": "crystal", "x": 14, "z": 2, "tint": "#FF7B58" },
+      { "kind": "crystal", "x": 20, "z": 2, "tint": "#FF7B58" },
+      { "kind": "lantern", "x": 15, "z": 4 },
+      { "kind": "lantern", "x": 19, "z": 4 },
+      { "kind": "fence", "x": 16, "z": 6 },
+      { "kind": "fence", "x": 18, "z": 6 },
+      { "kind": "waystone", "x": 10, "z": 20, "scale": 1.2, "tint": "#FF7B58" },
+      { "kind": "lantern", "x": 12, "z": 20 },
+      { "kind": "pine", "x": 25, "z": 21, "tint": "#3B2E44" },
+      { "kind": "pine", "x": 6, "z": 21, "tint": "#3B2E44" },
+      { "kind": "rock", "x": 22, "z": 9 },
+      { "kind": "rock", "x": 11, "z": 14 }
+    ],
+    "npcs": [
+      {
+        "id": "npc-teahut-norrick",
+        "name": "Norrick",
+        "role": "rest-hut-keeper",
+        "x": 11,
+        "z": 19,
+        "hue": 40,
+        "dialogue": [
+          "Tea's smoked honey. The little waystone hums along when you sip. Cozy little chorus.",
+          "Third brazier's up the switchback with Tallow. Warm your team first — the dusk here has opinions.",
+          "The bowl past the gate is warm all night. Warm rock is honest rock. THAT rock is bashful."
+        ]
+      },
+      {
+        "id": "npc-gatewright-vell",
+        "name": "Vell",
+        "role": "gatewright",
+        "x": 22,
+        "z": 18,
+        "hue": 210,
+        "dialogue": [
+          "The gate isn't locked. It's ASLEEP. Slag-sealed, dreaming of being a hearth again.",
+          "Three braziers, one sigil to strike them. Light the road behind you and the door remembers its manners.",
+          "My Codex files this whole summit as one Ledger entry. One very large, very warm entry."
+        ]
+      },
+      {
+        "id": "warden-tallow",
+        "name": "Tallow",
+        "role": "crown-firewatcher",
+        "x": 17,
+        "z": 5,
+        "hue": 15,
+        "dialogue": [
+          "Evening. Firewatch log, entry 4,012: one Warden, approaching. Weather: imminent.",
+          "I watch for wildfires. You read as a controlled burn. Let's confirm."
+        ],
+        "battle": { "kind": "trainer", "id": "warden-tallow" }
+      }
+    ],
+    "exits": [
+      {
+        "x": 17,
+        "z": 25,
+        "toArea": "prismglass-canyon",
+        "toX": 18,
+        "toZ": 1,
+        "label": "South — Prismglass Canyon"
+      },
+      {
+        "x": 0,
+        "z": 13,
+        "toArea": "rimeveil-summit",
+        "toX": 18,
+        "toZ": 12,
+        "label": "West — Aurora Traverse (Rimeveil Summit)"
+      }
+    ],
+    "encounters": [
+      {
+        "speciesId": "burrowatt",
+        "weight": 45,
+        "minLevel": 26,
+        "maxLevel": 28
+      },
+      {
+        "speciesId": "steamarmot",
+        "weight": 30,
+        "minLevel": 27,
+        "maxLevel": 29
+      },
+      {
+        "speciesId": "thermalark",
+        "weight": 20,
+        "minLevel": 28,
+        "maxLevel": 30
+      },
+      {
+        "speciesId": "eventideer",
+        "weight": 5,
+        "minLevel": 29,
+        "maxLevel": 30
+      }
+    ],
+    "triggers": [
+      {
+        "kind": "heal",
+        "x": 12,
+        "z": 19,
+        "id": "obsidian-waystone",
+        "text": "You rest at Norrick's hut beside the mini-waystone. It hums a shy harmony with the great one below. Your Gaiamon are fully restored."
+      },
+      {
+        "kind": "sign",
+        "x": 20,
+        "z": 22,
+        "id": "obsidian-sign",
+        "text": "Obsidian Crown. The Slag Gate crowns the rim — three braziers and the Kilnheart Sigil open the road within."
+      },
+      {
+        "kind": "titan",
+        "x": 17,
+        "z": 3,
+        "id": "titan-caldessa",
+        "text": "Past the arch, the bowl of black glass rises and falls, very slightly — and then not slightly at all. Something enormous is done napping."
       }
     ],
     "encounterRate": 8

@@ -27,7 +27,8 @@ export interface OverworldCallbacks {
 
 const PLAYER_SPEED = 4.2; // tiles / second
 const PLAYER_RADIUS = 0.32;
-const CAM_OFFSET = new THREE.Vector3(0, 11, 10);
+// Pulled back for a wider view of the world (user feedback: too zoomed in).
+const CAM_OFFSET = new THREE.Vector3(0, 14.5, 12.5);
 const ENCOUNTER_COOLDOWN = 1.5; // seconds of grace after a battle beat
 const RUSTLE_DELAY = 0.28; // brief pause between the grass rustle and the battle
 
@@ -243,12 +244,12 @@ export class OverworldScreen implements Screen {
     const talk = this.nearestNpc(1.6);
     for (const n of this.npcs) n.update(this.animT, n === talk, this.camera, this.px, this.pz);
 
-    // Smooth exp-damped follow cam.
-    const k = 1 - Math.exp(-6 * dt);
+    // Rigid follow cam: position and look-target move in lockstep with the
+    // player, so there's zero wobble while walking (user feedback — the
+    // dual-lerp follow read as camera shake).
     this.tmpDesired.copy(this.player.mesh.position).add(CAM_OFFSET);
-    this.camera.position.lerp(this.tmpDesired, k);
-    this.tmpDesired.copy(this.player.mesh.position);
-    this.camera.lookAt(this.tmpDesired.x, this.tmpDesired.y + 1, this.tmpDesired.z);
+    this.camera.position.copy(this.tmpDesired);
+    this.camera.lookAt(this.player.mesh.position.x, 1, this.player.mesh.position.z);
 
     game.renderer.render(this.scene, this.camera);
   }

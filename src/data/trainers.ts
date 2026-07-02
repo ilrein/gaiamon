@@ -273,6 +273,163 @@ export const TRAINERS: Record<string, TrainerDef> = {
     ],
     defeatFlag: "titan-aurvela-defeated",
   },
+
+  // --- Act 3: the Emberfall Caldera -----------------------------------------
+  // Route Wardens light the three Cindertithe braziers on defeat (win = PLAYER
+  // wins, same inverted convention as every trainer above). NPC rename ruling:
+  // Wick -> Tallow (collided with the move Wickflick).
+  "warden-peat": {
+    id: "warden-peat",
+    name: "Peat",
+    title: "Ash-Gardener",
+    kind: "trainer",
+    // ash-1@lv20 -> tumblecoal (Clinkerbun), ash-2@lv21 -> trundember (Kilnamble).
+    party: [
+      { speciesId: "tumblecoal", level: 20 },
+      { speciesId: "trundember", level: 21 },
+    ],
+    dialogue: {
+      intro: [
+        "You're standing in my garden. It's fine. It's a battle garden now.",
+        "I rake this ash into spirals every dawn. The wild ones roll in them by noon. Critics, all.",
+      ],
+      win: [
+        "Well-pruned! That's the highest thing I say.",
+        "First brazier's lit for you — a battle worth its warmth. Tell Gilda the light's on its way.",
+      ],
+      lose: [
+        "Overwatered, underfed. Your team, not my ferns. Soak at Kilnhollow and regrow.",
+        "The garden forgives everything. Even that.",
+      ],
+    },
+    defeatFlag: "warden-peat-defeated",
+  },
+
+  "warden-gilda": {
+    id: "warden-gilda",
+    name: "Gilda",
+    title: "Prism-Painter",
+    kind: "trainer",
+    // glass-1@lv24 -> escarglow (Shellumen), glass-2@lv25 -> cathedrail.
+    party: [
+      { speciesId: "escarglow", level: 24 },
+      { speciesId: "cathedrail", level: 25 },
+    ],
+    dialogue: {
+      intro: [
+        "Hold still — no, battle still. The light is PERFECT and I only paint what fights back.",
+        "Golden hour lasts all day here. My excuses lasted shorter. En garde.",
+      ],
+      win: [
+        "Every brushstroke of that was better than mine. Second brazier's lit — signed, dated, yours.",
+        "I'm titling the piece 'The Quiet Current, Refracted.' Keeper Solenne will want a print.",
+      ],
+      lose: [
+        "Flat light, stiff wrists. Come back when your palette holds more than one move-type.",
+        "The canyon will still be gorgeous when you return. It's insufferable that way.",
+      ],
+    },
+    defeatFlag: "warden-gilda-defeated",
+  },
+
+  "warden-tallow": {
+    id: "warden-tallow",
+    name: "Tallow",
+    title: "Crown Firewatcher",
+    kind: "trainer",
+    // vent-1@lv27 -> burrowatt, glass-3@lv27 -> canyodel, vent-2@lv29 -> steamarmot.
+    party: [
+      { speciesId: "burrowatt", level: 27 },
+      { speciesId: "canyodel", level: 27 },
+      { speciesId: "steamarmot", level: 29 },
+    ],
+    dialogue: {
+      intro: [
+        "Evening. Firewatch log, entry 4,012: one Warden, approaching. Weather: imminent.",
+        "I watch for wildfires. You read as a controlled burn. Let's confirm.",
+      ],
+      win: [
+        "Log amended: controlled burn, confirmed. Third brazier's lit. That's all three — I kept count.",
+        "Past the gate, the mountain is a heartbeat with a floor. Forecast: warm, with awe.",
+      ],
+      lose: [
+        "Log entry: sparks, no fire. Rest at Norrick's hut. The dusk will keep.",
+        "No mark against you. The Crown makes everyone practice.",
+      ],
+    },
+    defeatFlag: "warden-tallow-defeated",
+  },
+
+  "keeper-vesta": {
+    id: "keeper-vesta",
+    name: "Keeper Vesta",
+    title: "Keeper of the Kilnheart Sanctum",
+    kind: "trainer",
+    // Ember specialist. ash-2@lv24 -> trundember, glass-2@lv26 -> cathedrail,
+    // keeper-ace-3@lv28 -> embervoy (Ashenvoy), her ace "Bellows".
+    party: [
+      { speciesId: "trundember", level: 24 },
+      { speciesId: "cathedrail", level: 26 },
+      { speciesId: "embervoy", level: 28 },
+    ],
+    dialogue: {
+      intro: [
+        "A challenger! Hold that thought — the billet's at temper... there. Now. Let's see what you're made of. Literally. I take notes in hammer.",
+        "My ace answers to Bellows. Every Keen Hit is a hammer-strike, every swap a quench-hiss — and your sigil's finished on the blow that ends this.",
+      ],
+      win: [
+        "Rung true on the last strike. Here — the Kilnheart Sigil, still warm. Careful. Not of the heat. Of how proud I look.",
+        "Two Titans woke to your footsteps already, and the one under this town has hummed since you walked in. Go light the braziers — and tell the Banked Hearth her bread oven misses her.",
+      ],
+      lose: [
+        "Hm. Good grain, uneven quench. Bellows, love — bank the fire. We'll try this heat again.",
+        "The sigil's only half-forged. Come back before it cools.",
+      ],
+    },
+    defeatFlag: "keeper-vesta-defeated",
+  },
+
+  "titan-caldessa": {
+    id: "titan-caldessa",
+    name: "Caldessa",
+    title: "The Banked Hearth",
+    kind: "boss",
+    party: [{ speciesId: "caldessa", level: 30 }],
+    dialogue: {
+      intro: [
+        "The dormant crater draws one long breath — and rises the way a grandmother leaves a comfortable chair. The forges never sat over a lava tube. They sat over her.",
+        "The heartbeat every smith in Kilnhollow hammers to slows, steadies, and turns to look at you. Caldessa, the Banked Hearth, is awake.",
+        "RESONANCE TOO VAST — SYNC IMPOSSIBLE. The Codex offers only to STUDY: 'The Heart Beneath the Hearth.'",
+      ],
+      win: [
+        "Caldessa settles back into the crater with a fond, gravelly grumble, warmth banking low in every shell-seam.",
+        "Far down the mountain, Hearthglow's eternal hearth flares once in answer. She lit that one too — and she is not sorry she woke, only glad you knocked.",
+      ],
+      lose: [
+        "The great shell lowers, unhurried, and the bowl goes bath-warm and quiet again.",
+        "Caldessa dozes off mid-yawn. The Slag Gate will still be open when you have banked a little more fire of your own.",
+      ],
+    },
+    // titanDesign: BANKED -> STOKED at 50% HP (she finally stands: defense down
+    // hard, attack + speed up), then a last-embers flare near the end. Quench
+    // Windows / double-turns / cinder-fall exceed the engine surface, same as
+    // Cairnoss and Aurvela — translated here to stage boosts.
+    bossPhases: [
+      {
+        hpThreshold: 0.5,
+        statBoosts: { attack: 2, speed: 2, defense: -2 },
+        announcement:
+          "STOKED. For the first time in an age Caldessa stands — the crater rim IS her shell rim, and warm light floods every crack in the bowl.",
+      },
+      {
+        hpThreshold: 0.2,
+        statBoosts: { attack: 1 },
+        announcement:
+          "The last embers flare white-hot. Caldessa pours the whole banked warmth of the mountain into one final, gentle roar.",
+      },
+    ],
+    defeatFlag: "titan-caldessa-defeated",
+  },
 };
 
 /** The Waystone Trial: a gauntlet of trainer battles taken back-to-back. */
@@ -340,6 +497,23 @@ export const TITAN_GATES: Record<string, TitanGate> = {
       "The Chimegate's three crystal sockets sit dark and empty, and its resonance slot is cold.",
       "Quill's low note, Teasel's dusk note, Halla's high note — and Keeper Voss's Stormglass Sigil.",
       "Beat each of them in spirit and the chord completes; until then, the snow beyond will not stir.",
+    ],
+  },
+  // Act 3: THE CINDERTITHE. The Slag Gate opens only for warmth freely given —
+  // three route braziers (Peat, Gilda, Tallow) lit on defeat, plus Keeper
+  // Vesta's Kilnheart Sigil to strike the slot. Vell voices the denial.
+  "titan-caldessa": {
+    trainerId: "titan-caldessa",
+    requiredFlags: [
+      "warden-peat-defeated",
+      "warden-gilda-defeated",
+      "warden-tallow-defeated",
+      "keeper-vesta-defeated",
+    ],
+    deniedText: [
+      "Vell rests a palm on the Slag Gate. 'It isn't locked — it's asleep. Slag-sealed, dreaming of being a hearth again.'",
+      "'Three cold braziers on the road, and each Warden lights theirs only for a battle worth its warmth. The door opens for warmth freely given, never taken.'",
+      "'Bring me Peat's spiral, Gilda's ledge and Tallow's perch alight — and Keeper Vesta's Kilnheart Sigil to strike the slot. Then it remembers it was always a hearth.'",
     ],
   },
 };

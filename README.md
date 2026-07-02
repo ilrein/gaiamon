@@ -19,12 +19,13 @@ the ones you weaken (no balls here — the Codex projects a resonance glyph),
 level up, evolve, take on the three-round **Trial of Echoes**, challenge the
 Sanctum Keepers, and wake the Titans.
 
-Two acts are live: Act 1 runs from Hearthglow Village through the Gloam
-Caverns to **Cairnoss**, the Titan that was pretending to be a waystone. Act 2
-crosses the **Mistmere Coast** — boardwalk shallows, Saltwhistle Harbor, the
-Murmurwood, and the Rimeveil Summit, where the Chimegate holds back
-**Aurvela, the Dreaming Aurora**. **28 original species, 49 moves, 8 areas,
-10 named battles**, 4-direction walk sprites, playable one-thumb on your
+Three acts are live: Act 1 runs from Hearthglow Village to **Cairnoss**, the
+Titan that was pretending to be a waystone. Act 2 crosses the **Mistmere
+Coast** to the Chimegate and **Aurvela, the Dreaming Aurora**. Act 3 climbs
+the **Emberfall Caldera** — ash-fern downs, the Kilnhollow forge-town,
+Prismglass Canyon, and the Obsidian Crown, where the Cindertithe seals in
+**Caldessa, the Banked Hearth**. **40 original species, 57 moves, 12 areas,
+15 named battles**, 4-direction walk sprites, playable one-thumb on your
 phone. Progress saves to your browser. Full design bible:
 [design/DESIGN.md](design/DESIGN.md).
 

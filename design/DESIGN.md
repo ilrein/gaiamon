@@ -314,6 +314,94 @@ becomes STUDY, stamping "The Dream Above the Snow" into the Ledger). She wakes i
 phases: a **Veiled** opening, then at 50% HP she unfolds — **Aurora-Woken** —
 wings up, spirit and speed surging, the aurora flooding down into the bowl.
 
+## Act 3 — the Emberfall Caldera
+
+East of Waystone Rise the road turns warm underfoot and climbs into a dormant
+volcano. Act 3 runs from soft ash-fern fields, up through a forge-town built in
+the crater, along a canyon of living glass, to a dusk-dark summit rim — and the
+whole time the ground keeps a slow, steady heartbeat nobody will explain.
+
+### The twelve new Gaiamon
+
+*(Final display names; wild slots follow the badlands→canyon→rim level bands.)*
+
+- **Clinkerbun → Kilnamble → Ashenvoy** *(Ember; Ember/Terra; Ember/Terra)* — a
+  soot-beetle that gardens the wasteland: it rolls a warm coal to plant ash-ferns,
+  grows into a two-terrace kiln-barrow, and finally into a wagon-sized rolling
+  kiln-garden that runs a bloom-to-bloom bus route. (Ashenvoy is evolution-only —
+  never a wild slot; she is Keeper Vesta's ace, "Bellows.") *Fire-type-as-farmer:
+  controlled burn reimagined as gardening.*
+- **Shellumen → Cathedrail** *(Lumen)* — a canyon snail whose shell holds one pane
+  of true stained glass, leaving a trail of light for anyone who needs it; grown
+  up, its shell is a full rose window and pilgrims build shrines where it naps.
+  *Architecture as an animal.*
+- **Burrowatt → Steamarmot** *(Volt/Terra)* — a marmot that plugs geyser vents with
+  its rump, charges static from the pressure, and gets launched skyward; its
+  evolution runs the whole vent-field like a rail timetable. *An electric type
+  charged by geology instead of weather.*
+- **Fossette** *(Terra)* — an ammonite that woke halfway through fossilizing and
+  decided to just keep growing. *Deep time as a personality trait.*
+- **Canyodel** *(Neutral)* — a jerboa that sings duets with its own echo and leaves
+  a polite pause for the gorge wall that collapsed years ago. *A creature whose
+  best friend is acoustics.*
+- **Thermalark** *(Zephyr/Ember)* — a lark that surfs geyser thermals and whose dawn
+  song warms the morning air; it plummets on the high notes and calls it style.
+- **Eventideer** *(Umbral/Lumen, rare)* — the exact moment day becomes night, given
+  hooves; the rare twilight encounter in all three Act 3 routes.
+- **Caldessa** *(Ember/Terra, Titan)* — see below.
+
+### The four new areas
+
+1. **Ashfern Downs** *(40×26, warm-ash-badlands)* — chest-high silver ash-ferns and
+   glassy cooled-lava paths; the Cinder Road carries the heaviest encounter rate.
+   *(Clinkerbun, Kilnamble, Fossette; Eventideer rare.)* Warden **Peat** rakes the
+   ash into battle-gardens here — the Cindertithe's first brazier.
+2. **Kilnhollow** *(36×26, caldera-forge-town)* — a forge-town terraced down a
+   crater's inner slope, every hammer set to one shared heartbeat. No wild
+   encounters. Home of **Tilde's Cinderspring Inn** (a hot-springs full heal) and
+   the third Sanctum, the Kilnheart, where **Keeper Vesta** forges your sigil
+   *during* the battle.
+3. **Prismglass Canyon** *(38×26, lumen-glass-canyon)* — walls of natural glass keep
+   it golden hour all day; prism pools split light into wandering rainbows and
+   Wardens are warned not to Sync mid-refraction. *(Shellumen, Cathedrail,
+   Canyodel; Eventideer rare.)* Warden **Gilda** paints only what fights back —
+   the second brazier.
+4. **Obsidian Crown** *(34×26, volcanic-dusk-summit)* — the caldera's true rim of
+   ridged black glass, dusk pooling violet in the rocks. *(Burrowatt, Steamarmot,
+   Thermalark; Eventideer rare.)* A mini-waystone rest circle beside Norrick's tea
+   hut; Warden **Tallow** keeps firewatch on the last switchback — the third
+   brazier. A one-way **Aurora Traverse** drops back west to Rimeveil Summit.
+
+### Keeper Vesta & the Cindertithe
+
+**Vesta Kilbride**, Keeper of the Kilnheart Sanctum, is an Ember specialist and a
+master smith: a portable anvil rings beside the field, one blow per exchange, and
+your Kilnheart Sigil is finished on the exact strike that ends the fight — win or
+lose. Her ace is **Ashenvoy**, nicknamed Bellows.
+
+The Slag Gate atop the Crown is **The Cindertithe**: a slag-sealed forge door that
+opens only for *warmth freely given, never taken*. Three cold braziers line Act 3's
+road — Peat's, Gilda's, Tallow's — and each Warden lights theirs only on defeat,
+"a battle worth its warmth." With all three burning and Vesta's Kilnheart Sigil
+struck in the gate's slot, the door remembers it was always a hearth and melts
+itself open — and far below, Hearthglow's eternal hearth flares in answer.
+
+### Caldessa, the Banked Hearth
+
+Kilnhollow believes it built its forges over a lucky lava tube. It did not: the
+dormant crater *is* a colossal **Ember/Terra** kiln-tortoise, dozing shell-up for
+an age. The terraces are her shell-rings, the hot spring is her bathwater kept
+politely bath-warm, and the heartbeat every smith hammers to is hers. Long ago her
+one bad sneeze made the Ashfern Downs; the never-dying hearth in Hearthglow was her
+apology, carried down the mountain one ember at a time. Where Cairnoss was
+furniture-as-boss and Aurvela weather-as-boss, **Caldessa is hearth-as-boss** — the
+town's whole livelihood turns out to be one creature's banked kindness. She is
+**not syncable** (*RESONANCE TOO VAST*; STUDY stamps "The Heart Beneath the Hearth"
+into the Ledger). She fights in phases: **Banked**, fighting on the bellows rhythm
+the smiths taught you, then at 50% HP she finally stands — **Stoked** — the crater
+rim revealed as her shell rim, attack and speed surging as her banked shell drops
+its guard.
+
 ---
 
 *Gaiamon's world, roster, and systems were designed by a team of AI agents and
