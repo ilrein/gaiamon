@@ -168,6 +168,78 @@
     "transparent": true
   },
   {
+    "prompt": "A small round soot-black beetle with a warm orange glow between its shell plates, hugging an oversized polished coal ball with stubby forelegs; big earnest eyes, tiny antennae bent with effort, one fern sprout poking from the ash at its feet. Palette of soft warm neutrals. (Creature name: \"Tumblecoal\")",
+    "out": "public/sprites/creatures/tumblecoal.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A sturdy wheelbarrow-shaped beetle pushing a smoldering boulder split into two glowing garden terraces sprouting tiny silver ash-ferns; thick hardened-clay legs, shell dusted grey, determined little face streaked with soot. Palette of soft warm neutrals. (Creature name: \"Trundember\")",
+    "out": "public/sprites/creatures/trundember.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A grand slow beetle the size of a wagon, its domed shell terraced into glowing kiln-garden beds full of silver ash-ferns, strung with tiny lanterns and a hardened-ash boarding ramp; warm light in every shell seam, patient smiling eyes, small creatures waving from the top terrace. Palette of soft warm neutrals. (Creature name: \"Embervoy\")",
+    "out": "public/sprites/creatures/embervoy.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A tiny snail with a translucent amber glass shell holding one jewel-bright stained-glass pane, gliding on a ribbon of glowing golden light; soft rounded eyestalks, a small contented smile, colored light dappling the ground beneath it. Palette of soft warm neutrals. (Creature name: \"Escarglow\")",
+    "out": "public/sprites/creatures/escarglow.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A large serene snail whose towering spiral shell is a stained-glass rose window in dawn golds and dusk violets, sunlight streaming through it into colored pools; slow heavy-lidded kind eyes, a faint halo of drifting light motes, moss and tiny offerings at its base. Palette of soft warm neutrals. (Creature name: \"Cathedrail\")",
+    "out": "public/sprites/creatures/cathedrail.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A round golden-brown marmot with static-frizzed fur standing in a halo around its face, faint singe stripes on its rump, tiny sparks jumping between its whiskers; sitting proudly atop a steaming vent hole like a throne, cheeks puffed. Palette of soft warm neutrals. (Creature name: \"Burrowatt\")",
+    "out": "public/sprites/creatures/burrowatt.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A stout dignified marmot with mineral-crust epaulettes and a collar of pale travertine like a uniform, fur crackling with orderly blue static, a pyrite disc worn like a pocketwatch; standing upright mid-whistle beside an erupting geyser, one paw raised in a departure signal. Palette of soft warm neutrals. (Creature name: \"Steamarmot\")",
+    "out": "public/sprites/creatures/steamarmot.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A palm-sized ammonite with a ridged spiral stone shell half-patterned like polished fossil, two pebble-round eyes and stubby striped tentacles peeking from the newest chamber; resting on a moss cushion in a glass-canyon wall niche, radiating calm. Palette of soft warm neutrals. (Creature name: \"Fossette\")",
+    "out": "public/sprites/creatures/fossette.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A small sand-colored jerboa with enormous dish-shaped ears angled like satellite receivers, a long tufted tail curled into a treble clef, standing on tiptoe with its tiny mouth open mid-yodel; faint concentric sound-rings rippling off toward a canyon wall. Palette of soft warm neutrals. (Creature name: \"Canyodel\")",
+    "out": "public/sprites/creatures/canyodel.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A small plump lark in cream and ember-orange plumage, wingtips glowing like fanned coals and shedding a trail of soft sparks, a shimmer of heat-haze beneath its wings; caught mid-swoop over a steaming vent, beak open in song, eyes screwed shut with effort. Palette of soft warm neutrals. (Creature name: \"Thermalark\")",
+    "out": "public/sprites/creatures/thermalark.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A slender fawn split perfectly down the middle, one flank warm dawn-gold and the other dusk-violet freckled with early stars, one antler of soft light and one of soft shadow; hooves hovering a petal's width above the ground, calm gentle eyes, the horizon line reflected across its back. Palette of soft warm neutrals. (Creature name: \"Eventideer\")",
+    "out": "public/sprites/creatures/eventideer.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
+    "prompt": "A colossal ancient tortoise whose domed shell is a brick kiln with squat chimney-spires breathing thin ribbons of steam, warm forge-light glowing in every mortar seam, a crown-garden of silver ash-ferns on top; huge slow amber eyes, soot-dusted beak, small Gaiamon warming seed-buns against its flank. Palette of soft warm neutrals. Imposing and ancient but still charming, moss and stone details. (Creature name: \"Caldessa\")",
+    "out": "public/sprites/creatures/caldessa.png",
+    "quality": "medium",
+    "transparent": true
+  },
+  {
     "prompt": "A cute chibi human adventurer seen from behind at a 3/4 angle, rounded pixel-art style, wearing a moss-green traveling cloak and a small satchel, holding a small glowing teal handheld device (an ancient-tech field terminal), short fluffy hair, full body, standing. HD-2D pixel sprite, soft painterly lighting.",
     "out": "public/sprites/warden.png",
     "quality": "medium",

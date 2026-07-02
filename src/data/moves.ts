@@ -804,5 +804,144 @@ export const MOVES: Record<string, MoveDef> = {
       }
     ],
     "description": "Sings the low, patient song of a three-day blizzard in about four seconds; 10% chance hoarfrost takes hold (Rimebound)."
+  },
+  "cindercoax": {
+    "id": "cindercoax",
+    "name": "Cindercoax",
+    "type": "ember",
+    "category": "status",
+    "power": 0,
+    "accuracy": 85,
+    "stamina": 2,
+    "effects": [
+      {
+        "kind": "applyStatus",
+        "status": "smolder",
+        "chance": 1,
+        "target": "foe"
+      }
+    ],
+    "description": "Whispers outrageous flattery to the foe's inner spark until it flares up, embarrassed. Inflicts Smolder."
+  },
+  "cinderoll": {
+    "id": "cinderoll",
+    "name": "Cinderoll",
+    "type": "ember",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 95,
+    "stamina": 4,
+    "effects": [
+      {
+        "kind": "applyStatus",
+        "status": "smolder",
+        "chance": 0.1,
+        "target": "foe"
+      }
+    ],
+    "description": "Curls into a glowing wheel and bowls straight through the foe; 10% chance a stray cinder catches (Smolder)."
+  },
+  "kindleplume": {
+    "id": "kindleplume",
+    "name": "Kindleplume",
+    "type": "ember",
+    "category": "spirit",
+    "power": 75,
+    "accuracy": 95,
+    "stamina": 4,
+    "effects": [
+      {
+        "kind": "applyStatus",
+        "status": "smolder",
+        "chance": 0.1,
+        "target": "foe"
+      }
+    ],
+    "description": "Exhales one tall, elegant plume of kiln-warm flame that folds over the foe like a bow; 10% chance to Smolder."
+  },
+  "dustbloom": {
+    "id": "dustbloom",
+    "name": "Dustbloom",
+    "type": "terra",
+    "category": "spirit",
+    "power": 65,
+    "accuracy": 95,
+    "stamina": 3,
+    "effects": [
+      {
+        "kind": "statStage",
+        "stat": "defense",
+        "stages": -1,
+        "target": "foe",
+        "chance": 0.2
+      }
+    ],
+    "description": "Detonates a soft, glittering flower of canyon dust over the foe; 20% chance the grit works into every seam (Defense -1)."
+  },
+  "voltvault": {
+    "id": "voltvault",
+    "name": "Voltvault",
+    "type": "volt",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 95,
+    "stamina": 3,
+    "effects": [
+      {
+        "kind": "statStage",
+        "stat": "speed",
+        "stages": -1,
+        "target": "foe",
+        "chance": 0.2
+      }
+    ],
+    "description": "Springs off an invisible vent of pressure and lands crackling on the foe; 20% chance the static clings (Speed -1)."
+  },
+  "roselight-rondo": {
+    "id": "roselight-rondo",
+    "name": "Roselight Rondo",
+    "type": "lumen",
+    "category": "spirit",
+    "power": 90,
+    "accuracy": 90,
+    "stamina": 4,
+    "effects": [],
+    "description": "Pours sunlight through stained glass and plays it across the foe in slow, colored rounds, like a cathedral deciding something."
+  },
+  "updraft-aria": {
+    "id": "updraft-aria",
+    "name": "Updraft Aria",
+    "type": "zephyr",
+    "category": "spirit",
+    "power": 85,
+    "accuracy": 90,
+    "stamina": 4,
+    "effects": [
+      {
+        "kind": "statStage",
+        "stat": "speed",
+        "stages": 1,
+        "target": "self",
+        "chance": 0.2
+      }
+    ],
+    "description": "Sings a rising scale that becomes a rising wind and drops it on the foe from above; 20% chance the user rides the last note higher (Speed +1)."
+  },
+  "canyon-chorus": {
+    "id": "canyon-chorus",
+    "name": "Canyon Chorus",
+    "type": "neutral",
+    "category": "spirit",
+    "power": 20,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+      {
+        "kind": "multiHit",
+        "min": 2,
+        "max": 2
+      }
+    ],
+    "description": "Sings one bright note and lets the canyon answer. Hits twice: once for the voice, once for the echo."
   }
 };

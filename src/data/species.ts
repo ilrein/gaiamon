@@ -1475,5 +1475,640 @@ export const SPECIES: Record<string, SpeciesDef> = {
         "moveId": "rimecall"
       }
     ]
+  },
+  "tumblecoal": {
+    "id": "tumblecoal",
+    "name": "Clinkerbun",
+    "types": [
+      "ember"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": "trundember",
+    "evolveLevel": 19,
+    "baseStats": {
+      "hp": 56,
+      "attack": 64,
+      "defense": 70,
+      "spirit": 46,
+      "speed": 68
+    },
+    "syncRate": 0.6,
+    "xpYield": 56,
+    "dexEntry": "A round soot-beetle that rolls a single warm coal across the badlands, planting it in ash beds so the ferns have somewhere soft to sprout. It repolishes the coal after every rain and accepts condolences with great dignity.",
+    "inspiration": "The fire type as a farmer: controlled burn reimagined as gardening, with the dung beetle's ball recast as a seed of warmth that makes the wasteland bloom behind it.",
+    "visualPrompt": "A small round soot-black beetle with a warm orange glow between its shell plates, hugging an oversized polished coal ball with stubby forelegs; big earnest eyes, tiny antennae bent with effort, one fern sprout poking from the ash at its feet.",
+    "learnset": [
+      {
+        "level": 1,
+        "moveId": "boop"
+      },
+      {
+        "level": 1,
+        "moveId": "cindersneeze"
+      },
+      {
+        "level": 5,
+        "moveId": "wickflick"
+      },
+      {
+        "level": 9,
+        "moveId": "pebbletoss"
+      },
+      {
+        "level": 12,
+        "moveId": "cindercoax"
+      },
+      {
+        "level": 16,
+        "moveId": "cinderoll"
+      }
+    ]
+  },
+  "trundember": {
+    "id": "trundember",
+    "name": "Kilnamble",
+    "types": [
+      "ember",
+      "terra"
+    ],
+    "role": "wild",
+    "stage": 2,
+    "evolvesTo": "embervoy",
+    "evolveLevel": 26,
+    "baseStats": {
+      "hp": 76,
+      "attack": 84,
+      "defense": 96,
+      "spirit": 60,
+      "speed": 74
+    },
+    "syncRate": 0.4,
+    "xpYield": 108,
+    "dexEntry": "Its coal has grown into a smoldering boulder with two terraced garden beds on top, which it trundles from ash field to ash field, warming seedlings that cannot warm themselves. It counts its fern sprouts every night and has never once gotten the same number, which it blames, quietly, on the ferns.",
+    "inspiration": "A middle stage whose power-up is a bigger wheelbarrow: the awkward teen phase spent doing agricultural labor, so evolving reads as taking on more responsibility, not more menace.",
+    "visualPrompt": "A sturdy wheelbarrow-shaped beetle pushing a smoldering boulder split into two glowing garden terraces sprouting tiny silver ash-ferns; thick hardened-clay legs, shell dusted grey, determined little face streaked with soot.",
+    "learnset": [
+      {
+        "level": 1,
+        "moveId": "cindersneeze"
+      },
+      {
+        "level": 1,
+        "moveId": "wickflick"
+      },
+      {
+        "level": 1,
+        "moveId": "pebbletoss"
+      },
+      {
+        "level": 1,
+        "moveId": "cindercoax"
+      },
+      {
+        "level": 14,
+        "moveId": "cinderoll"
+      },
+      {
+        "level": 18,
+        "moveId": "dustbloom"
+      },
+      {
+        "level": 22,
+        "moveId": "loamslam"
+      }
+    ]
+  },
+  "embervoy": {
+    "id": "embervoy",
+    "name": "Ashenvoy",
+    "types": [
+      "ember",
+      "terra"
+    ],
+    "role": "wild",
+    "stage": 3,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+      "hp": 100,
+      "attack": 105,
+      "defense": 120,
+      "spirit": 75,
+      "speed": 85
+    },
+    "syncRate": 0.35,
+    "xpYield": 175,
+    "dexEntry": "A great caravan-beetle whose whole shell is a rolling kiln-garden, hung with lanterns and boarded by small Gaiamon who ride from bloom to bloom. The oldest ash-fern grove in the badlands grows in a perfect circle: the spot where an Embervoy once stopped and waited, a very long time, for a friend who was running late.",
+    "inspiration": "A final form that is public transit: the apex of the line isn't a bigger fighter but a travelling ecosystem, so the badlands' greenery is literally a bus route.",
+    "visualPrompt": "A grand slow beetle the size of a wagon, its domed shell terraced into glowing kiln-garden beds full of silver ash-ferns, strung with tiny lanterns and a hardened-ash boarding ramp; warm light in every shell seam, patient smiling eyes, small creatures waving from the top terrace.",
+    "learnset": [
+      {
+        "level": 1,
+        "moveId": "wickflick"
+      },
+      {
+        "level": 1,
+        "moveId": "cinderoll"
+      },
+      {
+        "level": 1,
+        "moveId": "pebbletoss"
+      },
+      {
+        "level": 1,
+        "moveId": "dustbloom"
+      },
+      {
+        "level": 26,
+        "moveId": "loamslam"
+      },
+      {
+        "level": 28,
+        "moveId": "stokeheart"
+      },
+      {
+        "level": 30,
+        "moveId": "kindleplume"
+      },
+      {
+        "level": 34,
+        "moveId": "pyre-dive"
+      }
+    ]
+  },
+  "escarglow": {
+    "id": "escarglow",
+    "name": "Shellumen",
+    "types": [
+      "lumen"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": "cathedrail",
+    "evolveLevel": 20,
+    "baseStats": {
+      "hp": 62,
+      "attack": 40,
+      "defense": 78,
+      "spirit": 76,
+      "speed": 49
+    },
+    "syncRate": 0.55,
+    "xpYield": 60,
+    "dexEntry": "A little canyon snail with one pane of true stained glass in its shell, leaving a trail of soft light instead of slime. The trail fades at dawn, so it re-draws its favorite route every single night, in case someone out there needs it.",
+    "inspiration": "A snail whose slime is wayfinding: the humblest, slowest creature in the genre given the most generous superpower, a glowing breadcrumb trail that exists purely for other people.",
+    "visualPrompt": "A tiny snail with a translucent amber glass shell holding one jewel-bright stained-glass pane, gliding on a ribbon of glowing golden light; soft rounded eyestalks, a small contented smile, colored light dappling the ground beneath it.",
+    "learnset": [
+      {
+        "level": 1,
+        "moveId": "glowdart"
+      },
+      {
+        "level": 1,
+        "moveId": "steady-stance"
+      },
+      {
+        "level": 6,
+        "moveId": "gleamsweep"
+      },
+      {
+        "level": 10,
+        "moveId": "dawnsip"
+      },
+      {
+        "level": 14,
+        "moveId": "dustbloom"
+      },
+      {
+        "level": 18,
+        "moveId": "lantern-verdict"
+      }
+    ]
+  },
+  "cathedrail": {
+    "id": "cathedrail",
+    "name": "Cathedrail",
+    "types": [
+      "lumen"
+    ],
+    "role": "wild",
+    "stage": 2,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+      "hp": 82,
+      "attack": 48,
+      "defense": 108,
+      "spirit": 100,
+      "speed": 57
+    },
+    "syncRate": 0.4,
+    "xpYield": 112,
+    "dexEntry": "Its spiral shell has become a full rose window, and wherever it naps, the canyon floor blooms with colored light; travelers have built three small shrines around its favorite spots. It moves about four feet a day and privately considers this reckless.",
+    "inspiration": "Architecture as an animal: the stained-glass cathedral window given a heartbeat, so sacred light becomes something that wanders off, and pilgrims must simply cope.",
+    "visualPrompt": "A large serene snail whose towering spiral shell is a stained-glass rose window in dawn golds and dusk violets, sunlight streaming through it into colored pools; slow heavy-lidded kind eyes, a faint halo of drifting light motes, moss and tiny offerings at its base.",
+    "learnset": [
+      {
+        "level": 1,
+        "moveId": "glowdart"
+      },
+      {
+        "level": 1,
+        "moveId": "gleamsweep"
+      },
+      {
+        "level": 1,
+        "moveId": "dawnsip"
+      },
+      {
+        "level": 1,
+        "moveId": "lantern-verdict"
+      },
+      {
+        "level": 24,
+        "moveId": "burrowbrace"
+      },
+      {
+        "level": 28,
+        "moveId": "roselight-rondo"
+      }
+    ]
+  },
+  "burrowatt": {
+    "id": "burrowatt",
+    "name": "Burrowatt",
+    "types": [
+      "volt",
+      "terra"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": "steamarmot",
+    "evolveLevel": 21,
+    "baseStats": {
+      "hp": 60,
+      "attack": 58,
+      "defense": 62,
+      "spirit": 66,
+      "speed": 64
+    },
+    "syncRate": 0.6,
+    "xpYield": 58,
+    "dexEntry": "A chubby marmot that plugs geyser vents with its rump, charges up static from the rising pressure, and gets launched skyward with a squeak it insists is on purpose. The vent-field settlements set their clocks by its flights; it has never once been punctual by intention.",
+    "inspiration": "An electric type charged by geology instead of weather: static as a byproduct of sitting on a geyser, so its whole power source is stubbornness plus plumbing.",
+    "visualPrompt": "A round golden-brown marmot with static-frizzed fur standing in a halo around its face, faint singe stripes on its rump, tiny sparks jumping between its whiskers; sitting proudly atop a steaming vent hole like a throne, cheeks puffed.",
+    "learnset": [
+      {
+        "level": 1,
+        "moveId": "zapnibble"
+      },
+      {
+        "level": 1,
+        "moveId": "pebbletoss"
+      },
+      {
+        "level": 6,
+        "moveId": "burrowbrace"
+      },
+      {
+        "level": 10,
+        "moveId": "rumblecroak"
+      },
+      {
+        "level": 14,
+        "moveId": "dustbloom"
+      },
+      {
+        "level": 18,
+        "moveId": "voltvault"
+      }
+    ]
+  },
+  "steamarmot": {
+    "id": "steamarmot",
+    "name": "Steamarmot",
+    "types": [
+      "volt",
+      "terra"
+    ],
+    "role": "wild",
+    "stage": 2,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+      "hp": 80,
+      "attack": 74,
+      "defense": 78,
+      "spirit": 88,
+      "speed": 72
+    },
+    "syncRate": 0.4,
+    "xpYield": 110,
+    "dexEntry": "Now the self-appointed stationmaster of the vent field, it conducts the geysers on a strict eruption timetable, whistling departures through its front teeth in a crackle of static. It keeps exactly one vent off the schedule, for surprises.",
+    "inspiration": "An evolution into a job: the launch-happy juvenile grows up to run the whole geyser field like a rail network, turning a biome hazard into a public timetable.",
+    "visualPrompt": "A stout dignified marmot with mineral-crust epaulettes and a collar of pale travertine like a uniform, fur crackling with orderly blue static, a pyrite disc worn like a pocketwatch; standing upright mid-whistle beside an erupting geyser, one paw raised in a departure signal.",
+    "learnset": [
+      {
+        "level": 1,
+        "moveId": "zapnibble"
+      },
+      {
+        "level": 1,
+        "moveId": "pebbletoss"
+      },
+      {
+        "level": 1,
+        "moveId": "dustbloom"
+      },
+      {
+        "level": 1,
+        "moveId": "voltvault"
+      },
+      {
+        "level": 24,
+        "moveId": "static-serenade"
+      },
+      {
+        "level": 27,
+        "moveId": "loamslam"
+      },
+      {
+        "level": 30,
+        "moveId": "stormcrown"
+      }
+    ]
+  },
+  "fossette": {
+    "id": "fossette",
+    "name": "Fossette",
+    "types": [
+      "terra"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+      "hp": 70,
+      "attack": 62,
+      "defense": 94,
+      "spirit": 50,
+      "speed": 34
+    },
+    "syncRate": 0.55,
+    "xpYield": 64,
+    "dexEntry": "An ammonite that woke up halfway through becoming a fossil and decided, unbothered, to simply finish growing instead. It adds one chamber to its spiral shell every decade or so and reports that things are going well.",
+    "inspiration": "The fossil Pokemon trope without the resurrection lab: a prehistoric creature that never needed reviving because it never agreed to stop, making deep time a personality trait.",
+    "visualPrompt": "A palm-sized ammonite with a ridged spiral stone shell half-patterned like polished fossil, two pebble-round eyes and stubby striped tentacles peeking from the newest chamber; resting on a moss cushion in a glass-canyon wall niche, radiating calm.",
+    "learnset": [
+      {
+        "level": 1,
+        "moveId": "pebbletoss"
+      },
+      {
+        "level": 1,
+        "moveId": "steady-stance"
+      },
+      {
+        "level": 7,
+        "moveId": "dustbloom"
+      },
+      {
+        "level": 12,
+        "moveId": "burrowbrace"
+      },
+      {
+        "level": 17,
+        "moveId": "loamslam"
+      },
+      {
+        "level": 22,
+        "moveId": "heartened-hum"
+      }
+    ]
+  },
+  "canyodel": {
+    "id": "canyodel",
+    "name": "Canyodel",
+    "types": [
+      "neutral"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+      "hp": 64,
+      "attack": 52,
+      "defense": 56,
+      "spirit": 74,
+      "speed": 66
+    },
+    "syncRate": 0.65,
+    "xpYield": 62,
+    "dexEntry": "A round-cheeked jerboa that sings duets with its own echo and argues with the canyon whenever the echo comes back wrong. One wall of its home gorge collapsed years ago, and it still leaves a polite pause in every song for the part that no longer answers.",
+    "inspiration": "A creature whose best friend is acoustics: the route rodent rebuilt around sound bouncing off stone, so its habitat is not where it lives but what it performs with.",
+    "visualPrompt": "A small sand-colored jerboa with enormous dish-shaped ears angled like satellite receivers, a long tufted tail curled into a treble clef, standing on tiptoe with its tiny mouth open mid-yodel; faint concentric sound-rings rippling off toward a canyon wall.",
+    "learnset": [
+      {
+        "level": 1,
+        "moveId": "boop"
+      },
+      {
+        "level": 1,
+        "moveId": "heartened-hum"
+      },
+      {
+        "level": 6,
+        "moveId": "canyon-chorus"
+      },
+      {
+        "level": 10,
+        "moveId": "zipnudge"
+      },
+      {
+        "level": 14,
+        "moveId": "gustloop"
+      },
+      {
+        "level": 18,
+        "moveId": "drumroll-flurry"
+      },
+      {
+        "level": 22,
+        "moveId": "tale-twirl"
+      }
+    ]
+  },
+  "thermalark": {
+    "id": "thermalark",
+    "name": "Thermalark",
+    "types": [
+      "zephyr",
+      "ember"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+      "hp": 54,
+      "attack": 66,
+      "defense": 46,
+      "spirit": 64,
+      "speed": 88
+    },
+    "syncRate": 0.5,
+    "xpYield": 66,
+    "dexEntry": "A little lark that surfs the hot updrafts above the geyser field, trailing sparks, and whose dawn song genuinely warms the morning air. It cannot sing and glide at the same time, so it plummets slightly on all the high notes and pretends that this is style.",
+    "inspiration": "Fire as thermodynamics instead of weaponry: a bird that flies on its own heat, borrowed from the folk tales where the smallest bird is the one who carried fire to everyone else.",
+    "visualPrompt": "A small plump lark in cream and ember-orange plumage, wingtips glowing like fanned coals and shedding a trail of soft sparks, a shimmer of heat-haze beneath its wings; caught mid-swoop over a steaming vent, beak open in song, eyes screwed shut with effort.",
+    "learnset": [
+      {
+        "level": 1,
+        "moveId": "flitfeather"
+      },
+      {
+        "level": 1,
+        "moveId": "cindersneeze"
+      },
+      {
+        "level": 6,
+        "moveId": "gustloop"
+      },
+      {
+        "level": 10,
+        "moveId": "wickflick"
+      },
+      {
+        "level": 14,
+        "moveId": "zephyr-reel"
+      },
+      {
+        "level": 18,
+        "moveId": "featherstep"
+      },
+      {
+        "level": 22,
+        "moveId": "updraft-aria"
+      },
+      {
+        "level": 26,
+        "moveId": "kindleplume"
+      }
+    ]
+  },
+  "eventideer": {
+    "id": "eventideer",
+    "name": "Eventideer",
+    "types": [
+      "umbral",
+      "lumen"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+      "hp": 60,
+      "attack": 48,
+      "defense": 58,
+      "spirit": 92,
+      "speed": 62
+    },
+    "syncRate": 0.2,
+    "xpYield": 75,
+    "dexEntry": "The exact moment the day agrees to become night, given hooves: one flank is the last gold of evening, the other the first violet of dark. It walks the canyon rim at dusk to make sure every single day ends gently, and it has never once seen noon.",
+    "inspiration": "A mythic that is a boundary, not a being: the one second of twilight when Umbral and Lumen creatures both bow, neither sure whose it is, made rare because the moment itself is.",
+    "visualPrompt": "A slender fawn split perfectly down the middle, one flank warm dawn-gold and the other dusk-violet freckled with early stars, one antler of soft light and one of soft shadow; hooves hovering a petal's width above the ground, calm gentle eyes, the horizon line reflected across its back.",
+    "learnset": [
+      {
+        "level": 1,
+        "moveId": "glowdart"
+      },
+      {
+        "level": 1,
+        "moveId": "shadenip"
+      },
+      {
+        "level": 8,
+        "moveId": "gleamsweep"
+      },
+      {
+        "level": 12,
+        "moveId": "duskgnaw"
+      },
+      {
+        "level": 16,
+        "moveId": "lullshade"
+      },
+      {
+        "level": 20,
+        "moveId": "umbra-sigh"
+      },
+      {
+        "level": 24,
+        "moveId": "dawnsip"
+      },
+      {
+        "level": 28,
+        "moveId": "lantern-verdict"
+      }
+    ]
+  },
+  "caldessa": {
+    "id": "caldessa",
+    "name": "Caldessa",
+    "types": [
+      "ember",
+      "terra"
+    ],
+    "role": "titan",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+      "hp": 200,
+      "attack": 140,
+      "defense": 170,
+      "spirit": 130,
+      "speed": 60
+    },
+    "syncRate": 0,
+    "xpYield": 560,
+    "dexEntry": "A tortoise the size of a hill whose shell is a domed kiln that has never fully cooled: the glass canyon is its finished masterpiece, the geysers are its bellows still sighing, and the badlands' ash is its swept workshop floor. It is not angry when challengers arrive. It is mid-project.",
+    "inspiration": "After furniture-as-boss and weather-as-boss, industry-as-boss: the entire act's landscape revealed as one retired maker's workshop, so the Titan fight is interrupting a craftsman between naps, not slaying a monster.",
+    "visualPrompt": "A colossal ancient tortoise whose domed shell is a brick kiln with squat chimney-spires breathing thin ribbons of steam, warm forge-light glowing in every mortar seam, a crown-garden of silver ash-ferns on top; huge slow amber eyes, soot-dusted beak, small Gaiamon warming seed-buns against its flank.",
+    "learnset": [
+      {
+        "level": 1,
+        "moveId": "pyre-dive"
+      },
+      {
+        "level": 1,
+        "moveId": "kindleplume"
+      },
+      {
+        "level": 1,
+        "moveId": "cinderoll"
+      },
+      {
+        "level": 1,
+        "moveId": "cindercoax"
+      },
+      {
+        "level": 1,
+        "moveId": "loamslam"
+      },
+      {
+        "level": 1,
+        "moveId": "dustbloom"
+      },
+      {
+        "level": 1,
+        "moveId": "burrowbrace"
+      }
+    ]
   }
 };

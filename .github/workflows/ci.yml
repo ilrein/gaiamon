@@ -1,14 +1,19 @@
-name: Deploy
+name: CI
+
+# Deploys are handled by Cloudflare Workers Builds (the repo is connected to
+# the Worker in the Cloudflare dashboard, which builds + deploys on push).
+# This workflow is the quality gate: types, tests, build.
 
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  ci:
     runs-on: ubuntu-latest
-    name: Build & deploy to Cloudflare
+    name: Typecheck, test, build
     steps:
       - uses: actions/checkout@v4
 
@@ -24,10 +29,3 @@ jobs:
       - run: bun test src
 
       - run: bun run build
-
-      - name: Deploy
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy

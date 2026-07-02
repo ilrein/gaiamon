@@ -15,7 +15,14 @@ for (const s of expansion.roster.species) {
       "A vast, serene polar guardian beast of frost and dream: translucent glacier-fur rippling with slow aurora colors (teal, violet, rose), a crown of dark ice crystals, closed sleepy eyes leaking soft light, sitting curled like a mountain that is also a lullaby.";
   }
 }
-design.roster.species = [...design.roster.species, ...expansion.roster.species];
+const expansion2 = JSON.parse(await readFile("design/expansion-2.json", "utf8"));
+for (const s of expansion2.roster.species) {
+  if (s.id === "hearthadon") {
+    s.id = "caldessa";
+    s.name = "Caldessa";
+  }
+}
+design.roster.species = [...design.roster.species, ...expansion.roster.species, ...expansion2.roster.species];
 const renameMap = new Map((design.renames?.renames ?? []).map((r) => [r.from, r.to]));
 
 const TYPE_MOOD = {

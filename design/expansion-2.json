@@ -1,0 +1,1433 @@
+{
+ "roster": {
+  "moves": [
+   {
+    "id": "cindercoax",
+    "name": "Cindercoax",
+    "type": "Ember",
+    "category": "status",
+    "power": 0,
+    "accuracy": 85,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "applyStatus",
+      "status": "smolder",
+      "target": "foe",
+      "chance": 100
+     }
+    ],
+    "description": "Whispers outrageous flattery to the foe's inner spark until it flares up, embarrassed. Inflicts Smolder."
+   },
+   {
+    "id": "cinderoll",
+    "name": "Cinderoll",
+    "type": "Ember",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 95,
+    "stamina": 4,
+    "effects": [
+     {
+      "kind": "applyStatus",
+      "status": "smolder",
+      "target": "foe",
+      "chance": 10
+     }
+    ],
+    "description": "Curls into a glowing wheel and bowls straight through the foe; 10% chance a stray cinder catches (Smolder)."
+   },
+   {
+    "id": "kindleplume",
+    "name": "Kindleplume",
+    "type": "Ember",
+    "category": "spirit",
+    "power": 75,
+    "accuracy": 95,
+    "stamina": 4,
+    "effects": [
+     {
+      "kind": "applyStatus",
+      "status": "smolder",
+      "target": "foe",
+      "chance": 10
+     }
+    ],
+    "description": "Exhales one tall, elegant plume of kiln-warm flame that folds over the foe like a bow; 10% chance to Smolder."
+   },
+   {
+    "id": "dustbloom",
+    "name": "Dustbloom",
+    "type": "Terra",
+    "category": "spirit",
+    "power": 65,
+    "accuracy": 95,
+    "stamina": 3,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "defense",
+      "stages": -1,
+      "target": "foe",
+      "chance": 20
+     }
+    ],
+    "description": "Detonates a soft, glittering flower of canyon dust over the foe; 20% chance the grit works into every seam (Defense -1)."
+   },
+   {
+    "id": "voltvault",
+    "name": "Voltvault",
+    "type": "Volt",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 95,
+    "stamina": 3,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "speed",
+      "stages": -1,
+      "target": "foe",
+      "chance": 20
+     }
+    ],
+    "description": "Springs off an invisible vent of pressure and lands crackling on the foe; 20% chance the static clings (Speed -1)."
+   },
+   {
+    "id": "roselight-rondo",
+    "name": "Roselight Rondo",
+    "type": "Lumen",
+    "category": "spirit",
+    "power": 90,
+    "accuracy": 90,
+    "stamina": 4,
+    "effects": [],
+    "description": "Pours sunlight through stained glass and plays it across the foe in slow, colored rounds, like a cathedral deciding something."
+   },
+   {
+    "id": "updraft-aria",
+    "name": "Updraft Aria",
+    "type": "Zephyr",
+    "category": "spirit",
+    "power": 85,
+    "accuracy": 90,
+    "stamina": 4,
+    "effects": [
+     {
+      "kind": "statStage",
+      "stat": "speed",
+      "stages": 1,
+      "target": "self",
+      "chance": 20
+     }
+    ],
+    "description": "Sings a rising scale that becomes a rising wind and drops it on the foe from above; 20% chance the user rides the last note higher (Speed +1)."
+   },
+   {
+    "id": "canyon-chorus",
+    "name": "Canyon Chorus",
+    "type": "Neutral",
+    "category": "spirit",
+    "power": 32,
+    "accuracy": 100,
+    "stamina": 2,
+    "effects": [
+     {
+      "kind": "multiHit",
+      "min": 2,
+      "max": 2
+     }
+    ],
+    "description": "Sings one bright note and lets the canyon answer. Hits twice: once for the voice, once for the echo."
+   }
+  ],
+  "species": [
+   {
+    "id": "tumblecoal",
+    "name": "Tumblecoal",
+    "types": [
+     "Ember"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": "trundember",
+    "evolveLevel": 12,
+    "baseStats": {
+     "hp": 56,
+     "attack": 64,
+     "defense": 70,
+     "spirit": 46,
+     "speed": 68
+    },
+    "syncRate": 0.6,
+    "xpYield": 56,
+    "dexEntry": "A round soot-beetle that rolls a single warm coal across the badlands, planting it in ash beds so the ferns have somewhere soft to sprout. It repolishes the coal after every rain and accepts condolences with great dignity.",
+    "inspiration": "The fire type as a farmer: controlled burn reimagined as gardening, with the dung beetle's ball recast as a seed of warmth that makes the wasteland bloom behind it.",
+    "visualPrompt": "A small round soot-black beetle with a warm orange glow between its shell plates, hugging an oversized polished coal ball with stubby forelegs; big earnest eyes, tiny antennae bent with effort, one fern sprout poking from the ash at its feet.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "cindersneeze"
+     },
+     {
+      "level": 5,
+      "moveId": "wickflick"
+     },
+     {
+      "level": 9,
+      "moveId": "pebbletoss"
+     },
+     {
+      "level": 12,
+      "moveId": "cindercoax"
+     },
+     {
+      "level": 16,
+      "moveId": "cinderoll"
+     }
+    ]
+   },
+   {
+    "id": "trundember",
+    "name": "Trundember",
+    "types": [
+     "Ember",
+     "Terra"
+    ],
+    "role": "wild",
+    "stage": 2,
+    "evolvesTo": "embervoy",
+    "evolveLevel": 24,
+    "baseStats": {
+     "hp": 76,
+     "attack": 84,
+     "defense": 96,
+     "spirit": 60,
+     "speed": 74
+    },
+    "syncRate": 0.4,
+    "xpYield": 108,
+    "dexEntry": "Its coal has grown into a smoldering boulder with two terraced garden beds on top, which it trundles from ash field to ash field, warming seedlings that cannot warm themselves. It counts its fern sprouts every night and has never once gotten the same number, which it blames, quietly, on the ferns.",
+    "inspiration": "A middle stage whose power-up is a bigger wheelbarrow: the awkward teen phase spent doing agricultural labor, so evolving reads as taking on more responsibility, not more menace.",
+    "visualPrompt": "A sturdy wheelbarrow-shaped beetle pushing a smoldering boulder split into two glowing garden terraces sprouting tiny silver ash-ferns; thick hardened-clay legs, shell dusted grey, determined little face streaked with soot.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "cindersneeze"
+     },
+     {
+      "level": 1,
+      "moveId": "wickflick"
+     },
+     {
+      "level": 1,
+      "moveId": "pebbletoss"
+     },
+     {
+      "level": 1,
+      "moveId": "cindercoax"
+     },
+     {
+      "level": 14,
+      "moveId": "cinderoll"
+     },
+     {
+      "level": 18,
+      "moveId": "dustbloom"
+     },
+     {
+      "level": 22,
+      "moveId": "loamslam"
+     }
+    ]
+   },
+   {
+    "id": "embervoy",
+    "name": "Embervoy",
+    "types": [
+     "Ember",
+     "Terra"
+    ],
+    "role": "wild",
+    "stage": 3,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 100,
+     "attack": 105,
+     "defense": 120,
+     "spirit": 75,
+     "speed": 85
+    },
+    "syncRate": 0.35,
+    "xpYield": 175,
+    "dexEntry": "A great caravan-beetle whose whole shell is a rolling kiln-garden, hung with lanterns and boarded by small Gaiamon who ride from bloom to bloom. The oldest ash-fern grove in the badlands grows in a perfect circle: the spot where an Embervoy once stopped and waited, a very long time, for a friend who was running late.",
+    "inspiration": "A final form that is public transit: the apex of the line isn't a bigger fighter but a travelling ecosystem, so the badlands' greenery is literally a bus route.",
+    "visualPrompt": "A grand slow beetle the size of a wagon, its domed shell terraced into glowing kiln-garden beds full of silver ash-ferns, strung with tiny lanterns and a hardened-ash boarding ramp; warm light in every shell seam, patient smiling eyes, small creatures waving from the top terrace.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "wickflick"
+     },
+     {
+      "level": 1,
+      "moveId": "cinderoll"
+     },
+     {
+      "level": 1,
+      "moveId": "pebbletoss"
+     },
+     {
+      "level": 1,
+      "moveId": "dustbloom"
+     },
+     {
+      "level": 26,
+      "moveId": "loamslam"
+     },
+     {
+      "level": 28,
+      "moveId": "stokeheart"
+     },
+     {
+      "level": 30,
+      "moveId": "kindleplume"
+     },
+     {
+      "level": 34,
+      "moveId": "pyre-dive"
+     }
+    ]
+   },
+   {
+    "id": "escarglow",
+    "name": "Escarglow",
+    "types": [
+     "Lumen"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": "cathedrail",
+    "evolveLevel": 20,
+    "baseStats": {
+     "hp": 62,
+     "attack": 40,
+     "defense": 78,
+     "spirit": 76,
+     "speed": 49
+    },
+    "syncRate": 0.55,
+    "xpYield": 60,
+    "dexEntry": "A little canyon snail with one pane of true stained glass in its shell, leaving a trail of soft light instead of slime. The trail fades at dawn, so it re-draws its favorite route every single night, in case someone out there needs it.",
+    "inspiration": "A snail whose slime is wayfinding: the humblest, slowest creature in the genre given the most generous superpower, a glowing breadcrumb trail that exists purely for other people.",
+    "visualPrompt": "A tiny snail with a translucent amber glass shell holding one jewel-bright stained-glass pane, gliding on a ribbon of glowing golden light; soft rounded eyestalks, a small contented smile, colored light dappling the ground beneath it.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "glowdart"
+     },
+     {
+      "level": 1,
+      "moveId": "steady-stance"
+     },
+     {
+      "level": 6,
+      "moveId": "gleamsweep"
+     },
+     {
+      "level": 10,
+      "moveId": "dawnsip"
+     },
+     {
+      "level": 14,
+      "moveId": "dustbloom"
+     },
+     {
+      "level": 18,
+      "moveId": "lantern-verdict"
+     }
+    ]
+   },
+   {
+    "id": "cathedrail",
+    "name": "Cathedrail",
+    "types": [
+     "Lumen"
+    ],
+    "role": "wild",
+    "stage": 2,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 82,
+     "attack": 48,
+     "defense": 108,
+     "spirit": 100,
+     "speed": 57
+    },
+    "syncRate": 0.4,
+    "xpYield": 112,
+    "dexEntry": "Its spiral shell has become a full rose window, and wherever it naps, the canyon floor blooms with colored light; travelers have built three small shrines around its favorite spots. It moves about four feet a day and privately considers this reckless.",
+    "inspiration": "Architecture as an animal: the stained-glass cathedral window given a heartbeat, so sacred light becomes something that wanders off, and pilgrims must simply cope.",
+    "visualPrompt": "A large serene snail whose towering spiral shell is a stained-glass rose window in dawn golds and dusk violets, sunlight streaming through it into colored pools; slow heavy-lidded kind eyes, a faint halo of drifting light motes, moss and tiny offerings at its base.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "glowdart"
+     },
+     {
+      "level": 1,
+      "moveId": "gleamsweep"
+     },
+     {
+      "level": 1,
+      "moveId": "dawnsip"
+     },
+     {
+      "level": 1,
+      "moveId": "lantern-verdict"
+     },
+     {
+      "level": 24,
+      "moveId": "burrowbrace"
+     },
+     {
+      "level": 28,
+      "moveId": "roselight-rondo"
+     }
+    ]
+   },
+   {
+    "id": "burrowatt",
+    "name": "Burrowatt",
+    "types": [
+     "Volt",
+     "Terra"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": "steamarmot",
+    "evolveLevel": 22,
+    "baseStats": {
+     "hp": 60,
+     "attack": 58,
+     "defense": 62,
+     "spirit": 66,
+     "speed": 64
+    },
+    "syncRate": 0.6,
+    "xpYield": 58,
+    "dexEntry": "A chubby marmot that plugs geyser vents with its rump, charges up static from the rising pressure, and gets launched skyward with a squeak it insists is on purpose. The vent-field settlements set their clocks by its flights; it has never once been punctual by intention.",
+    "inspiration": "An electric type charged by geology instead of weather: static as a byproduct of sitting on a geyser, so its whole power source is stubbornness plus plumbing.",
+    "visualPrompt": "A round golden-brown marmot with static-frizzed fur standing in a halo around its face, faint singe stripes on its rump, tiny sparks jumping between its whiskers; sitting proudly atop a steaming vent hole like a throne, cheeks puffed.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "zapnibble"
+     },
+     {
+      "level": 1,
+      "moveId": "pebbletoss"
+     },
+     {
+      "level": 6,
+      "moveId": "burrowbrace"
+     },
+     {
+      "level": 10,
+      "moveId": "rumblecroak"
+     },
+     {
+      "level": 14,
+      "moveId": "dustbloom"
+     },
+     {
+      "level": 18,
+      "moveId": "voltvault"
+     }
+    ]
+   },
+   {
+    "id": "steamarmot",
+    "name": "Steamarmot",
+    "types": [
+     "Volt",
+     "Terra"
+    ],
+    "role": "wild",
+    "stage": 2,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 80,
+     "attack": 74,
+     "defense": 78,
+     "spirit": 88,
+     "speed": 72
+    },
+    "syncRate": 0.4,
+    "xpYield": 110,
+    "dexEntry": "Now the self-appointed stationmaster of the vent field, it conducts the geysers on a strict eruption timetable, whistling departures through its front teeth in a crackle of static. It keeps exactly one vent off the schedule, for surprises.",
+    "inspiration": "An evolution into a job: the launch-happy juvenile grows up to run the whole geyser field like a rail network, turning a biome hazard into a public timetable.",
+    "visualPrompt": "A stout dignified marmot with mineral-crust epaulettes and a collar of pale travertine like a uniform, fur crackling with orderly blue static, a pyrite disc worn like a pocketwatch; standing upright mid-whistle beside an erupting geyser, one paw raised in a departure signal.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "zapnibble"
+     },
+     {
+      "level": 1,
+      "moveId": "pebbletoss"
+     },
+     {
+      "level": 1,
+      "moveId": "dustbloom"
+     },
+     {
+      "level": 1,
+      "moveId": "voltvault"
+     },
+     {
+      "level": 24,
+      "moveId": "static-serenade"
+     },
+     {
+      "level": 27,
+      "moveId": "loamslam"
+     },
+     {
+      "level": 30,
+      "moveId": "stormcrown"
+     }
+    ]
+   },
+   {
+    "id": "fossette",
+    "name": "Fossette",
+    "types": [
+     "Terra"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 70,
+     "attack": 62,
+     "defense": 94,
+     "spirit": 50,
+     "speed": 34
+    },
+    "syncRate": 0.55,
+    "xpYield": 64,
+    "dexEntry": "An ammonite that woke up halfway through becoming a fossil and decided, unbothered, to simply finish growing instead. It adds one chamber to its spiral shell every decade or so and reports that things are going well.",
+    "inspiration": "The fossil Pokemon trope without the resurrection lab: a prehistoric creature that never needed reviving because it never agreed to stop, making deep time a personality trait.",
+    "visualPrompt": "A palm-sized ammonite with a ridged spiral stone shell half-patterned like polished fossil, two pebble-round eyes and stubby striped tentacles peeking from the newest chamber; resting on a moss cushion in a glass-canyon wall niche, radiating calm.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "pebbletoss"
+     },
+     {
+      "level": 1,
+      "moveId": "steady-stance"
+     },
+     {
+      "level": 7,
+      "moveId": "dustbloom"
+     },
+     {
+      "level": 12,
+      "moveId": "burrowbrace"
+     },
+     {
+      "level": 17,
+      "moveId": "loamslam"
+     },
+     {
+      "level": 22,
+      "moveId": "heartened-hum"
+     }
+    ]
+   },
+   {
+    "id": "canyodel",
+    "name": "Canyodel",
+    "types": [
+     "Neutral"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 64,
+     "attack": 52,
+     "defense": 56,
+     "spirit": 74,
+     "speed": 66
+    },
+    "syncRate": 0.65,
+    "xpYield": 62,
+    "dexEntry": "A round-cheeked jerboa that sings duets with its own echo and argues with the canyon whenever the echo comes back wrong. One wall of its home gorge collapsed years ago, and it still leaves a polite pause in every song for the part that no longer answers.",
+    "inspiration": "A creature whose best friend is acoustics: the route rodent rebuilt around sound bouncing off stone, so its habitat is not where it lives but what it performs with.",
+    "visualPrompt": "A small sand-colored jerboa with enormous dish-shaped ears angled like satellite receivers, a long tufted tail curled into a treble clef, standing on tiptoe with its tiny mouth open mid-yodel; faint concentric sound-rings rippling off toward a canyon wall.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "boop"
+     },
+     {
+      "level": 1,
+      "moveId": "heartened-hum"
+     },
+     {
+      "level": 6,
+      "moveId": "canyon-chorus"
+     },
+     {
+      "level": 10,
+      "moveId": "zipnudge"
+     },
+     {
+      "level": 14,
+      "moveId": "gustloop"
+     },
+     {
+      "level": 18,
+      "moveId": "drumroll-flurry"
+     },
+     {
+      "level": 22,
+      "moveId": "tale-twirl"
+     }
+    ]
+   },
+   {
+    "id": "thermalark",
+    "name": "Thermalark",
+    "types": [
+     "Zephyr",
+     "Ember"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 54,
+     "attack": 66,
+     "defense": 46,
+     "spirit": 64,
+     "speed": 88
+    },
+    "syncRate": 0.5,
+    "xpYield": 66,
+    "dexEntry": "A little lark that surfs the hot updrafts above the geyser field, trailing sparks, and whose dawn song genuinely warms the morning air. It cannot sing and glide at the same time, so it plummets slightly on all the high notes and pretends that this is style.",
+    "inspiration": "Fire as thermodynamics instead of weaponry: a bird that flies on its own heat, borrowed from the folk tales where the smallest bird is the one who carried fire to everyone else.",
+    "visualPrompt": "A small plump lark in cream and ember-orange plumage, wingtips glowing like fanned coals and shedding a trail of soft sparks, a shimmer of heat-haze beneath its wings; caught mid-swoop over a steaming vent, beak open in song, eyes screwed shut with effort.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "flitfeather"
+     },
+     {
+      "level": 1,
+      "moveId": "cindersneeze"
+     },
+     {
+      "level": 6,
+      "moveId": "gustloop"
+     },
+     {
+      "level": 10,
+      "moveId": "wickflick"
+     },
+     {
+      "level": 14,
+      "moveId": "zephyr-reel"
+     },
+     {
+      "level": 18,
+      "moveId": "featherstep"
+     },
+     {
+      "level": 22,
+      "moveId": "updraft-aria"
+     },
+     {
+      "level": 26,
+      "moveId": "kindleplume"
+     }
+    ]
+   },
+   {
+    "id": "eventideer",
+    "name": "Eventideer",
+    "types": [
+     "Umbral",
+     "Lumen"
+    ],
+    "role": "wild",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 60,
+     "attack": 48,
+     "defense": 58,
+     "spirit": 92,
+     "speed": 62
+    },
+    "syncRate": 0.2,
+    "xpYield": 88,
+    "dexEntry": "The exact moment the day agrees to become night, given hooves: one flank is the last gold of evening, the other the first violet of dark. It walks the canyon rim at dusk to make sure every single day ends gently, and it has never once seen noon.",
+    "inspiration": "A mythic that is a boundary, not a being: the one second of twilight when Umbral and Lumen creatures both bow, neither sure whose it is, made rare because the moment itself is.",
+    "visualPrompt": "A slender fawn split perfectly down the middle, one flank warm dawn-gold and the other dusk-violet freckled with early stars, one antler of soft light and one of soft shadow; hooves hovering a petal's width above the ground, calm gentle eyes, the horizon line reflected across its back.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "glowdart"
+     },
+     {
+      "level": 1,
+      "moveId": "shadenip"
+     },
+     {
+      "level": 8,
+      "moveId": "gleamsweep"
+     },
+     {
+      "level": 12,
+      "moveId": "duskgnaw"
+     },
+     {
+      "level": 16,
+      "moveId": "lullshade"
+     },
+     {
+      "level": 20,
+      "moveId": "umbra-sigh"
+     },
+     {
+      "level": 24,
+      "moveId": "dawnsip"
+     },
+     {
+      "level": 28,
+      "moveId": "lantern-verdict"
+     }
+    ]
+   },
+   {
+    "id": "hearthadon",
+    "name": "Hearthadon",
+    "types": [
+     "Ember",
+     "Terra"
+    ],
+    "role": "titan",
+    "stage": 1,
+    "evolvesTo": null,
+    "evolveLevel": null,
+    "baseStats": {
+     "hp": 195,
+     "attack": 150,
+     "defense": 175,
+     "spirit": 125,
+     "speed": 55
+    },
+    "syncRate": 0,
+    "xpYield": 560,
+    "dexEntry": "A tortoise the size of a hill whose shell is a domed kiln that has never fully cooled: the glass canyon is its finished masterpiece, the geysers are its bellows still sighing, and the badlands' ash is its swept workshop floor. It is not angry when challengers arrive. It is mid-project.",
+    "inspiration": "After furniture-as-boss and weather-as-boss, industry-as-boss: the entire act's landscape revealed as one retired maker's workshop, so the Titan fight is interrupting a craftsman between naps, not slaying a monster.",
+    "visualPrompt": "A colossal ancient tortoise whose domed shell is a brick kiln with squat chimney-spires breathing thin ribbons of steam, warm forge-light glowing in every mortar seam, a crown-garden of silver ash-ferns on top; huge slow amber eyes, soot-dusted beak, small Gaiamon warming seed-buns against its flank.",
+    "learnset": [
+     {
+      "level": 1,
+      "moveId": "pyre-dive"
+     },
+     {
+      "level": 1,
+      "moveId": "kindleplume"
+     },
+     {
+      "level": 1,
+      "moveId": "cinderoll"
+     },
+     {
+      "level": 1,
+      "moveId": "cindercoax"
+     },
+     {
+      "level": 1,
+      "moveId": "loamslam"
+     },
+     {
+      "level": 1,
+      "moveId": "dustbloom"
+     },
+     {
+      "level": 1,
+      "moveId": "burrowbrace"
+     }
+    ]
+   }
+  ]
+ },
+ "world": {
+  "areas": [
+   {
+    "id": "ashfern-downs",
+    "name": "Ashfern Downs",
+    "biome": "warm-ash-badlands",
+    "description": "The road east of Waystone Rise turns warm underfoot: rolling fields of silver-green ash-ferns grow chest-high in ash that falls soft and warm as bakery flour, split by paths of cooled lava worn glassy by generations of boots. Smoke vents sigh along the trail in lazy, polite rings \u2014 around noon they sigh in Codex-key, and the ferns lean in to listen. Wild Gaiamon nap in the warm drifts and wake up cuddly, then bitey, in that order. Locals consider the name 'badlands' outright slander; nothing this comfortable should be called bad.",
+    "sizeHint": "40x26",
+    "palette": {
+     "ground1": "#C9A886",
+     "ground2": "#B89773",
+     "accent": "#FF9E6B",
+     "fog": "#E7CDAB"
+    },
+    "props": [
+     "stump",
+     "bush",
+     "rock",
+     "lantern",
+     "fence",
+     "tree"
+    ],
+    "encounters": [
+     {
+      "speciesSlot": "ash-1",
+      "weight": 40,
+      "minLevel": 18,
+      "maxLevel": 20
+     },
+     {
+      "speciesSlot": "ash-2",
+      "weight": 30,
+      "minLevel": 19,
+      "maxLevel": 21
+     },
+     {
+      "speciesSlot": "ash-3",
+      "weight": 25,
+      "minLevel": 20,
+      "maxLevel": 22
+     },
+     {
+      "speciesSlot": "rare-twilight",
+      "weight": 5,
+      "minLevel": 21,
+      "maxLevel": 22
+     }
+    ],
+    "npcs": [
+     {
+      "id": "npc-ventbaker-prue",
+      "name": "Prue",
+      "role": "vent-baker",
+      "dialogue": [
+       "Vent-bread! Proofed by the mountain, baked by the mountain. I mostly supervise.",
+       "The smoke vents sigh in Codex-key around noon. My loaves rise better when I sing back.",
+       "Mind the silver ferns \u2014 the wild ones nap in the warm ash and wake up SO cuddly. And bitey."
+      ]
+     },
+     {
+      "id": "npc-ventmapper-embla",
+      "name": "Embla",
+      "role": "vent-cartographer",
+      "dialogue": [
+       "I map the smoke vents. They move. Politely, but they move.",
+       "My Codex marks the warm patches with a little bread icon. I never taught it that.",
+       "The ash falls warm as bathwater and the ferns drink it up. 'Badlands.' Honestly. Rude."
+      ]
+     },
+     {
+      "id": "npc-sledder-rye",
+      "name": "Rye",
+      "role": "ash-sledding-kid",
+      "dialogue": [
+       "Ash-sledding rule one: mouth CLOSED. I learned that for you. You're welcome.",
+       "The dunes are comfiest at dusk. Sometimes something twilight-colored sleds down after me. It wins.",
+       "When I get a Codex I'm Syncing whatever that is. It has EXCELLENT form."
+      ]
+     }
+    ],
+    "connections": [
+     "waystone-rise",
+     "kilnhollow"
+    ],
+    "pointsOfInterest": [
+     "The Cinder Road \u2014 a smoothed lava path winding through chest-high ash-fern fields (highest encounter rate)",
+     "Prue's vent-oven \u2014 a fenced bakery stand built over a sighing smoke vent (flavor heal snack)",
+     "The Sighing Ring \u2014 a circle of vents that exhale in Codex-key at noon; ferns lean toward it",
+     "Rye's sledding dune \u2014 a long warm ash slope with suspicious extra tracks at dusk",
+     "The Cindertithe's first brazier \u2014 cold iron beside Warden Peat's raked ash-spirals"
+    ]
+   },
+   {
+    "id": "kilnhollow",
+    "name": "Kilnhollow",
+    "biome": "caldera-forge-town",
+    "description": "A forge-town built inside a dormant crater, its round houses terraced down the inner slope so every chimney feeds one shared, cozy updraft. Every smith in town sets their hammer-rhythm to a slow heartbeat you can feel through your boots \u2014 nobody discusses whose heartbeat, out of good manners. The hot-springs inn steams at the crater's center, kept at exactly bath-warm always, suspiciously, and the Kilnheart Sanctum stands over the old lava tube, its anvil ringing harmonics the Chimegate would recognize. Ash falls on the rooftops like warm confetti, and the whole town smells faintly, permanently, of toast.",
+    "sizeHint": "36x26",
+    "palette": {
+     "ground1": "#C98E62",
+     "ground2": "#B87D52",
+     "accent": "#FFAE52",
+     "fog": "#E3B489"
+    },
+    "props": [
+     "house",
+     "lantern",
+     "fence",
+     "arch",
+     "rock",
+     "crystal",
+     "waystone",
+     "bush"
+    ],
+    "encounters": [],
+    "npcs": [
+     {
+      "id": "npc-forgemaster-ferra",
+      "name": "Ferra",
+      "role": "forgemaster",
+      "dialogue": [
+       "The ground's kept a new beat since the stone one woke in the Vale. My hammer likes it.",
+       "Every smith here works to the crater's heartbeat. Nobody asks whose heartbeat. Manners.",
+       "Bring me obsidian from the Crown and I'll pretend I wasn't already giving you a discount."
+      ]
+     },
+     {
+      "id": "npc-springkeeper-tilde",
+      "name": "Tilde",
+      "role": "hot-springs-innkeeper",
+      "dialogue": [
+       "Soak's free for Wardens. The spring is exactly bath-warm. Always. Suspiciously.",
+       "Saltwhistle has chowder, we have vent-bread and a soak. We don't call it a rivalry. THEY do.",
+       "Your whole team can steep. The Umbral ones pretend to hate it, then stay longest."
+      ]
+     },
+     {
+      "id": "npc-cinderwright-otho",
+      "name": "Otho",
+      "role": "retired-cinderwright",
+      "dialogue": [
+       "Two Titans woke this year. Both nights, every forge in town burned taller. I counted.",
+       "They say a Titan lit Hearthglow's hearth as an apology. Old smiths know what it was sorry FOR.",
+       "The Downs were an eruption once. Look how gently the ash falls now. That's remorse, that is."
+      ]
+     },
+     {
+      "id": "npc-kid-pumice",
+      "name": "Pumice",
+      "role": "floaty-rock-kid",
+      "dialogue": [
+       "I found a rock that FLOATS. The Codex logged it as 'pumice (enthusiastic).' That's ME. Kind of!",
+       "When the Chimegate rang its chord, our kettles hummed along. Ma says I imagined it. The kettles didn't.",
+       "Someday I'll Sync something with lava on it. Warm lava. POLITE lava."
+      ]
+     },
+     {
+      "id": "npc-merchant-galena",
+      "name": "Galena",
+      "role": "traveling-merchant",
+      "dialogue": [
+       "Lake-glass from Saltwhistle, marsh-charts from the Vale \u2014 and gossip, free with purchase.",
+       "Keeper Voss auctioned the tale of the Chimegate chord for forty credits. I bid fifty. Worth it.",
+       "Everything I stock hums a little now. Two woken Titans will do that to inventory."
+      ]
+     },
+     {
+      "id": "npc-sanctum-kelda",
+      "name": "Kelda",
+      "role": "sanctum-attendant",
+      "dialogue": [
+       "Keeper Vesta's at the anvil. Knock loud \u2014 she answers in hammer-beats. Two means welcome.",
+       "She starts forging your sigil the moment the battle starts. No pressure. The pressure is the point.",
+       "The anvil rings the same three notes as that gate on Rimeveil. She says metal remembers songs."
+      ]
+     }
+    ],
+    "connections": [
+     "ashfern-downs",
+     "prismglass-canyon"
+    ],
+    "pointsOfInterest": [
+     "The Kilnheart Sanctum \u2014 the third Sanctum, built over the old lava tube; Keeper Vesta forges at its anvil",
+     "Tilde's Cinderspring Inn \u2014 hot-springs soak that fully restores the party (and their opinions)",
+     "The Terrace Forges \u2014 smithies stepped down the crater wall, chimneys braided into one updraft",
+     "Sanctum Link waystone in the crater plaza, warm to the touch year-round",
+     "The Bellows Arch \u2014 the old lava-tube gate north toward Prismglass Canyon; wind hums through it in time with the forges"
+    ]
+   },
+   {
+    "id": "prismglass-canyon",
+    "name": "Prismglass Canyon",
+    "biome": "lumen-glass-canyon",
+    "description": "A canyon whose walls grew into sheets of natural glass during the old eruption, so every hour of the day is golden hour and your shadow arrives in seven colors. Prism pools along the floor split the light into slow, wandering rainbows, and light-geysers vent columns of glittering steam on a schedule so reliable the locals set their kettles by it. Lumen Gaiamon sun themselves on the warm panes and pretend not to pose. Wardens are advised not to Sync anything mid-refraction \u2014 the glyph splits into seven, and the Ledger gets opinions about which one counted.",
+    "sizeHint": "38x26",
+    "palette": {
+     "ground1": "#F2E4C4",
+     "ground2": "#E4D2A6",
+     "accent": "#FFD98F",
+     "fog": "#FAF0D8"
+    },
+    "props": [
+     "crystal",
+     "rock",
+     "arch",
+     "lantern",
+     "bush",
+     "stump"
+    ],
+    "encounters": [
+     {
+      "speciesSlot": "glass-1",
+      "weight": 40,
+      "minLevel": 22,
+      "maxLevel": 24
+     },
+     {
+      "speciesSlot": "glass-2",
+      "weight": 30,
+      "minLevel": 23,
+      "maxLevel": 25
+     },
+     {
+      "speciesSlot": "glass-3",
+      "weight": 25,
+      "minLevel": 24,
+      "maxLevel": 26
+     },
+     {
+      "speciesSlot": "rare-twilight",
+      "weight": 5,
+      "minLevel": 25,
+      "maxLevel": 26
+     }
+    ],
+    "npcs": [
+     {
+      "id": "npc-glazier-miren",
+      "name": "Miren",
+      "role": "glass-glazier",
+      "dialogue": [
+       "The canyon grows glass panes like orchards grow fruit. I harvest the ripe ones. Sun-warm.",
+       "Don't Sync anything mid-refraction, dear. My last glyph split in seven and rainbow-stamped three Ledger pages.",
+       "Kilnhollow smiths trade me billets for panes. Ferra calls it 'the light economy.' She's not wrong."
+      ]
+     },
+     {
+      "id": "npc-scholar-prisca",
+      "name": "Prisca",
+      "role": "refraction-scholar",
+      "dialogue": [
+       "Every wall bends light its own way. I've named forty-one of the ways. They keep inventing more.",
+       "The prism pools at noon show you as a kid. Science cannot explain it. Science has stopped trying.",
+       "My Codex calls the light-geysers 'enthusiastic windows.' I have adopted the term professionally."
+      ]
+     },
+     {
+      "id": "npc-timer-bopp",
+      "name": "Bopp",
+      "role": "geyser-timer",
+      "dialogue": [
+       "Geyser in nine... eight... stand THERE for a rainbow. There. No \u2014 THERE. ...Perfect.",
+       "I time the light-geysers. They're never late. I'm sometimes early. It balances.",
+       "At dusk the vents blow violet and something rare comes to bathe in it. I don't time THAT. It times me."
+      ]
+     }
+    ],
+    "connections": [
+     "kilnhollow",
+     "obsidian-crown"
+    ],
+    "pointsOfInterest": [
+     "The Gallery Walls \u2014 sheer natural-glass cliffs that hold golden hour all day long",
+     "Prism pools that split lanternlight into slow rainbows (and, at noon, memories)",
+     "The light-geyser field \u2014 glittering steam columns on a kettle-setting schedule",
+     "Miren's pane orchard \u2014 fenced rows of growing glass, strictly no Syncing among the crop",
+     "The Cindertithe's second brazier, on Warden Gilda's favorite painting ledge"
+    ]
+   },
+   {
+    "id": "obsidian-crown",
+    "name": "Obsidian Crown",
+    "biome": "volcanic-dusk-summit",
+    "description": "The caldera's true rim: a dusk-dark summit of ridged black glass above Kilnhollow, where warm wind rises out of the vents and the last light of day pools violet between the rocks. A mini-waystone rest circle glows beside Norrel's tea hut, humming a shy harmony with the great one far below on the Rise. At the crown stands a slag-sealed forge door flanked by three cold braziers \u2014 and beyond it, a bowl of smooth black glass that is warm to the touch and rises and falls, very slightly, like something breathing in its favorite chair.",
+    "sizeHint": "34x26",
+    "palette": {
+     "ground1": "#584458",
+     "ground2": "#473647",
+     "accent": "#FF7B58",
+     "fog": "#3B2E44"
+    },
+    "props": [
+     "rock",
+     "crystal",
+     "waystone",
+     "lantern",
+     "arch",
+     "fence",
+     "pine"
+    ],
+    "encounters": [
+     {
+      "speciesSlot": "vent-1",
+      "weight": 45,
+      "minLevel": 26,
+      "maxLevel": 28
+     },
+     {
+      "speciesSlot": "vent-2",
+      "weight": 30,
+      "minLevel": 27,
+      "maxLevel": 29
+     },
+     {
+      "speciesSlot": "vent-3",
+      "weight": 20,
+      "minLevel": 28,
+      "maxLevel": 30
+     },
+     {
+      "speciesSlot": "rare-twilight",
+      "weight": 5,
+      "minLevel": 29,
+      "maxLevel": 30
+     }
+    ],
+    "npcs": [
+     {
+      "id": "npc-teahut-norrel",
+      "name": "Norrel",
+      "role": "rest-hut-keeper",
+      "dialogue": [
+       "Tea's smoked honey. The little waystone hums along when you sip. Cozy little chorus.",
+       "Third brazier's up the switchback with Wick. Warm your team first \u2014 the dusk here has opinions.",
+       "The bowl past the gate is warm all night. Warm rock is honest rock. THAT rock is bashful."
+      ]
+     },
+     {
+      "id": "npc-gatewright-vell",
+      "name": "Vell",
+      "role": "gatewright",
+      "dialogue": [
+       "The gate isn't locked. It's ASLEEP. Slag-sealed, dreaming of being a hearth again.",
+       "Three braziers, one sigil to strike them. Light the road behind you and the door remembers its manners.",
+       "My Codex files this whole summit as one Ledger entry. One very large, very warm entry."
+      ]
+     }
+    ],
+    "connections": [
+     "prismglass-canyon",
+     "rimeveil-summit"
+    ],
+    "pointsOfInterest": [
+     "The Slag Gate \u2014 a forge door of cooled slag with three cold braziers and a striker-slot for the Kilnheart Sigil",
+     "Mini-waystone rest circle beside Norrel's tea hut (full party heal, hums harmony with the Rise)",
+     "The breathing bowl \u2014 the black-glass arena beyond the gate that rises and falls, very slightly",
+     "Wick's firewatch perch on the last switchback, log entries carved neatly into the rail",
+     "The Aurora Traverse \u2014 a wind-scoured high path west to Rimeveil Summit (one-way shortcut until crossed)"
+    ]
+   }
+  ],
+  "keeper": {
+   "name": "Vesta Kilbride",
+   "title": "Keeper of the Kilnheart Sanctum",
+   "specialtyType": "Ember",
+   "personality": "A master smith who forges the challenger's sigil DURING the battle: a portable anvil beside the field, one hammer-blow per exchange, a strike rung true for every Keen Hit and a quench-hiss for every swap \u2014 and the sigil is finished on the exact blow that ends the fight, win or lose. A losing challenger gets shown the half-forged sigil: 'come back before it cools.' She reads teams like metal \u2014 'good grain,' 'uneven quench,' 'needs tempering' \u2014 and has asked the player's Codex, twice, whether it has considered a career in bellows. Cute-first: she wears oven mitts shaped like Gaiamon paws, insists the forge purrs for polite visitors, and her ace is nicknamed Bellows.",
+   "partySlots": [
+    "ash-2@lv24",
+    "glass-2@lv26",
+    "keeper-ace-3@lv28"
+   ],
+   "dialogue": [
+    "A challenger! Hold that thought \u2014 the billet's at temper... there. Now. Let's see what you're made of. Literally. I take notes in hammer.",
+    "(mid-battle, first faint) Hm. Good grain, uneven quench. Bellows, love \u2014 turn up the heat!",
+    "(defeated) Rung true on the last strike. Here \u2014 the Kilnheart Sigil, still warm. Careful. Not of the heat. Of how proud I look.",
+    "(post-battle) Two Titans woke to your footsteps already, and the one under this town has hummed since you walked in. Go light the braziers \u2014 and tell the Banked Hearth her bread oven misses her."
+   ],
+   "areaId": "kilnhollow"
+  },
+  "titan": {
+   "name": "Caldessa, the Banked Hearth",
+   "speciesSlot": "titan-3",
+   "concept": "Kilnhollow believes it built its forges over a lucky lava tube. It did not: the dormant crater IS a colossal Ember/Terra kiln-tortoise, dozing shell-up for an age \u2014 the terraces are her shell-rings, the hot spring is her bathwater kept politely at bath-warm, and the heartbeat every smith hammers to is hers. Long ago her one bad sneeze made the Ashfern Downs; the never-dying hearth in Hearthglow was her apology, carried down the mountain one ember at a time. Where Cairnoss was furniture-as-boss and Aurvela weather-as-boss, Caldessa is hearth-as-boss: the town's entire livelihood turns out to be one creature's banked kindness. Cute-first: cooled-obsidian shell, warm terracotta skin, ember-lichen like a cardigan; she rises the way a grandmother leaves a comfortable chair, and fights like someone whose nap you interrupted in her own kitchen. NOT syncable: the Codex reads RESONANCE TOO VAST \u2014 SYNC IMPOSSIBLE, and STUDY stamps 'The Heart Beneath the Hearth' into the Ledger.",
+   "phase1": "BANKED (100% to 50% HP). Level 30 statline with HP x6.0, defense x1.6, speed x0.5, attack x1.1. She never fully rises; she fights on the bellows rhythm the Kilnhollow smiths taught the player \u2014 turn A: single-target Ember cinder-flick (20% chance to Smolder); turn B: 'Bellows-Draw' telegraph, an inhale that pulls all loose ash in the bowl toward her while vent-glyphs glow under the player's active Gaiamon; turn C: 'Kilnbreath', a heavy Ember exhale (~40% of a same-level mon's max HP) dodged entirely by swapping on turn C \u2014 the series' swap-dodge lesson, graduated a third time. NEW mechanic (no sub-targets this act): QUENCH WINDOWS \u2014 for one full turn after each Kilnbreath her shell-vents hang open: she takes 50% increased damage and statuses land freely, but at all other times the banked shell reduces incoming damage by 30%. The fight teaches stamina banking: Attune through the loop, spend big pips in the window.",
+   "phase2": "STOKED (at 50% HP, hard trigger). For the first time in an age she stands \u2014 the crater rim is revealed as her shell rim, and warm light floods the bowl's cracks. Defense drops to x0.85, attack rises to x1.4, speed to x1.1, and every second turn she acts twice. Kilnbreath is replaced by 'Slagbloom' (Terra, single-target, ~55% max HP, every 3rd turn, floor-telegraphed one turn ahead; the struck tile cools into flower-shaped glass). Quench Windows persist but tighten: the vents open only after each Slagbloom. Arena mechanic: warm cinder-fall chips 5% max HP from the player's active Gaiamon at end of each turn UNLESS it used an Ember or Terra move that turn (matching her heartbeat), rewarding coverage of both her types like her siblings before her. No healing between phases; on a wipe she settles back down with a fond, gravelly grumble \u2014 free retry from the Slag Gate, fully reset.",
+   "areaId": "obsidian-crown",
+   "gating": "THE CINDERTITHE. The Slag Gate is a slag-sealed forge door that opens only for warmth freely given, never taken: three cold braziers stand along Act 3's road (Peat's in Ashfern Downs, Gilda's in Prismglass Canyon, Wick's at the Crown's last switchback), and each route Warden lights theirs only for 'a battle worth its warmth' \u2014 i.e., on their defeat. Keeper Vesta's Kilnheart Sigil is the striker: with all three braziers burning and the Sigil struck in the gate's striker-slot, the door remembers it was always a hearth and melts itself open \u2014 and far away in Hearthglow, the old eternal hearth flares in answer, because Caldessa lit that one too. Implementation mirrors TITAN_GATES in src/data/trainers.ts: requiredFlags ['warden-peat-defeated', 'warden-gilda-defeated', 'warden-wick-defeated', 'keeper-vesta-defeated'] on trigger 'titan-caldessa'; deniedText describes whichever braziers are still cold, with Vell as the in-world explainer."
+  },
+  "routeTrainers": [
+   {
+    "id": "warden-peat",
+    "name": "Peat",
+    "title": "Ash-Gardener",
+    "areaId": "ashfern-downs",
+    "partySlots": [
+     "ash-1@lv20",
+     "ash-2@lv21"
+    ],
+    "dialogue": {
+     "intro": [
+      "You're standing in my garden. It's fine. It's a battle garden now.",
+      "I rake this ash into spirals every dawn. The wild ones roll in them by noon. Critics, all."
+     ],
+     "win": [
+      "Well-pruned! That's the highest thing I say.",
+      "First brazier's lit for you \u2014 a battle worth its warmth. Tell Gilda the light's on its way."
+     ],
+     "lose": [
+      "Overwatered, underfed. Your team, not my ferns. Soak at Kilnhollow and regrow.",
+      "The garden forgives everything. Even that."
+     ]
+    }
+   },
+   {
+    "id": "warden-gilda",
+    "name": "Gilda",
+    "title": "Prism-Painter",
+    "areaId": "prismglass-canyon",
+    "partySlots": [
+     "glass-1@lv24",
+     "glass-2@lv25"
+    ],
+    "dialogue": {
+     "intro": [
+      "Hold still \u2014 no, battle still. The light is PERFECT and I only paint what fights back.",
+      "Golden hour lasts all day here. My excuses lasted shorter. En garde."
+     ],
+     "win": [
+      "Every brushstroke of that was better than mine. Second brazier's lit \u2014 signed, dated, yours.",
+      "I'm titling the piece 'The Quiet Current, Refracted.' Keeper Solenne will want a print."
+     ],
+     "lose": [
+      "Flat light, stiff wrists. Come back when your palette holds more than one move-type.",
+      "The canyon will still be gorgeous when you return. It's insufferable that way."
+     ]
+    }
+   },
+   {
+    "id": "warden-wick",
+    "name": "Wick",
+    "title": "Crown Firewatcher",
+    "areaId": "obsidian-crown",
+    "partySlots": [
+     "vent-1@lv27",
+     "glass-3@lv27",
+     "vent-2@lv29"
+    ],
+    "dialogue": {
+     "intro": [
+      "Evening. Firewatch log, entry 4,012: one Warden, approaching. Weather: imminent.",
+      "I watch for wildfires. You read as a controlled burn. Let's confirm."
+     ],
+     "win": [
+      "Log amended: controlled burn, confirmed. Third brazier's lit. That's all three \u2014 I kept count.",
+      "Past the gate, the mountain is a heartbeat with a floor. Forecast: warm, with awe."
+     ],
+     "lose": [
+      "Log entry: sparks, no fire. Rest at Norrel's hut. The dusk will keep.",
+      "No mark against you. The Crown makes everyone practice."
+     ]
+    }
+   }
+  ]
+ },
+ "verify": {
+  "nameCheck": {
+   "ok": false,
+   "problems": [
+    {
+     "severity": "major",
+     "where": "creature: Embervoy",
+     "issue": "Existing-character collision: roster already has species 'Embermine' (src/data/species.ts). Two creatures sharing the full 'Ember-' stem in one dex will be confused with each other.",
+     "suggestion": "Rename keeping the wandering-flame-envoy vibe: 'Searvoy', 'Ashenvoy', or 'Pyrevoy'."
+    },
+    {
+     "severity": "major",
+     "where": "creature: Tumblecoal",
+     "issue": "Evocative of a specific famous monster: a tumbling coal creature is exactly Rolycoly's identity (Gen 8 Rolycoly/Carkol/Coalossal coal line), and 'Tumblestone' is an official Pokemon item in Legends: Arceus \u2014 the name reads as tumbling-coal-Pokemon.",
+     "suggestion": "Break the tumble+coal pairing while keeping the cozy coal-critter vibe: 'Clinkerbun', 'Cobblecoke'... best options 'Clinkerbun' or 'Cobblecoal' (drops the rolling motion), or 'Sootumblet' only if the line concept is redesigned away from rolling coal."
+    },
+    {
+     "severity": "major",
+     "where": "creature: Trundember",
+     "issue": "As the apparent evolution of Tumblecoal, a 'trundling' ember/coal creature mirrors Carkol (the coal-cart Pokemon that trundles along on wheels); the two-stage rolling-coal line reads as a Rolycoly-to-Carkol reskin even though the name alone is distinct.",
+     "suggestion": "If the base stage is renamed and the design is not a rolling coal cart, keep it; otherwise rename to 'Kilnamble' or 'Emberdray' and shift the design toward a hearth-beast rather than rolling coal."
+    },
+    {
+     "severity": "major",
+     "where": "creature: Escarglow",
+     "issue": "Evocative of a specific famous monster: an escargot-pun glowing/molten snail directly evokes Magcargo (escargot + cargo lava snail, Gen 2), and shares the 'Esca-' pun opening with Escavalier.",
+     "suggestion": "Keep the luminous-snail vibe without the escargot pun: 'Glowhelix', 'Glimmerwhorl', or 'Shellumen'."
+    },
+    {
+     "severity": "minor",
+     "where": "creature: Burrowatt",
+     "issue": "Shares the 'watt' morpheme with real Pokemon Wattrel (Gen 9 electric bird) and the 'Burrow-' prefix with existing move 'Burrowbrace' (src/data/moves.ts); name itself is otherwise distinct.",
+     "suggestion": "Acceptable as-is; if a safer distance is wanted, use 'Voltmole', 'Tunnelvolt', or 'Burrowzap'."
+    },
+    {
+     "severity": "minor",
+     "where": "move: Cinderoll",
+     "issue": "Echoes Cinderace (famous Gen 8 starter) via 'Cinder-' + athletic-motion suffix, and becomes the third 'Cinder-' move alongside existing 'Cindersneeze' and new 'Cindercoax'.",
+     "suggestion": "Rename to 'Emberoll' or 'Sootspin' to thin the Cinder- cluster and drop the Cinderace echo."
+    },
+    {
+     "severity": "minor",
+     "where": "move: Kindleplume",
+     "issue": "Shares the 'Kindle-' stem with existing creature 'Kindlet' (src/data/species.ts); if the move is not Kindlet's signature move this cross-links an unrelated creature.",
+     "suggestion": "Fine if it is Kindlet's/its line's signature move; otherwise rename to 'Emberplume' or 'Stokeplume'."
+    },
+    {
+     "severity": "minor",
+     "where": "NPC: Wick",
+     "issue": "Collides with existing move 'Wickflick' (src/data/moves.ts); dialogue like 'Wick used...' or quest text mentioning Wick alongside the move invites confusion.",
+     "suggestion": "Rename NPC to 'Wicker', 'Tallow', or 'Sconce'."
+    },
+    {
+     "severity": "minor",
+     "where": "creature: Hearthadon",
+     "issue": "Internal theme crowding, not IP: 'hearth' now appears in existing area 'Hearthglow Village', new titan 'the Banked Hearth', and this creature; name itself is distinct from Pokemon (-don suffix like Rhydon/Groudon is generic).",
+     "suggestion": "Keep only one flagship 'Hearth' entity; consider 'Ingladon' (inglenook) or 'Andirodon' (andiron) for the creature."
+    },
+    {
+     "severity": "minor",
+     "where": "move: Voltvault",
+     "issue": "'Volt ___' is a signature official Pokemon move pattern (Volt Tackle, Volt Switch); the name reads as an official-move pastiche though 'volt' is a generic electricity term.",
+     "suggestion": "Acceptable; 'Sparkvault' or 'Zapvault' would match the roster's existing zap-/spark- diction (Zapnibble) if distance is preferred."
+    },
+    {
+     "severity": "minor",
+     "where": "NPC: Caldessa",
+     "issue": "Faint echo of Candela, the fire-themed Team Valor leader in Pokemon GO (both fire-region female leader-type names built on a heat root); not close in spelling.",
+     "suggestion": "Likely fine; 'Calvessa' or 'Kaldra' if distance is preferred."
+    },
+    {
+     "severity": "minor",
+     "where": "NPC: Norrel",
+     "issue": "One letter from 'Mr Norrell' of Jonathan Strange & Mr Norrell \u2014 a well-known fantasy-magician character, notable since this is a fantasy setting (not monster-IP).",
+     "suggestion": "Rename to 'Norrick', 'Norvel', or 'Norby'."
+    },
+    {
+     "severity": "minor",
+     "where": "area: Ashfern Downs",
+     "issue": "Contains 'fern', the stem of the existing verdant starter line Fernby/Frondelle (src/data/species.ts); an ash-biome area named -fern may mislead players about what spawns there.",
+     "suggestion": "Likely fine; 'Ashbrake Downs' or 'Cinderfell Downs' if the overlap bothers playtesters."
+    }
+   ]
+  },
+  "balanceCheck": {
+   "ok": false,
+   "problems": [
+    {
+     "severity": "major",
+     "where": "moves: canyon-chorus (Neutral, spirit, power 32, acc 100, stamina 2, multiHit 2-2)",
+     "issue": "Fixed 2x32 = 64 effective power at 100 accuracy for 2 stamina strictly dominates existing heartened-hum (Neutral/spirit/40/100/2, no effect): same type, category, accuracy, and cost with 60% more damage plus two crit rolls. It also breaks the damage-per-pip curve the expansion balanceCheck uses as a metric: 32 dmg/pip vs the 20/pip ceiling of every other 2-cost move, and its 64 effective power sits in the 41-70 (3-cost) stamina tier while paying 2 by exploiting per-hit power in staminaRule. The drumroll-flurry precedent does not cover it (18 power, 90 acc, variable 2-5 hits vs guaranteed 2 hits at 100 acc).",
+     "suggestion": "Lower power to 20 per hit (2x20 = 40 effective, legitimately in the <=40 tier at 2 stamina, keeps the voice+echo flavor), or keep 32 power and raise stamina to 3 (21.3/pip, in line with sapsip/gleamsweep)."
+    },
+    {
+     "severity": "minor",
+     "where": "species: embervoy (wild stage 3, evolve-in level 24) vs encounter bands",
+     "issue": "Its line evolves trundember->embervoy at 24, which is above both the badlands (18+) and canyon (22+) band floors, and its dex entry places it in the badlands. Any wild embervoy slot with minLevel below 24 violates the no-wild-stage-N-below-its-evolve-level rule; the band floors alone do not guarantee this.",
+     "suggestion": "Constrain embervoy's encounter slot to minLevel >= 24 (fits inside canyon 22+ or arena 26+ as a rare 'big caravan' encounter), or lower trundember's evolveLevel to 18 so it clears the badlands floor (if lowered, also pull trundember's loamslam@22 down to <=18 to avoid new dead data)."
+    },
+    {
+     "severity": "minor",
+     "where": "species: steamarmot (wild stage 2, evolve-in level 22) vs geyser-field placement",
+     "issue": "Steamarmot evolves in at 22, but its habitat (the vent/geyser field) is shared with burrowatt, whose learnset capping at voltvault@18 reads as a badlands-band (18+) species. If the geyser field is badlands-band, wild steamarmot at 18-21 is below its evolve-in level; it is only legal at canyon band (22+) or with an explicit slot minLevel >= 22.",
+     "suggestion": "Pin steamarmot's slot to minLevel >= 22 (canyon band), or lower burrowatt->steamarmot evolveLevel to 18 to make it legal anywhere in the badlands band (its static-serenade@24 learn level still works either way)."
+    },
+    {
+     "severity": "minor",
+     "where": "species: eventideer xpYield 88",
+     "issue": "xpYield 88 exceeds the documented early-route band of 40-70 in the xpFormula, repeating the exact out-of-band problem already flagged (and never resolved) for hummabye at 90; the proposed 'mythic rares 85-95' carve-out was never added to the rules, so 88 remains covered by no band. (Its syncRate 0.2 is correctly in the rare-fable 0.15-0.25 band.)",
+     "suggestion": "Either lower to ~70-75, or add the 'mythic rares 85-95' band note to xpFormula in the same pass so both hummabye (90) and eventideer (88) become rule-covered."
+    },
+    {
+     "severity": "minor",
+     "where": "species: tumblecoal learnset (cindercoax@12, cinderoll@16) vs evolveLevel 12 and badlands band 18+",
+     "issue": "cinderoll@16 exceeds tumblecoal's evolveLevel of 12, so on-curve players never see it on this stage (dead data; same pattern flagged as minor in the base balanceCheck for fernby/kindlet/puddlop) - cosmetic only, since trundember relearns cindercoax at 1 and cinderoll at 14. Additionally the whole line evolves at 12 while the earliest new-content band is 18+, so every wild tumblecoal is 6+ levels past its own evolve level and evolves immediately on sync, making the 0.6 vs 0.4 syncRate split between stages nearly meaningless.",
+     "suggestion": "Move cinderoll to level 12 or below (or delete the entry), and consider raising tumblecoal->trundember evolveLevel to ~16-18 so a badlands-band sync spends meaningful time at stage 1."
+    }
+   ]
+  },
+  "coherenceCheck": {
+   "ok": true,
+   "problems": [
+    {
+     "severity": "minor",
+     "where": "Act 3 species list vs partySlots (keeper.partySlots[2] = keeper-ace-3@lv28)",
+     "issue": "No species in the Act 3 list carries a keeper-ace role (Acts 1-2 used lagoonet/rumblit), so keeper-ace-3 must reuse a wild-role species; also the mapping of the 12 slot names to the 12 species ids is nowhere stated explicitly.",
+     "suggestion": "REQUIRED full slot->speciesId mapping: ash-1 -> tumblecoal (Ember st1), ash-2 -> trundember (Ember/Terra st2), ash-3 -> fossette (Terra st1, preserved-in-ash flavor), glass-1 -> escarglow (Lumen st1), glass-2 -> cathedrail (Lumen st2), glass-3 -> canyodel (Neutral st1), vent-1 -> burrowatt (Volt/Terra st1), vent-2 -> steamarmot (Volt/Terra st2), vent-3 -> thermalark (Zephyr/Ember st1, rides vent thermals), rare-twilight -> eventideer (Umbral/Lumen st1), keeper-ace-3 -> embervoy (Ember/Terra st3, Vesta's ace 'Bellows'), titan-3 -> hearthadon (Ember/Terra titan). This is an exact 12/12 fit; embervoy as keeper ace follows the rumblit precedent (keeper-ace-2 also appears in wild tables). ash-3/vent-3 may be swapped (fossette<->thermalark) without breaking anything since no trainer uses those slots."
+    },
+    {
+     "severity": "minor",
+     "where": "src/data/areas.ts \u2014 waystone-rise exits (line ~909) and rimeveil-summit exits (line ~1913)",
+     "issue": "The Act 3 design lists reciprocal connections, but the two existing anchor areas have no exits to ashfern-downs / obsidian-crown yet, so the chain is only attached one direction until areas.ts is edited.",
+     "suggestion": "When implementing, add an east exit on waystone-rise -> ashfern-downs (the description says 'the road east of Waystone Rise') and an Aurora Traverse exit on rimeveil-summit -> obsidian-crown, matching the existing paired-exit {x,z,toArea} convention. Note this closes a full world loop (waystone-rise <-> rimeveil-summit already exists), which is fine but means players can reach Act 3's summit-side entrance early; the 'one-way shortcut until crossed' rule on the Aurora Traverse is what prevents sequence-breaking, so implement that side first."
+    },
+    {
+     "severity": "minor",
+     "where": "obsidian-crown pointsOfInterest \u2014 'The Aurora Traverse ... (one-way shortcut until crossed)'",
+     "issue": "AreaDef exits in areas.ts are unconditional {x,z,toArea} records with no flag support, so 'one-way until crossed' needs a mechanism that doesn't exist yet.",
+     "suggestion": "Implement trivially with the existing shape: author the exit only on the obsidian-crown side initially, and add the rimeveil-summit -> obsidian-crown exit behind a flag (e.g. 'aurora-traverse-crossed') set on first use \u2014 or, simplest, gate the rimeveil-side exit tile behind the same main.ts trigger/flag machinery TITAN_GATES uses."
+    },
+    {
+     "severity": "minor",
+     "where": "titan block \u2014 name 'Caldessa, the Banked Hearth' vs speciesSlot titan-3 -> hearthadon",
+     "issue": "Both prior titans' species ids equal the boss name (cairnoss, aurvela); Act 3 breaks the pattern with species 'hearthadon' for boss 'Caldessa', which is mechanically fine but inconsistent with the established convention in trainers.ts (party: [{speciesId: 'cairnoss', ...}]).",
+     "suggestion": "Either rename the titan species id to 'caldessa' for consistency, or keep 'hearthadon' as the species name with Caldessa as the individual \u2014 but decide deliberately and comment it in trainers.ts, since the trainer entry will read party: [{speciesId: 'hearthadon', level: 30}] under id 'titan-caldessa'."
+    },
+    {
+     "severity": "minor",
+     "where": "New species evolve levels vs encounter bands and trainer parties",
+     "issue": "Act 3 species have stages but no evolve levels yet; a careless choice would contradict the design (e.g. Vesta fields trundember at lv24, so trundember->embervoy must not trigger below 25; wild trundember band is 19-21 in ashfern-downs).",
+     "suggestion": "Author: tumblecoal->trundember ~19, trundember->embervoy ~26 (keeps Vesta's ash-2@24 pre-evolution and her ace embervoy@28 post-evolution), escarglow->cathedrail ~23 (bands 22-24/23-25), burrowatt->steamarmot ~27 (bands 26-28/27-29). Standalone stage-1s (fossette, canyodel, thermalark, eventideer) need evolvesTo: null like rumblit/kipkite/hummabye."
+    },
+    {
+     "severity": "minor",
+     "where": "titan phase1/phase2 mechanics vs trainers.ts bossPhases shape",
+     "issue": "Quench Windows (conditional 50% vulnerability / 30% damage reduction), acting twice every second turn, Kilnbreath/Slagbloom telegraphs, and per-turn cinder-fall chip damage all exceed the current engine surface, which supports only {hpThreshold, statBoosts, announcement}.",
+     "suggestion": "Translate like Cairnoss/Aurvela were: phase trigger at 0.5 with statBoosts {attack: +2, speed: +2, defense: -2} matching STOKED (def x1.6->x0.85, atk x1.1->x1.4, spd x0.5->x1.1), plus a late flare phase; implement Quench Windows / double-turns / cinder-fall only if the battle engine grows those hooks, otherwise document the simplification in a comment as trainers.ts already does for the first two titans."
+    },
+    {
+     "severity": "minor",
+     "where": "gating.requiredFlags / routeTrainers defeat flags",
+     "issue": "Gating is implementable as specified, but the keeper flag name must be authored consistently: Act 1's keeper used the generic 'keeper-defeated' while Act 2 used 'keeper-voss-defeated'; the Act 3 gate expects 'keeper-vesta-defeated'.",
+     "suggestion": "Give the new trainer entries defeatFlag values exactly matching the gate: warden-peat-defeated, warden-gilda-defeated, warden-wick-defeated, keeper-vesta-defeated, and register TITAN_GATES['titan-caldessa'] = { trainerId: 'titan-caldessa', requiredFlags: [those four], deniedText: brazier-status lines voiced by Vell } \u2014 a direct mirror of the titan-aurvela entry."
+    }
+   ]
+  }
+ },
+ "renames": {
+  "renames": [
+   {
+    "from": "Embervoy",
+    "to": "Ashenvoy"
+   },
+   {
+    "from": "Tumblecoal",
+    "to": "Clinkerbun"
+   },
+   {
+    "from": "Trundember",
+    "to": "Kilnamble"
+   },
+   {
+    "from": "Escarglow",
+    "to": "Shellumen"
+   }
+  ]
+ }
+}

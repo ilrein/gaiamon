@@ -39,9 +39,36 @@ for (const m of expansion.roster.moves) {
   }
 }
 
+// ---- expansion-2 (Act 3) verifier-driven patches ----------------------------
+const expansion2 = JSON.parse(await readFile("design/expansion-2.json", "utf8"));
+const ACT3_RENAMES = {
+  Tumblecoal: "Clinkerbun", // Rolycoly echo
+  Trundember: "Kilnamble", // Carkol echo
+  Embervoy: "Ashenvoy", // Embermine collision
+  Escarglow: "Shellumen", // Magcargo escargot-pun echo
+};
+for (const s of expansion2.roster.species) {
+  if (ACT3_RENAMES[s.name]) s.name = ACT3_RENAMES[s.name];
+  // Titan species id/name = the boss (precedent: cairnoss, aurvela).
+  if (s.id === "hearthadon") {
+    s.id = "caldessa";
+    s.name = "Caldessa";
+  }
+  if (s.id === "eventideer") s.xpYield = 75;
+  // Evolve levels aligned to encounter bands (coherence audit).
+  if (s.id === "tumblecoal") s.evolveLevel = 19;
+  if (s.id === "trundember") { s.evolveLevel = 26; s.evolvesTo = "embervoy"; }
+  if (s.id === "escarglow") s.evolveLevel = 20;
+  if (s.id === "burrowatt") s.evolveLevel = 21;
+}
+for (const m of expansion2.roster.moves) {
+  // canyon-chorus strictly dominated heartened-hum: 2x20 keeps the echo flavor.
+  if (m.id === "canyon-chorus") m.power = 20;
+}
+
 const roster = {
-  moves: [...design.roster.moves, ...expansion.roster.moves],
-  species: [...design.roster.species, ...expansion.roster.species],
+  moves: [...design.roster.moves, ...expansion.roster.moves, ...expansion2.roster.moves],
+  species: [...design.roster.species, ...expansion.roster.species, ...expansion2.roster.species],
 };
 
 const header = "// GENERATED from design/design.json by scripts/build-data.mjs — edit the design, not this file.\n";
