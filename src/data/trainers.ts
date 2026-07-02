@@ -18,18 +18,20 @@ export const TRAINERS: Record<string, TrainerDef> = {
       { speciesId: "lagoonet", level: 15 },
     ],
     dialogue: {
+      // win = what she says when the PLAYER wins (same convention as every
+      // other trainer — the review caught these two arrays inverted).
       intro: [
         "Oh! A visitor — shh, one second, the reeds are mid-sentence... okay. Hello!",
         "You brought a singing slab. May I battle it? I mean you. May I battle you?",
       ],
       win: [
-        "Field note: the challenger favors the left bank. Interesting. Brook, dear, let's answer in kind!",
-        "The water's still loud. Come back when your Codex learns the deep notes.",
-      ],
-      lose: [
         "...The water went quiet for you. It never goes quiet.",
         "Here — the Stillwater Sigil. I'm drawing you on my map as 'the quiet current.'",
         "Your Codex hums in Tide-key now. Tell the Titan I said it snores.",
+      ],
+      lose: [
+        "Field note: the challenger favors the left bank. Interesting. Brook, dear, let's answer in kind!",
+        "The water's still loud. Come back when your Codex learns the deep notes.",
       ],
     },
     defeatFlag: "keeper-defeated",

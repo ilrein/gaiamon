@@ -28,6 +28,13 @@ let overworld: OverworldScreen;
 /** Guards against re-entrant encounters while a battle/dialogue is active. */
 let busy = false;
 
+/** Dialogue that also swallows the Space/Enter press that closed it, so the
+ *  action doesn't immediately re-trigger the NPC/sign that opened it. */
+async function say(lines: { speaker?: string; text: string }[]): Promise<void> {
+  await runDialogue(uiRoot, lines);
+  game.input.consumeAction();
+}
+
 function palette(areaId: string) {
   const area = AREAS[areaId] ?? Object.values(AREAS)[0];
   return { ground1: area.palette.ground1, ground2: area.palette.ground2, fog: area.palette.fog };
@@ -65,7 +72,7 @@ async function afterDefeat(): Promise<void> {
   await fadeTransition(uiRoot, () => {
     overworld.loadArea(game, home.id, home.spawn.x, home.spawn.z);
   });
-  await runDialogue(uiRoot, [
+  await say([
     { text: "You were carried back to safety. Your Gaiamon are rested and ready." },
   ]);
   game.save();
@@ -87,13 +94,20 @@ function startBattleFlow(
     backdrop: palette(game.player.areaId),
     opponentTitle,
     onFinish: async ({ outcome, syncedSpeciesId }) => {
+      // Re-assert the guard: a previous chained battle's late release must not
+      // leave this window unguarded (review finding: trial busy race).
+      busy = true;
       hudRoot.classList.remove("hud-in-battle");
       game.setScreen(overworld);
       overworld.loadArea(game, game.player.areaId, game.player.pos.x, game.player.pos.z);
+
+      // Evolutions may have changed species mid-battle: keep the Ledger honest.
+      for (const mon of game.player.party) registerSpecies(game.player, mon.speciesId);
+
       if (outcome === "synced" && syncedSpeciesId) {
         const where = addSyncedMon(game.player, syncedSpeciesId, wildLevel ?? 3);
         const species = DATA.species[syncedSpeciesId];
-        await runDialogue(uiRoot, [
+        await say([
           {
             text:
               where === "party"
@@ -101,11 +115,14 @@ function startBattleFlow(
                 : `${species.name} was registered to your Codex — your party is full.`,
           },
         ]);
-      } else if (outcome === "defeat") {
+      }
+      // A recoil victory can wipe the whole party: treat like a defeat.
+      if (outcome === "defeat" || game.player.party.every((m) => m.currentHp <= 0)) {
         await afterDefeat();
       }
       game.save();
       await onDone?.(outcome);
+      game.input.consumeAction();
       busy = false;
     },
   });
@@ -132,52 +149,57 @@ function trainerBattle(trainer: TrainerDef, onDone?: (outcome: string) => Promis
 async function handleNpc(npc: NpcPlacement): Promise<void> {
   if (busy) return;
   busy = true;
-  await runDialogue(uiRoot, npc.dialogue.map((text) => ({ speaker: npc.name, text })));
-  busy = false;
-  if (npc.battle) {
-    const trainer = TRAINERS[npc.battle.id];
-    if (trainer && !game.player.flags.includes(trainer.defeatFlag)) {
-      await runDialogue(uiRoot, trainer.dialogue.intro.map((text) => ({ speaker: trainer.name, text })));
-      trainerBattle(trainer, async (outcome) => {
-        if (outcome === "victory") {
-          game.player.flags.push(trainer.defeatFlag);
-          await runDialogue(uiRoot, trainer.dialogue.win.map((text) => ({ speaker: trainer.name, text })));
-        } else if (outcome !== "defeat") {
-          await runDialogue(uiRoot, trainer.dialogue.lose.map((text) => ({ speaker: trainer.name, text })));
-        }
-        game.save();
-      });
-    }
+  await say(npc.dialogue.map((text) => ({ speaker: npc.name, text })));
+
+  const trainer = npc.battle ? TRAINERS[npc.battle.id] : null;
+  if (trainer && !game.player.flags.includes(trainer.defeatFlag)) {
+    // busy stays true through the intro and hand-off; the battle flow's
+    // onFinish is what finally releases it.
+    await say(trainer.dialogue.intro.map((text) => ({ speaker: trainer.name, text })));
+    trainerBattle(trainer, async (outcome) => {
+      if (outcome === "victory") {
+        game.player.flags.push(trainer.defeatFlag);
+        await say(trainer.dialogue.win.map((text) => ({ speaker: trainer.name, text })));
+      } else if (outcome !== "defeat") {
+        await say(trainer.dialogue.lose.map((text) => ({ speaker: trainer.name, text })));
+      }
+      game.save();
+    });
+    return;
   }
+  busy = false;
 }
 
 async function runTrial(): Promise<void> {
+  if (busy) return;
+  busy = true;
   if (game.player.flags.includes(TRIAL.completeFlag)) {
-    await runDialogue(uiRoot, [{ text: "The waystone is calm. Your trial here is already complete." }]);
+    await say([{ text: "The waystone is calm. Your trial here is already complete." }]);
+    busy = false;
     return;
   }
-  busy = true;
-  await runDialogue(uiRoot, TRIAL.intro.map((text) => ({ speaker: TRIAL.name, text })));
-  busy = false;
+  await say(TRIAL.intro.map((text) => ({ speaker: TRIAL.name, text })));
 
+  // busy remains true for the entire gauntlet; each round's battle onFinish
+  // re-asserts it and only the terminal round (or a defeat) releases it.
   let round = 0;
   const nextRound = async (outcome: string): Promise<void> => {
     if (outcome !== "victory") return; // defeat/flee ends the gauntlet
     round += 1;
     if (round >= TRIAL.opponents.length) {
       game.player.flags.push(TRIAL.completeFlag);
-      await runDialogue(uiRoot, TRIAL.completeText.map((text) => ({ speaker: TRIAL.name, text })));
+      await say(TRIAL.completeText.map((text) => ({ speaker: TRIAL.name, text })));
       game.save();
       return;
     }
     if (TRIAL.healBetween) healParty(game.player);
     const trainer = TRAINERS[TRIAL.opponents[round]];
-    await runDialogue(uiRoot, trainer.dialogue.intro.map((text) => ({ speaker: trainer.name, text })));
+    await say(trainer.dialogue.intro.map((text) => ({ speaker: trainer.name, text })));
     trainerBattle(trainer, nextRound);
   };
 
   const first = TRAINERS[TRIAL.opponents[0]];
-  await runDialogue(uiRoot, first.dialogue.intro.map((text) => ({ speaker: first.name, text })));
+  await say(first.dialogue.intro.map((text) => ({ speaker: first.name, text })));
   trainerBattle(first, nextRound);
 }
 
@@ -186,14 +208,14 @@ async function handleTrigger(trigger: AreaTrigger): Promise<void> {
   switch (trigger.kind) {
     case "sign":
       busy = true;
-      await runDialogue(uiRoot, [{ text: trigger.text ?? "…the writing has worn away." }]);
+      await say([{ text: trigger.text ?? "…the writing has worn away." }]);
       busy = false;
       break;
     case "heal": {
       busy = true;
       healParty(game.player);
       game.save();
-      await runDialogue(uiRoot, [{ text: trigger.text ?? "A warm hum washes over your party. Fully rested!" }]);
+      await say([{ text: trigger.text ?? "A warm hum washes over your party. Fully rested!" }]);
       busy = false;
       break;
     }
@@ -203,24 +225,24 @@ async function handleTrigger(trigger: AreaTrigger): Promise<void> {
     case "titan": {
       const titan = TRAINERS[TITAN_ID];
       if (game.player.flags.includes(titan.defeatFlag)) {
-        await runDialogue(uiRoot, [{ text: "The arena is quiet now. The Titan rests, at peace." }]);
+        await say([{ text: "The arena is quiet now. The Titan rests, at peace." }]);
         return;
       }
       if (!game.player.flags.includes(TRIAL.completeFlag)) {
         busy = true;
-        await runDialogue(uiRoot, [
+        await say([
           { text: "The arena gate is sealed. The great waystone's rune-rings are dark — the Trial of Echoes awaits." },
         ]);
         busy = false;
         return;
       }
       busy = true;
-      await runDialogue(uiRoot, titan.dialogue.intro.map((text) => ({ speaker: titan.name, text })));
+      await say(titan.dialogue.intro.map((text) => ({ speaker: titan.name, text })));
       busy = false;
       trainerBattle(titan, async (outcome) => {
         if (outcome === "victory") {
           game.player.flags.push(titan.defeatFlag);
-          await runDialogue(uiRoot, titan.dialogue.win.map((text) => ({ speaker: titan.name, text })));
+          await say(titan.dialogue.win.map((text) => ({ speaker: titan.name, text })));
           game.save();
         }
       });
@@ -230,7 +252,12 @@ async function handleTrigger(trigger: AreaTrigger): Promise<void> {
 }
 
 async function handleExit(exit: AreaExit): Promise<void> {
-  if (busy) return;
+  if (busy) {
+    // The overworld froze itself expecting a transition — let it go, the
+    // player can walk onto the exit again once the dialogue/codex closes.
+    overworld.releaseBusy();
+    return;
+  }
   busy = true;
   await fadeTransition(uiRoot, () => {
     overworld.loadArea(game, exit.toArea, exit.toX, exit.toZ);

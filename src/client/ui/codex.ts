@@ -322,7 +322,10 @@ export async function openCodex(
     }
 
     function confirmNewGame(): void {
-      const panel = el("div", { className: "panel" }, [
+      // One confirm at a time, and it lives inside the codex root so closing
+      // the codex removes it too (review finding: it stacked in uiRoot).
+      wrap.querySelector(".confirm-newgame")?.remove();
+      const panel = el("div", { className: "panel confirm-newgame" }, [
         el("div", { text: "Erase this journey and start over?" }),
         el("div", {}, [
           el("button", { className: "chunky-btn", text: "Cancel", onClick: () => panel.remove() }),
@@ -350,7 +353,7 @@ export async function openCodex(
       actions.style.gap = "10px";
       actions.style.justifyContent = "center";
       actions.style.marginTop = "12px";
-      game.uiRoot.append(panel);
+      wrap.append(panel);
     }
 
     render();

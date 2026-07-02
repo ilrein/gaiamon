@@ -134,6 +134,11 @@ export class OverworldScreen implements Screen {
   }
 
   // -- area loading ---------------------------------------------------------
+  /** Main dropped an exit/interaction (it was busy): unfreeze movement. */
+  releaseBusy(): void {
+    this.busy = false;
+  }
+
   loadArea(game: Game, areaId: string, x: number, z: number): void {
     const area = AREAS[areaId];
     if (!area) {
@@ -145,7 +150,9 @@ export class OverworldScreen implements Screen {
     this.area = area;
     this.busy = false;
     this.pending = null;
-    this.cooldown = 0;
+    // NOTE: cooldown intentionally survives area reloads — returning from a
+    // battle goes through loadArea, and the post-battle encounter grace
+    // period must actually apply (review finding).
 
     // Sky + fog from the biome palette.
     const fog = new THREE.Color(area.palette.fog);

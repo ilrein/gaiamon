@@ -85,6 +85,8 @@ export interface BattleState {
   turn: number;
   phaseIndex: number;
   outcome: "ongoing" | "victory" | "defeat" | "fled" | "synced";
+  /** Foe uids whose faint has already granted XP (guards double rewards). */
+  rewardedFoeUids: string[];
 }
 
 export type BattleAction =
@@ -127,7 +129,8 @@ export function startBattle(
   playerParty: MonsterInstance[],
   foeParty: MonsterInstance[],
 ): BattleState {
-  const playerIndex = playerParty.findIndex((m) => m.currentHp > 0);
+  // Guard against a fully-fainted party (shouldn't happen, but never crash).
+  const playerIndex = Math.max(0, playerParty.findIndex((m) => m.currentHp > 0));
   return {
     config,
     player: { party: playerParty, activeIndex: playerIndex, active: makeCombatant(playerParty[playerIndex]) },
@@ -135,6 +138,7 @@ export function startBattle(
     turn: 1,
     phaseIndex: 0,
     outcome: "ongoing",
+    rewardedFoeUids: [],
   };
 }
 
@@ -311,8 +315,9 @@ function executeMove(
     return;
   }
 
+  const targetWasFainted = target.mon.currentHp <= 0;
   let totalDamage = 0;
-  if (move.power > 0) {
+  if (move.power > 0 && !targetWasFainted) {
     const multi = move.effects.find((e): e is Extract<MoveEffect, { kind: "multiHit" }> => e.kind === "multiHit");
     const hits = multi ? rollInt(rng, multi.min, multi.max) : 1;
     for (let h = 0; h < hits && target.mon.currentHp > 0; h++) {
@@ -334,7 +339,8 @@ function executeMove(
 
   executeMoveEffects(data, state, actorSide, move, totalDamage, rng, events);
 
-  if (target.mon.currentHp <= 0) {
+  // Only announce a NEW faint — never re-faint an already-downed target.
+  if (target.mon.currentHp <= 0 && !targetWasFainted) {
     events.push({ kind: "faint", side: opponentOf(actorSide) });
   }
   if (actor.mon.currentHp <= 0) {
@@ -396,6 +402,7 @@ function grantVictoryRewards(
 ): void {
   const winner = state.player.active.mon;
   if (winner.currentHp <= 0) return;
+  let evolveEmitted = false;
   const foeSpecies = data.species[faintedFoe.speciesId];
   const gained = xpGain(foeSpecies.xpYield, faintedFoe.level, state.config.kind !== "wild");
   winner.xp += gained;
@@ -415,9 +422,32 @@ function grantVictoryRewards(
         events.push({ kind: "moveLearned", monUid: winner.uid, moveId: m, moveName: data.moves[m]?.name ?? m });
       }
     }
-    if (species.evolvesTo && species.evolveLevel && winner.level >= species.evolveLevel) {
+    if (!evolveEmitted && species.evolvesTo && species.evolveLevel && winner.level >= species.evolveLevel) {
+      evolveEmitted = true;
       events.push({ kind: "readyToEvolve", monUid: winner.uid, toSpeciesId: species.evolvesTo });
     }
+  }
+}
+
+/** Foe active mon is down: grant XP once, then send in the bench or end the
+ *  battle. Handles KOs from moves, recoil, and end-of-turn status damage. */
+function settleFoeFaint(data: GameData, state: BattleState, events: BattleEvent[]): void {
+  const fainted = state.foe.active.mon;
+  if (fainted.currentHp > 0 || state.outcome !== "ongoing") return;
+
+  if (!state.rewardedFoeUids.includes(fainted.uid)) {
+    state.rewardedFoeUids.push(fainted.uid);
+    grantVictoryRewards(data, state, fainted, events);
+  }
+
+  const nextFoe = state.foe.party.findIndex((m) => m.currentHp > 0);
+  if (nextFoe === -1) {
+    state.outcome = "victory";
+    events.push({ kind: "end", outcome: "victory" });
+  } else {
+    state.foe.activeIndex = nextFoe;
+    state.foe.active = makeCombatant(state.foe.party[nextFoe]);
+    events.push({ kind: "switchIn", side: "foe", partyIndex: nextFoe, speciesId: state.foe.party[nextFoe].speciesId, level: state.foe.party[nextFoe].level });
   }
 }
 
@@ -476,45 +506,32 @@ export function stepBattle(
   if (foeMove) order.push("foe");
   if (order.length === 2 && !playerFirst) order.reverse();
 
+  // The foe that chose this turn's action; a mid-turn replacement must NOT
+  // inherit and execute its dead predecessor's move.
+  const chosenFoe = state.foe.active.mon;
+
   for (const actor of order) {
     if (state.outcome !== "ongoing") break;
     const action = actor === "player" ? playerAction : foeAction;
     if (action.kind !== "move") continue;
-    const defenderBefore = side(state, opponentOf(actor)).active.mon;
+    if (actor === "foe" && state.foe.active.mon !== chosenFoe) continue;
     executeMove(data, state, actor, action.moveId, rng, events);
 
-    if (defenderBefore.currentHp <= 0) {
-      if (actor === "player") {
-        grantVictoryRewards(data, state, defenderBefore, events);
-        const nextFoe = state.foe.party.findIndex((m) => m.currentHp > 0);
-        if (nextFoe === -1) {
-          state.outcome = "victory";
-          events.push({ kind: "end", outcome: "victory" });
-        } else {
-          state.foe.activeIndex = nextFoe;
-          state.foe.active = makeCombatant(state.foe.party[nextFoe]);
-          events.push({ kind: "switchIn", side: "foe", partyIndex: nextFoe, speciesId: state.foe.party[nextFoe].speciesId, level: state.foe.party[nextFoe].level });
-        }
-      } else {
-        const nextPlayer = state.player.party.findIndex((m) => m.currentHp > 0);
-        if (nextPlayer === -1) {
-          state.outcome = "defeat";
-          events.push({ kind: "end", outcome: "defeat" });
-        }
-        // Player chooses replacement via UI; battle waits.
-      }
+    // Faints from the move itself or its recoil, either side.
+    settleFoeFaint(data, state, events);
+    if (state.outcome === "ongoing" && state.player.party.every((m) => m.currentHp <= 0)) {
+      state.outcome = "defeat";
+      events.push({ kind: "end", outcome: "defeat" });
     }
+    // (Player fainted with healthy bench: battle waits for forceSwitch.)
     checkBossPhase(state, data, events);
   }
 
   if (state.outcome === "ongoing") {
     endOfTurn(data, state, rng, events);
-    // End-of-turn status damage can end the battle too.
-    if (state.foe.active.mon.currentHp <= 0 && state.foe.party.every((m) => m.currentHp <= 0)) {
-      grantVictoryRewards(data, state, state.foe.active.mon, events);
-      state.outcome = "victory";
-      events.push({ kind: "end", outcome: "victory" });
-    } else if (state.player.party.every((m) => m.currentHp <= 0)) {
+    // End-of-turn status damage can KO either side too.
+    settleFoeFaint(data, state, events);
+    if (state.outcome === "ongoing" && state.player.party.every((m) => m.currentHp <= 0)) {
       state.outcome = "defeat";
       events.push({ kind: "end", outcome: "defeat" });
     }

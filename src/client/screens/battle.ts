@@ -137,9 +137,14 @@ export class BattleScreen implements Screen {
     this.scene?.traverse((o) => {
       const any = o as unknown as { geometry?: { dispose?: () => void }; material?: unknown };
       any.geometry?.dispose?.();
-      const m = any.material;
-      if (Array.isArray(m)) m.forEach((x) => (x as { dispose?: () => void })?.dispose?.());
-      else (m as { dispose?: () => void })?.dispose?.();
+      const mats = Array.isArray(any.material) ? any.material : [any.material];
+      for (const mat of mats) {
+        const m = mat as { dispose?: () => void; map?: { dispose?: () => void } } | undefined;
+        // Material.dispose() does NOT free its texture — do it explicitly
+        // (the per-battle ground-disc CanvasTexture was leaking).
+        m?.map?.dispose?.();
+        m?.dispose?.();
+      }
     });
   }
 
@@ -804,7 +809,8 @@ export class BattleScreen implements Screen {
     });
 
     mon.speciesId = ev.toSpeciesId;
-    mon.moves = movesAtLevel(to, mon.level);
+    // Keep the moveset the player actually has (stage learnsets overlap by
+    // design); rewriting it here silently deleted just-learned moves.
     const newMax = maxHpAt(to.baseStats.hp, mon.level);
     mon.currentHp = Math.max(1, Math.round(newMax * frac));
 

@@ -216,8 +216,8 @@ export const AREAS: Record<string, AreaDef> = {
     "triggers": [
       {
         "kind": "heal",
-        "x": 6,
-        "z": 11,
+        "x": 8,
+        "z": 12,
         "id": "hearthglow-inn",
         "text": "Rest your team at Posy's hearth. Your Gaiamon are fully restored."
       },
