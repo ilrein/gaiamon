@@ -31,8 +31,9 @@ export interface OverworldCallbacks {
 
 const PLAYER_SPEED = 4.2; // tiles / second
 const PLAYER_RADIUS = 0.32;
-// Pulled back for a wider view of the world (user feedback: too zoomed in).
-const CAM_OFFSET = new THREE.Vector3(0, 14.5, 12.5);
+// ~30° pitch (user direction): flatter, more Octopath-like framing at the
+// same ~19-unit distance.
+const CAM_OFFSET = new THREE.Vector3(0, 9.5, 16.5);
 const ENCOUNTER_COOLDOWN = 1.5; // seconds of grace after a battle beat
 const RUSTLE_DELAY = 0.28; // brief pause between the grass rustle and the battle
 
@@ -269,7 +270,8 @@ export class OverworldScreen implements Screen {
     const walking = this.moving && !this.busy && !this.pending;
     this.player.update(dt, walking);
     this.player.mesh.position.set(this.px, 0, this.pz);
-    this.player.faceCamera(this.camera);
+    // Sprites stay world-fixed (no camera billboarding) — direction changes
+    // come from the walk-cycle frames alone.
     this.terrain?.update(this.animT);
     this.ambience?.update(dt);
     this.minimap?.update(this.px, this.pz);

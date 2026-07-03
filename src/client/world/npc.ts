@@ -76,14 +76,15 @@ export class NpcActor {
   }
 
   /** `t` elapsed seconds, `showBubble` when the player is in talk range. */
-  update(t: number, showBubble: boolean, camera: THREE.Camera, playerX: number, playerZ: number): void {
+  update(t: number, showBubble: boolean, _camera: THREE.Camera, playerX: number, playerZ: number): void {
     if (showBubble) {
+      // Fixed mesh orientation (sprites never rotate with the camera) — they
+      // "turn" by swapping direction frames only.
       this.walker.lookToward(this.npc.x, this.npc.z, playerX, playerZ);
     } else {
       this.walker.face("down");
     }
     this.walker.update(0, false);
-    this.walker.faceCamera(camera, this.npc.x, this.npc.z);
 
     const target = showBubble ? 1 : 0;
     this.bubbleShown += (target - this.bubbleShown) * 0.15;
