@@ -4,6 +4,9 @@
 
 import * as THREE from "three";
 import { creatureTexture } from "../sprites";
+import { buildVoxelMesh } from "../world/voxel";
+import { VOXELS } from "../../data/voxels";
+import type { VoxelModel } from "../../shared/voxel";
 
 // ---------------------------------------------------------------------------
 // Easing + a tiny time-driven tween runner. Everything animated in the battle
@@ -64,25 +67,33 @@ export class Tweens {
 }
 
 // ---------------------------------------------------------------------------
-// Creature view: a group holding the base sprite plus an additive "flash"
-// sprite (same texture) used for the white hit-flash. Anchored at the feet.
+// Creature view: either a billboarded 2D sprite (with an additive flash twin)
+// or a true voxel mesh — behind one animation API so the battle playback code
+// doesn't care which it's driving. Anchored at the feet.
 export interface CombatantView {
+  kind: "sprite" | "voxel";
   group: THREE.Group;
-  base: THREE.Sprite;
-  flash: THREE.Sprite;
   scale: number;
   phase: number;
   basePos: THREE.Vector3;
   offset: THREE.Vector3;
   fainting: boolean;
   rimLight?: THREE.PointLight;
+  /** Absolute world scale (x = width-ish, y = height) for squash/stretch. */
+  setScale(x: number, y: number): void;
+  /** 0..1 fade of the whole creature. */
+  setOpacity(o: number): void;
+  /** 0..1 white hit-flash intensity. */
+  setFlash(o: number): void;
+  /** Tip-over rotation (radians) for faints; pivots at the feet. */
+  setTip(rad: number): void;
 }
 
-export function makeCombatantView(
+function makeSpriteView(
   speciesId: string,
   scale: number,
   phase: number,
-  opts: { titan?: boolean } = {},
+  opts: { titan?: boolean },
 ): CombatantView {
   const tex = creatureTexture(speciesId);
   const base = new THREE.Sprite(
@@ -113,21 +124,83 @@ export function makeCombatantView(
   const group = new THREE.Group();
   group.add(base, flash);
 
-  const view: CombatantView = {
+  return {
+    kind: "sprite",
     group,
-    base,
-    flash,
     scale,
     phase,
     basePos: new THREE.Vector3(),
     offset: new THREE.Vector3(),
     fainting: false,
+    setScale(x, y) {
+      base.scale.set(x, y, 1);
+      flash.scale.set(x, y, 1);
+    },
+    setOpacity(o) {
+      base.material.opacity = o;
+    },
+    setFlash(o) {
+      flash.material.opacity = o;
+    },
+    setTip(rad) {
+      base.material.rotation = rad;
+      flash.material.rotation = rad;
+    },
   };
+}
+
+function makeVoxelView(
+  model: VoxelModel,
+  scale: number,
+  phase: number,
+  opts: { titan?: boolean },
+): CombatantView {
+  const { mesh } = buildVoxelMesh(model, scale);
+  const material = mesh.material as THREE.MeshLambertMaterial;
+  material.transparent = true;
+  if (opts.titan) material.color.setHex(0xffd8d0);
+
+  const group = new THREE.Group();
+  group.add(mesh);
+
+  return {
+    kind: "voxel",
+    group,
+    scale,
+    phase,
+    basePos: new THREE.Vector3(),
+    offset: new THREE.Vector3(),
+    fainting: false,
+    setScale(x, y) {
+      mesh.scale.set(x / scale, y / scale, x / scale);
+    },
+    setOpacity(o) {
+      material.opacity = o;
+    },
+    setFlash(o) {
+      material.emissive.setScalar(o);
+    },
+    setTip(rad) {
+      mesh.rotation.z = rad;
+    },
+  };
+}
+
+export function makeCombatantView(
+  speciesId: string,
+  scale: number,
+  phase: number,
+  opts: { titan?: boolean } = {},
+): CombatantView {
+  const model = VOXELS[speciesId];
+  const view = model
+    ? makeVoxelView(model, scale, phase, opts)
+    : makeSpriteView(speciesId, scale, phase, opts);
 
   if (opts.titan) {
     const rim = new THREE.PointLight(0xff5a4a, 6, 12, 2);
     rim.position.set(0, scale * 0.6, -0.6);
-    group.add(rim);
+    view.group.add(rim);
     view.rimLight = rim;
   }
   return view;

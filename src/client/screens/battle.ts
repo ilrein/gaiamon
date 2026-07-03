@@ -280,8 +280,7 @@ export class BattleScreen implements Screen {
       if (base > 0) {
         v.scale = base * factor;
         if (!v.fainting) {
-          v.base.scale.set(v.scale, v.scale, 1);
-          v.flash.scale.copy(v.base.scale);
+          v.setScale(v.scale, v.scale);
         }
       }
       v.basePos.x = x;
@@ -794,21 +793,19 @@ export class BattleScreen implements Screen {
 
   // ---- sprite animations -------------------------------------------------
   private async flash(side: Side): Promise<void> {
-    const m = this.views[side].flash.material;
+    const v = this.views[side];
     await this.tweens.tween(0.18, (k) => {
-      m.opacity = (1 - k) * 0.9;
+      v.setFlash((1 - k) * 0.9);
     });
-    m.opacity = 0;
+    v.setFlash(0);
   }
 
-  private async tintFlash(side: Side, hex: number): Promise<void> {
-    const m = this.views[side].flash.material;
-    m.color.setHex(hex);
+  private async tintFlash(side: Side, _hex: number): Promise<void> {
+    const v = this.views[side];
     await this.tweens.tween(0.3, (k) => {
-      m.opacity = (1 - k) * 0.8;
+      v.setFlash((1 - k) * 0.8);
     });
-    m.opacity = 0;
-    m.color.setHex(0xffffff);
+    v.setFlash(0);
   }
 
   private async shake(side: Side, amount = 0.12): Promise<void> {
@@ -858,9 +855,9 @@ export class BattleScreen implements Screen {
     const s = v.scale;
     await this.tweens.tween(0.18, (k) => {
       const f = 1 + Math.sin(k * Math.PI) * 0.15;
-      v.base.scale.set(s * f, s * f, 1);
+      v.setScale(s * f, s * f);
     });
-    v.base.scale.set(s, s, 1);
+    v.setScale(s, s);
   }
 
   private async faintAnim(side: Side): Promise<void> {
@@ -871,9 +868,9 @@ export class BattleScreen implements Screen {
     await this.tweens.tween(
       0.4,
       (k) => {
-        v.base.material.rotation = k * tip;
+        v.setTip(k * tip);
         v.group.position.y = startY - k * 0.6;
-        v.base.material.opacity = 1 - k;
+        v.setOpacity(1 - k);
       },
       easeInCubic,
     );
@@ -892,7 +889,7 @@ export class BattleScreen implements Screen {
         0.18,
         (k) => {
           old.group.position.x = old.basePos.x + away * k;
-          old.base.material.opacity = 1 - k;
+          old.setOpacity(1 - k);
         },
         easeInCubic,
       );
@@ -905,16 +902,14 @@ export class BattleScreen implements Screen {
     this.applyLayout(); // portrait sizing/position for the fresh view
 
     const target = v.scale;
-    v.base.material.opacity = 0;
+    v.setOpacity(0);
     await this.tweens.tween(0.3, (k) => {
       const s = easeOutBack(k);
       const sc = target * (0.55 + 0.45 * s);
-      v.base.scale.set(sc, sc, 1);
-      v.flash.scale.copy(v.base.scale);
-      v.base.material.opacity = Math.min(1, k * 2);
+      v.setScale(sc, sc);
+      v.setOpacity(Math.min(1, k * 2));
     });
-    v.base.scale.set(target, target, 1);
-    v.flash.scale.set(target, target, 1);
+    v.setScale(target, target);
 
     this.renderCard(side);
     this.log(`${this.name(side)} ${side === "player" ? "is ready!" : "steps up!"}`);
@@ -955,13 +950,13 @@ export class BattleScreen implements Screen {
     await this.tweens.tween(
       0.24,
       (k) => {
-        v.base.scale.set(v.scale * (1 - 0.7 * k), v.scale * (1 + 0.5 * k), 1);
+        v.setScale(v.scale * (1 - 0.7 * k), v.scale * (1 + 0.5 * k));
       },
       easeInCubic,
     );
     await this.tweens.tween(0.16, (k) => {
-      v.base.material.opacity = 1 - k;
-      v.base.scale.set(v.scale * 0.3 * (1 - k), v.scale * 1.5, 1);
+      v.setOpacity(1 - k);
+      v.setScale(v.scale * 0.3 * (1 - k), v.scale * 1.5);
     });
     v.group.visible = false;
     this.beamToCodex("foe");
@@ -1011,8 +1006,7 @@ export class BattleScreen implements Screen {
     v.scale = from * 1.08;
     await this.tweens.tween(0.3, (k) => {
       const s = from + (v.scale - from) * k;
-      v.base.scale.set(s, s, 1);
-      v.flash.scale.set(s, s, 1);
+      v.setScale(s, s);
     });
     this.log(announcement);
     await this.tweens.wait(0.3);
