@@ -48,7 +48,8 @@
 .gm-worldmap {
   position: fixed;
   inset: 0;
-  z-index: 40;
+  /* Above the codex device (z-index 45) — its MAP tab opens this on top. */
+  z-index: 50;
   display: flex;
   flex-direction: column;
   animation: gm-map-fade 0.2s ease-out;
