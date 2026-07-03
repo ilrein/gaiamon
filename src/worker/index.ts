@@ -1,3 +1,6 @@
+// Cloudflare Worker entry: a Hono app that answers /api/* routes and otherwise
+// falls through to static assets (SPA index.html for client-side routes).
+
 import { Hono } from "hono";
 
 type Bindings = {

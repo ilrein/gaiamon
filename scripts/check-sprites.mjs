@@ -2,6 +2,8 @@
 // Finds generated sprites whose background isn't actually transparent
 // (the image model sometimes paints a backdrop anyway) and emits a
 // regeneration manifest for them.
+//
+// Usage: bun scripts/check-sprites.mjs
 
 import { readFile, writeFile, readdir } from "node:fs/promises";
 import { execFile } from "node:child_process";

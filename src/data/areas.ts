@@ -83,7 +83,7 @@ export const AREAS: Record<string, AreaDef> = {
       {
         "kind": "lantern",
         "x": 14.5,
-        "z": 10,
+        "z": 11.4,
         "scale": 1.6,
         "tint": "#FFB55C"
       },

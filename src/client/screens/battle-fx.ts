@@ -192,7 +192,9 @@ export function buildBattleScene(
   scene.add(disc);
 
   const playerPos = new THREE.Vector3(-1.35, 0, 1.5);
-  const foePos = new THREE.Vector3(1.55, 0.55, -1.7);
+  // Low enough that the foe's platform overlaps the ground disc instead of
+  // floating in the sky band (visual-judge finding).
+  const foePos = new THREE.Vector3(1.55, 0.3, -1.55);
 
   // Soft round platforms under each creature.
   const platMat = new THREE.MeshBasicMaterial({

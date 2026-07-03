@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 // Builds art/manifest.json from design/design.json: one transparent sprite per
 // species (+ a few extras). Feed the result to scripts/gen-batch.mjs.
+//
+// Usage: bun scripts/build-art-manifest.mjs
 
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 

@@ -8,6 +8,7 @@ import type { MonsterInstance, PlayerState } from "../../shared/model";
 import { maxHpAt } from "../../shared/stats";
 import { DATA } from "../../data";
 import { creatureImg } from "../sprites";
+import { clampPct } from "./format";
 import { el } from "../dom";
 
 // HP color stops mirror the battle hp-bar: green normally, amber <=50%, red <=20%.
@@ -80,7 +81,7 @@ export class PartyHud {
   private updateCard(refs: CardRefs, mon: MonsterInstance, isLead: boolean): void {
     const def = DATA.species[mon.speciesId];
     const maxHp = def ? maxHpAt(def.baseStats.hp, mon.level) : Math.max(1, mon.currentHp);
-    const pct = Math.max(0, Math.min(100, (mon.currentHp / maxHp) * 100));
+    const pct = clampPct((mon.currentHp / maxHp) * 100);
     const color = pct <= HP_CRIT ? COLOR_CRIT : pct <= HP_WARN ? COLOR_WARN : COLOR_OK;
 
     // A single pair of CSS vars drives both the phone HP ring and the desktop bar.

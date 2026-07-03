@@ -1,3 +1,6 @@
+// Client-side type palette: the display colour per elemental type and the small
+// type-chip markup that reuses it. Single source of truth for type theming.
+
 import type { TypeId } from "../shared/model";
 
 export const TYPE_COLORS: Record<TypeId, string> = {

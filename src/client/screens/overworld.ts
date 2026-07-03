@@ -13,11 +13,13 @@ import { isWalkable, tileAt } from "../../shared/area";
 import { AREAS } from "../../data";
 import { el } from "../dom";
 import { buildTerrain, type Terrain } from "../world/terrain";
+import { Ambience, showAreaTitle } from "../world/ambience";
 import { buildProp } from "../world/props";
 import { NpcActor } from "../world/npc";
 import { WalkerSprite, PLAYER_WALKER } from "../world/walker";
 import { PartyHud } from "../ui/party-hud";
 import { Minimap, markVisited } from "../ui/map";
+import { PostFX } from "../postfx";
 
 export interface OverworldCallbacks {
   onEncounter: (speciesId: string, level: number) => void;
@@ -75,9 +77,14 @@ export class OverworldScreen implements Screen {
   private readonly areaGroup = new THREE.Group();
 
   private player!: WalkerSprite;
+  private postfx!: PostFX;
   private area: AreaDef | null = null;
   private terrain: Terrain | null = null;
+  private ambience: Ambience | null = null;
   private npcs: NpcActor[] = [];
+  /** Last areaId shown as a title splash — battle-return reloads of the same
+   *  area must not retrigger the card. */
+  private splashedAreaId: string | null = null;
 
   // player kinematics
   private px = 0;
@@ -121,6 +128,9 @@ export class OverworldScreen implements Screen {
     this.player = new WalkerSprite(PLAYER_WALKER, 1.75);
     this.scene.add(this.player.mesh);
 
+    // HD-2D post stack (bloom + tilt-shift + vignette + grade).
+    this.postfx = new PostFX(game.renderer, this.scene, this.camera);
+
     this.buildHud(game);
   }
 
@@ -131,6 +141,7 @@ export class OverworldScreen implements Screen {
     this.minimap?.dispose();
     this.disposeArea();
     this.player.dispose();
+    this.postfx.dispose();
     this.scene.clear();
     void game;
   }
@@ -138,6 +149,7 @@ export class OverworldScreen implements Screen {
   resize(_game: Game, width: number, height: number): void {
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
+    this.postfx.resize(width, height);
   }
 
   // -- area loading ---------------------------------------------------------
@@ -169,6 +181,10 @@ export class OverworldScreen implements Screen {
     // Terrain, props, NPCs.
     this.terrain = buildTerrain(area);
     this.areaGroup.add(this.terrain.group);
+
+    // Biome particle ambience (torn down with the area in disposeArea()).
+    this.ambience = new Ambience(area);
+    this.areaGroup.add(this.ambience.points);
 
     for (const p of area.props) {
       const obj = buildProp(p.kind, p.tint);
@@ -214,6 +230,13 @@ export class OverworldScreen implements Screen {
     game.player.areaId = areaId;
     game.player.pos = { x, z };
 
+    // Title splash only when actually entering a different area (not on
+    // battle-return reloads of the same area).
+    if (this.splashedAreaId !== area.id) {
+      this.splashedAreaId = area.id;
+      showAreaTitle(game.hudRoot, area.name);
+    }
+
     if (this.areaTag) this.areaTag.textContent = area.name;
     this.partyHud?.refresh();
     this.minimap?.setArea(area);
@@ -248,6 +271,7 @@ export class OverworldScreen implements Screen {
     this.player.mesh.position.set(this.px, 0, this.pz);
     this.player.faceCamera(this.camera);
     this.terrain?.update(this.animT);
+    this.ambience?.update(dt);
     this.minimap?.update(this.px, this.pz);
 
     // NPC bubbles; NPCs face the player when in talk range.
@@ -261,7 +285,7 @@ export class OverworldScreen implements Screen {
     this.camera.position.copy(this.tmpDesired);
     this.camera.lookAt(this.player.mesh.position.x, 1, this.player.mesh.position.z);
 
-    game.renderer.render(this.scene, this.camera);
+    this.postfx.render(dt);
   }
 
   // -- movement + interaction ----------------------------------------------
@@ -362,8 +386,6 @@ export class OverworldScreen implements Screen {
     return best;
   }
 
-  // -- player animation -----------------------------------------------------
-
   // -- HUD ------------------------------------------------------------------
   private buildHud(game: Game): void {
     this.areaTag = el("div", { className: "area-tag", text: "" });
@@ -400,6 +422,8 @@ export class OverworldScreen implements Screen {
   private disposeArea(): void {
     this.terrain?.dispose();
     this.terrain = null;
+    this.ambience?.dispose();
+    this.ambience = null;
     for (const n of this.npcs) n.dispose();
     this.npcs = [];
     this.areaGroup.traverse((obj) => {
@@ -431,66 +455,4 @@ function hintText(trigger: AreaTrigger): string {
     case "titan":
       return "Challenge  (A)";
   }
-}
-
-// ---------------------------------------------------------------------------
-// The player avatar: a cute chibi warden with a satchel and the Codex on her
-// hip, drawn on a 24px canvas and billboarded.
-function wardenTexture(): THREE.Texture {
-  const px = 24;
-  const canvas = document.createElement("canvas");
-  canvas.width = px;
-  canvas.height = px;
-  const ctx = canvas.getContext("2d")!;
-
-  const put = (x: number, y: number, w: number, h: number, color: string) => {
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, w, h);
-  };
-
-  const cloak = "#6bbf7a";
-  const cloakDark = "#4f9e60";
-  const skin = "#f2c79a";
-  const hair = "#7a5230";
-
-  // feet / boots
-  put(8, 21, 3, 2, "#5a4632");
-  put(13, 21, 3, 2, "#5a4632");
-  // legs
-  put(8, 17, 3, 4, "#3f5a4a");
-  put(13, 17, 3, 4, "#3f5a4a");
-  // cloak / body
-  put(6, 11, 12, 7, cloak);
-  put(7, 10, 10, 2, cloak);
-  put(6, 11, 12, 1, cloakDark);
-  // arms
-  put(5, 12, 2, 4, cloakDark);
-  put(17, 12, 2, 4, cloakDark);
-  // satchel strap
-  put(9, 11, 1, 7, "#b98a5a");
-  // Codex on the hip: dark book with a warm clasp
-  put(16, 15, 4, 4, "#3d4a63");
-  put(16, 16, 4, 1, "#5a6b8c");
-  put(19, 16, 1, 2, "#ffd66b");
-  // head
-  put(8, 4, 8, 7, skin);
-  put(7, 5, 10, 5, skin);
-  // hair
-  put(7, 3, 10, 3, hair);
-  put(6, 4, 2, 4, hair);
-  put(16, 4, 2, 4, hair);
-  // eyes
-  put(9, 7, 2, 2, "#3a2f2a");
-  put(13, 7, 2, 2, "#3a2f2a");
-  put(9, 7, 1, 1, "#ffffff");
-  put(13, 7, 1, 1, "#ffffff");
-  // blush + mouth
-  put(8, 9, 1, 1, "#f4a9a0");
-  put(15, 9, 1, 1, "#f4a9a0");
-  put(11, 9, 2, 1, "#c96a5a");
-
-  const tex = new THREE.CanvasTexture(canvas);
-  tex.magFilter = THREE.NearestFilter;
-  tex.colorSpace = THREE.SRGBColorSpace;
-  return tex;
 }

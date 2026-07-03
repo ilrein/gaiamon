@@ -6,7 +6,8 @@
 import * as THREE from "three";
 
 export function spritePath(speciesId: string): string {
-  return `/sprites/creatures/${speciesId}.png`;
+  // Trimmed + WebP-encoded by scripts/optimize-sprites.mjs.
+  return `/sprites/creatures/${speciesId}.webp`;
 }
 
 /** Deterministic pastel from a string. */

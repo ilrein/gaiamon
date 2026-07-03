@@ -83,7 +83,9 @@ export function buildProp(kind: PropKind, tint?: string): THREE.Object3D {
       g.add(mesh(new THREE.CylinderGeometry(0.08, 0.1, 1.1, 6), lam(0x4a3b2e), 0, 0.55, 0));
       g.add(mesh(new THREE.BoxGeometry(0.3, 0.36, 0.3), lam(0xffd98a, { emissive: 0xffb347 }), 0, 1.25, 0, false));
       g.add(mesh(new THREE.ConeGeometry(0.24, 0.18, 4), lam(0x4a3b2e), 0, 1.52, 0));
-      const light = new THREE.PointLight(0xffca7a, 6, 7, 1.6);
+      // Toned down ~25% — with bloom in the postFX chain, brighter lamps blew
+      // the path tiles out to a solid glow slab (visual-judge finding).
+      const light = new THREE.PointLight(0xffca7a, 4.4, 6.5, 1.6);
       light.position.set(0, 1.25, 0);
       g.add(light);
       break;

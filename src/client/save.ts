@@ -1,3 +1,7 @@
+// Save/load of PlayerState to localStorage. Saving never throws (private mode
+// just plays without persistence); loading *repairs* the save, salvaging valid
+// data and falling back to sane defaults for anything that drifted.
+
 import type { MonsterInstance, PlayerState } from "../shared/model";
 import { AREAS, DATA, START_AREA } from "../data";
 import { maxHpAt } from "../shared/stats";

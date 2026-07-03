@@ -1,3 +1,7 @@
+// Shared stat math: derived stats, the cubic XP curve, stat-stage multipliers,
+// learnset resolution, and fresh-instance creation. Used by both the client and
+// the battle engine, so the numbers stay identical everywhere.
+
 import type { MonsterInstance, SpeciesDef, StatBlock, StageableStat } from "./model";
 
 // Derived stats. Classic-inspired curve, tuned for levels 1-40 in v1.

@@ -8,7 +8,7 @@ open — the repo *is* the dev log.
 
 🎮 **Play:** [gaiamon.com](https://gaiamon.com) *(pre-alpha)*
 
-![Gaiamon key art](public/og-image.png)
+![Gaiamon key art](public/og-image.jpg)
 
 ## What's playable today
 

@@ -3,6 +3,8 @@
 // existing area, spawns/NPCs/triggers sit on sensible tiles, every referenced
 // species/trainer exists, encounter weights are sane. Run in CI-adjacent
 // checks and after any content authoring pass.
+//
+// Usage: bun scripts/validate-world.mjs
 
 import { AREAS } from "../src/data/areas.ts";
 import { SPECIES } from "../src/data/species.ts";

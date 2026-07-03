@@ -3,6 +3,8 @@
 // sprite sheets the client consumes: 3 walk frames x 4 directions
 // (rows: down, left, right, up), 18x26 px frames -> 54x104 per character.
 // Output: public/sprites/npcs/walker-<n>.png
+//
+// Usage: bun scripts/slice-npcs.mjs
 
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";

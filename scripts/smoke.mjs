@@ -106,10 +106,33 @@ try {
   await shot("3-overworld");
 
   step = "walk-to-grass";
-  // Head north out of the village (spawn is on the main path), then wander the
-  // meadow grass until a battle starts.
-  const dirs = ["w", "w", "w", "w", "w", "a", "w", "d", "d", "w", "a", "w", "d", "w", "a", "a", "w", "d"];
+  // Phase 1: wall-guided walk out of the village, frame-rate independent
+  // (slow software-GL runs cover fewer tiles per second, so timed patterns
+  // drift). Wall-sliding makes long diagonal holds deterministic: W+D pins
+  // the player into the NE corner, then W+A slides west along the north wall
+  // until the player drops into the arch gap and the exit auto-fires.
+  const startArea = await page.locator(".area-tag").first().textContent();
   let inBattle = false;
+  let leftVillage = false;
+  const holdUntilOut = async (keys, maxMs) => {
+    for (const k of keys) await page.keyboard.down(k);
+    for (let t = 0; t < maxMs && !leftVillage && !inBattle; t += 500) {
+      await new Promise((r) => setTimeout(r, 500));
+      inBattle = (await page.$(".battle-menu")) !== null;
+      const tag = await page.locator(".area-tag").first().textContent().catch(() => null);
+      leftVillage = tag !== null && tag !== startArea;
+    }
+    for (const k of keys) await page.keyboard.up(k);
+  };
+  await holdUntilOut(["w", "d"], 15000);
+  await shot("3b-midwalk");
+  await holdUntilOut(["w", "a"], 30000);
+  if (!leftVillage && !inBattle) {
+    await shot("4-no-exit");
+    await fail("never walked out of the village");
+  }
+  // Phase 2: wander the meadow grass until a battle starts.
+  const dirs = ["w", "a", "w", "d", "d", "w", "a", "w", "d", "w", "a", "a", "w", "d"];
   for (let round = 0; round < 30 && !inBattle; round++) {
     const key = dirs[round % dirs.length];
     await page.keyboard.down(key);
@@ -117,7 +140,6 @@ try {
     await page.keyboard.up(key);
     await new Promise((r) => setTimeout(r, 150));
     inBattle = (await page.$(".battle-menu")) !== null;
-    if (round === 8) await shot("3b-midwalk");
   }
   if (!inBattle) {
     await shot("4-no-battle");

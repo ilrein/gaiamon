@@ -35,13 +35,17 @@ let totalTokens = 0;
 
 async function generate(item) {
   if (!force) {
-    try {
-      await access(item.out);
-      skipped++;
-      console.log(`skip (exists): ${item.out}`);
-      return;
-    } catch {
-      /* not there — generate */
+    // The optimize pass converts PNGs to .webp and removes the originals, so
+    // treat an existing .webp sibling as "already generated" too.
+    for (const candidate of [item.out, item.out.replace(/\.png$/, ".webp")]) {
+      try {
+        await access(candidate);
+        skipped++;
+        console.log(`skip (exists): ${candidate}`);
+        return;
+      } catch {
+        /* keep looking */
+      }
     }
   }
   // gpt-image-2 does not support transparent backgrounds; gpt-image-1 does.

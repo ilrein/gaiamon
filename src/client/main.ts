@@ -14,6 +14,7 @@ import { TitleScreen } from "./screens/title";
 import { OverworldScreen, fadeTransition } from "./screens/overworld";
 import { BattleScreen } from "./screens/battle";
 import { openCodex } from "./ui/codex";
+import { playBattleIntro } from "./ui/transitions";
 import { runDialogue } from "./ui/dialogue";
 import type { BattleConfig } from "../shared/battle";
 
@@ -78,13 +79,13 @@ async function afterDefeat(): Promise<void> {
   game.save();
 }
 
-function startBattleFlow(
+async function startBattleFlow(
   config: BattleConfig,
   foeParty: MonsterInstance[],
   opponentTitle: string | undefined,
   wildLevel: number | null,
   onDone?: (outcome: string) => Promise<void> | void,
-): void {
+): Promise<void> {
   busy = true;
   hudRoot.classList.add("hud-in-battle");
   const battle = new BattleScreen({
@@ -126,13 +127,16 @@ function startBattleFlow(
       busy = false;
     },
   });
+  // Encounter swirl beat (~450ms); setScreen's uiRoot.replaceChildren() then
+  // clears the overlay right as the white flash peaks.
+  await playBattleIntro(uiRoot);
   game.setScreen(battle);
 }
 
 function wildBattle(speciesId: string, level: number): void {
   if (busy) return;
   const foe = makeInstance(DATA.species[speciesId], level, `wild-${speciesId}`);
-  startBattleFlow({ kind: "wild", canFlee: true, canSync: true }, [foe], undefined, level);
+  void startBattleFlow({ kind: "wild", canFlee: true, canSync: true }, [foe], undefined, level);
 }
 
 function trainerBattle(trainer: TrainerDef, onDone?: (outcome: string) => Promise<void> | void): void {
@@ -143,7 +147,7 @@ function trainerBattle(trainer: TrainerDef, onDone?: (outcome: string) => Promis
     canSync: false,
     bossPhases: trainer.bossPhases,
   };
-  startBattleFlow(config, makeTrainerParty(trainer), `${trainer.name} — ${trainer.title}`, null, onDone);
+  void startBattleFlow(config, makeTrainerParty(trainer), `${trainer.name} — ${trainer.title}`, null, onDone);
 }
 
 async function handleNpc(npc: NpcPlacement): Promise<void> {
@@ -283,6 +287,7 @@ function startPlaying(player: PlayerState): void {
       });
     },
   });
+  hudRoot.classList.remove("hud-on-title");
   game.setScreen(overworld);
   overworld.loadArea(game, player.areaId, player.pos.x, player.pos.z);
   game.save();
@@ -300,4 +305,6 @@ const emptyPlayer: PlayerState = {
 };
 
 game = new Game(appHost, hudRoot, uiRoot, DATA, emptyPlayer);
+// Touch controls make no sense on the title screen; startPlaying reveals them.
+hudRoot.classList.add("hud-on-title");
 game.setScreen(new TitleScreen({ onStart: (player) => startPlaying(player) }));

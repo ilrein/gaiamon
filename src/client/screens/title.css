@@ -1,0 +1,247 @@
+/* Cinematic title screen. Everything here is scoped under .title-cine /
+   .title-screen.cine so it never collides with the shared style.css.
+   Backdrop = key art with a slow Ken Burns drift + legibility gradient +
+   floating motes; foreground = floating logo, fading tagline, rising buttons.
+   All motion is gated behind prefers-reduced-motion: no-preference, with
+   fully-visible static fallbacks. */
+
+/* ---------- backdrop layers ---------- */
+
+.title-cine,
+#ui > .title-cine {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none; /* purely decorative; dialogue taps pass through */
+  /* Warm fallback so there's never a black flash before the art decodes. */
+  background: linear-gradient(#9fd8f0 0%, #bfe6dd 45%, #ffe6c4 80%, #ffd0a8 100%);
+}
+
+.title-cine__art {
+  position: absolute;
+  inset: -3%; /* bleed so the Ken Burns drift never shows an edge */
+  background-image: url("/og-image.jpg");
+  background-size: cover;
+  background-position: center 30%; /* keeps the hero + starters in frame on tall crops */
+  will-change: transform;
+}
+/* Portrait crop: bias left so the warden + verdant/ember starters stay in
+   frame (the full trio can't fit a tall crop). */
+@media (max-aspect-ratio: 4/5) {
+  .title-cine__art {
+    background-position: 40% 30%;
+  }
+}
+
+/* Bottom-third dark ramp for text/button legibility + a whisper of top vignette. */
+.title-cine__grad {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(24, 18, 34, 0.82) 0%, rgba(24, 18, 34, 0.5) 16%, rgba(24, 18, 34, 0) 38%),
+    linear-gradient(to bottom, rgba(24, 18, 34, 0.32) 0%, rgba(24, 18, 34, 0) 16%);
+}
+
+.title-cine__motes {
+  position: absolute;
+  inset: 0;
+}
+
+.title-cine__mote {
+  position: absolute;
+  left: var(--x, 50%);
+  bottom: -4vh;
+  width: var(--s, 6px);
+  height: var(--s, 6px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 250, 225, 0.95) 0%, rgba(255, 236, 170, 0.5) 45%, rgba(255, 236, 170, 0) 70%);
+  opacity: 0; /* motes only appear when their float animation runs */
+}
+
+/* Blur + darken toggle for the starter select (and opening dialogue). */
+.title-cine__dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 14, 28, 0.5);
+  -webkit-backdrop-filter: blur(7px) saturate(1.1);
+  backdrop-filter: blur(7px) saturate(1.1);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.title-cine.is-dim .title-cine__dim { opacity: 1; }
+
+/* ---------- foreground layout ---------- */
+
+.title-screen.cine {
+  justify-content: space-between;
+  padding-top: calc(clamp(48px, 14vh, 140px) + var(--safe-top));
+  padding-bottom: calc(clamp(28px, 8vh, 84px) + var(--safe-bottom));
+}
+
+.cine .title-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.cine .title-logo {
+  color: #fff;
+  letter-spacing: 6px;
+  text-shadow:
+    0 4px 0 rgba(46, 32, 24, 0.45),
+    0 0 30px rgba(255, 214, 107, 0.55),
+    0 0 70px rgba(255, 170, 90, 0.3);
+}
+
+.cine .title-tagline {
+  color: #fff4dd;
+  font-weight: 700;
+  font-size: clamp(14px, 2.4vw, 18px);
+  letter-spacing: 0.06em;
+  /* Heavy multi-layer shadow + pill scrim: the tagline sits over the bright
+     sky band on portrait crops (visual-judge finding). */
+  text-shadow:
+    0 1px 3px rgba(24, 18, 34, 0.9),
+    0 2px 12px rgba(24, 18, 34, 0.8),
+    0 0 2px rgba(24, 18, 34, 0.9);
+  background: rgba(24, 18, 34, 0.28);
+  border-radius: 999px;
+  padding: 4px 16px;
+  opacity: 0.98;
+}
+
+.cine .title-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(280px, 80vw);
+}
+/* Buttons over key art get a touch more drop so they read as floating. */
+.cine .title-menu .chunky-btn {
+  box-shadow: 0 3px 0 var(--shadow), 0 10px 24px rgba(24, 18, 34, 0.35);
+}
+
+/* ---------- starter select ---------- */
+
+.title-screen.cine.starter {
+  /* Center via auto margins (not justify-content: center) so tall content on
+     small screens overflows downward and stays scrollable instead of clipping
+     the heading off the top edge. */
+  justify-content: flex-start;
+  gap: clamp(18px, 4vh, 34px);
+  overflow-y: auto;
+  touch-action: pan-y;
+  padding-top: calc(20px + var(--safe-top));
+}
+.cine.starter .starter-heading { margin-top: auto; }
+.cine.starter .starter-row { margin-bottom: auto; }
+
+.cine .starter-heading {
+  font-size: clamp(22px, 5vw, 36px);
+  letter-spacing: 2px;
+  text-shadow:
+    0 3px 0 rgba(46, 32, 24, 0.45),
+    0 0 34px rgba(255, 214, 107, 0.75),
+    0 0 80px rgba(255, 214, 107, 0.35);
+}
+
+/* ---------- motion (respects prefers-reduced-motion) ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .title-cine__art {
+    animation: cine-kenburns 30s ease-in-out infinite alternate;
+  }
+
+  .title-cine__mote {
+    animation: cine-mote var(--d, 20s) linear infinite;
+    animation-delay: var(--delay, 0s);
+  }
+
+  .cine .title-logo {
+    animation:
+      cine-logo-float 3s ease-in-out infinite,
+      cine-logo-glow 3s ease-in-out infinite;
+  }
+
+  .cine .title-tagline {
+    animation: cine-fade-up 0.7s ease-out 0.4s backwards;
+  }
+
+  /* Per-button 80ms stagger set inline via animation-delay in title.ts. */
+  .cine .title-menu .chunky-btn {
+    animation: cine-rise 0.55s cubic-bezier(0.22, 0.9, 0.32, 1.12) backwards;
+  }
+
+  .cine.starter .starter-card {
+    animation: cine-rise 0.5s cubic-bezier(0.22, 0.9, 0.32, 1.15) backwards;
+  }
+
+  .cine.starter .starter-card img {
+    animation: cine-bob 2.8s ease-in-out infinite;
+  }
+}
+
+@keyframes cine-kenburns {
+  from { transform: scale(1) translate3d(0, 0, 0); }
+  to { transform: scale(1.06) translate3d(-1.4%, 1%, 0); }
+}
+
+@keyframes cine-mote {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  10% { opacity: var(--o, 0.7); }
+  85% { opacity: var(--o, 0.7); }
+  100% { transform: translate3d(var(--drift, 0px), -108vh, 0); opacity: 0; }
+}
+
+@keyframes cine-logo-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+@keyframes cine-logo-glow {
+  0%, 100% {
+    text-shadow:
+      0 4px 0 rgba(46, 32, 24, 0.45),
+      0 0 30px rgba(255, 214, 107, 0.55),
+      0 0 70px rgba(255, 170, 90, 0.3);
+  }
+  50% {
+    text-shadow:
+      0 4px 0 rgba(46, 32, 24, 0.45),
+      0 0 46px rgba(255, 214, 107, 0.9),
+      0 0 100px rgba(255, 170, 90, 0.5);
+  }
+}
+
+@keyframes cine-fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 0.95; transform: translateY(0); }
+}
+
+@keyframes cine-rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cine-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ---------- small screens ---------- */
+
+@media (max-width: 480px) {
+  .title-screen.cine {
+    padding-top: calc(clamp(36px, 10vh, 90px) + var(--safe-top));
+  }
+  .cine .title-logo { letter-spacing: 4px; }
+
+  /* Compact starter cards so the trio + heading fit one phone screen. */
+  .title-screen.cine.starter { padding-top: calc(16px + var(--safe-top)); }
+  .cine .starter-heading { font-size: clamp(19px, 5.6vw, 26px); }
+  .cine.starter .starter-row { gap: 10px; }
+  .cine.starter .starter-card { width: 42vw; box-sizing: border-box; }
+  .cine.starter .starter-card img { width: 72px; height: 72px; }
+  .cine.starter .starter-card .starter-blurb { font-size: 11px; }
+}

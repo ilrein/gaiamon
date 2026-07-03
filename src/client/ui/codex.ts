@@ -7,8 +7,9 @@
 import "./codex.css";
 import type { Game } from "../game";
 import { el } from "../dom";
-import { creatureImg, placeholderDataUrl } from "../sprites";
+import { creatureImg, placeholderDataUrl, spritePath } from "../sprites";
 import { typeChip } from "../colors";
+import { clampPct, hpFillClass } from "./format";
 import { clearSave } from "../save";
 import { openWorldMap } from "./map";
 import { computeStats, maxHpAt, xpForLevel } from "../../shared/stats";
@@ -134,8 +135,15 @@ export async function openCodex(
               className: `cdx-tab${tab === id ? " active" : ""}`,
               onClick: () => {
                 if (id === "map") {
-                  // Hand off to the sibling full-screen world map.
-                  void openWorldMap(game);
+                  // Hand off to the sibling full-screen world map; highlight
+                  // the MAP tab while it's open, restore after.
+                  const prev = tab;
+                  tab = "map";
+                  renderRail();
+                  void openWorldMap(game).then(() => {
+                    tab = prev;
+                    renderRail();
+                  });
                   return;
                 }
                 if (tab !== id) {
@@ -456,7 +464,7 @@ export async function openCodex(
           const cls = `cdx-evo-stage${stage.id === species.id ? " here" : ""}${known ? "" : " locked"}`;
           const img = el("img");
           if (known) {
-            img.src = spriteSrc(stage.id);
+            img.src = spritePath(stage.id);
             img.onerror = () => {
               img.onerror = null;
               img.src = placeholderDataUrl(stage.id);
@@ -564,8 +572,7 @@ export async function openCodex(
 
     // ---- small view helpers ---------------------------------------------
     function hpBar(pct: number): HTMLElement {
-      const cls = pct <= 20 ? "fill crit" : pct <= 50 ? "fill warn" : "fill";
-      const fill = el("div", { className: cls });
+      const fill = el("div", { className: hpFillClass(pct) });
       fill.style.width = `${pct}%`;
       return el("div", { className: "hp-bar" }, [fill]);
     }
@@ -590,10 +597,3 @@ export async function openCodex(
   });
 }
 
-function clampPct(n: number): number {
-  return Math.max(0, Math.min(100, n));
-}
-
-function spriteSrc(id: string): string {
-  return `/sprites/creatures/${id}.png`;
-}

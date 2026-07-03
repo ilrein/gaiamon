@@ -433,9 +433,30 @@ export function openWorldMap(game: Game): Promise<void> {
       world.style.transform = `translate(${panX}px, ${panY}px)`;
     };
     const centerOn = () => {
-      const cur = byId.get(game.player.areaId);
       const vw = viewport.clientWidth;
       const vh = viewport.clientHeight;
+      // Fit the discovered part of the map when it fits in the viewport
+      // (centering only the current node shoved the chain off-screen when the
+      // player is near one end — visual-judge finding); otherwise center on
+      // the player's area.
+      const discovered = [...byId.values()].filter(
+        (n) => n.area.id === game.player.areaId || game.player.flags.includes(`visited-${n.area.id}`),
+      );
+      const pts = discovered.map(toPx);
+      if (pts.length > 0) {
+        const minX = Math.min(...pts.map((p) => p.x));
+        const maxX = Math.max(...pts.map((p) => p.x));
+        const minY = Math.min(...pts.map((p) => p.y));
+        const maxY = Math.max(...pts.map((p) => p.y));
+        const PAD = 140; // room for chip labels around the extremes
+        if (maxX - minX + PAD * 2 <= vw && maxY - minY + PAD * 2 <= vh) {
+          panX = vw / 2 - (minX + maxX) / 2;
+          panY = vh / 2 - (minY + maxY) / 2;
+          apply();
+          return;
+        }
+      }
+      const cur = byId.get(game.player.areaId);
       if (cur) {
         const p = toPx(cur);
         panX = vw / 2 - p.x;

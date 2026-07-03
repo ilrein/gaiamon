@@ -3,6 +3,8 @@
 // The design bible is the source of truth; this script is how it becomes code.
 // Statuses use the engine's data-driven knobs — richer designed mechanics are
 // simplified for v1 (documented in design/DESIGN.md).
+//
+// Usage: bun scripts/build-data.mjs
 
 import { readFile, writeFile } from "node:fs/promises";
 

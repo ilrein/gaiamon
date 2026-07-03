@@ -1,0 +1,58 @@
+/* Area title splash card — shown when the player enters a new area. */
+
+.area-splash {
+  position: fixed;
+  top: calc(64px + var(--safe-top, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  pointer-events: none !important;
+  z-index: 40;
+  animation: area-splash-fade 1.8s ease both;
+  text-align: center;
+  max-width: 86vw;
+}
+
+.area-splash-name {
+  font-size: clamp(24px, 5vw, 40px);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: #fffaf0;
+  text-shadow:
+    0 2px 0 rgba(42, 36, 64, 0.55),
+    0 0 24px rgba(42, 36, 64, 0.35);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 86vw;
+}
+
+.area-splash-rule {
+  height: 2px;
+  width: min(240px, 60vw);
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 250, 240, 0) 0%,
+    rgba(255, 250, 240, 0.95) 50%,
+    rgba(255, 250, 240, 0) 100%
+  );
+  box-shadow: 0 1px 0 rgba(42, 36, 64, 0.35);
+  animation: area-splash-rule 1.8s ease both;
+}
+
+@keyframes area-splash-fade {
+  0% { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+  18% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  72% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(4px); }
+}
+
+@keyframes area-splash-rule {
+  0% { transform: scaleX(0.15); }
+  30% { transform: scaleX(1); }
+  100% { transform: scaleX(1); }
+}

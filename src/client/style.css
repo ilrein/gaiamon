@@ -10,11 +10,23 @@
   --ember: #f2906a;
   --tide: #6ab8e8;
   --sun: #ffd66b;
+  --paper-bright: #fffdf6;
   --shadow: rgba(58, 47, 42, 0.25);
   --radius: 16px;
   --radius-lg: 22px;
+  --radius-sm: 14px;
+  --radius-xs: 12px;
+  /* One on-brand keyboard-focus ring, reused everywhere via :focus-visible. */
+  --focus-ring: 0 0 0 3px rgba(106, 184, 232, 0.75);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-top: env(safe-area-inset-top, 0px);
+}
+
+/* Keyboard focus only — pointer/touch presses never draw the ring. Thin, on
+   brand (tide), and rounded to hug whatever it lands on. */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
 html,
@@ -66,6 +78,12 @@ button {
 .chunky-btn.primary { background: var(--leaf); color: #fff; text-shadow: 0 1px 0 rgba(0,0,0,0.15); }
 .chunky-btn.danger { background: var(--ember); color: #fff; text-shadow: 0 1px 0 rgba(0,0,0,0.15); }
 .chunky-btn:disabled { opacity: 0.45; transform: none; }
+/* Mouse-only lift; touch keeps the flat press so nothing sticks in a hover state. */
+@media (hover: hover) {
+  .chunky-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 0 var(--shadow); }
+  .chunky-btn:hover:not(:disabled):active { transform: translateY(2px); box-shadow: 0 1px 0 var(--shadow); }
+}
+.chunky-btn:focus-visible { box-shadow: 0 3px 0 var(--shadow), var(--focus-ring); }
 
 /* ---------- top HUD ---------- */
 .hud-top {
@@ -139,10 +157,12 @@ button {
   touch-action: none;
 }
 
-/* Touch controls hide while a battle owns the screen. */
+/* Touch controls hide while a battle or the title screen owns the screen. */
 .hud-in-battle .joystick,
 .hud-in-battle .action-button,
-.hud-in-battle .hud-top {
+.hud-in-battle .hud-top,
+.hud-on-title .joystick,
+.hud-on-title .action-button {
   display: none;
 }
 
@@ -238,7 +258,9 @@ button {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: calc(170px + var(--safe-bottom));
+  /* Ride clear above the ally HP card (bottom ~178 + ~64 tall) and the tall
+     phone move menu so the log never bleeds behind either. Desktop resets low. */
+  bottom: calc(252px + var(--safe-bottom));
   width: min(480px, calc(100vw - 24px));
   text-align: center;
   font-size: 16px;
@@ -261,6 +283,12 @@ button {
   text-align: left;
   padding: 10px 14px;
   min-height: 56px;
+  /* Pin the chips/meta row to the bottom so cards align even when a long
+     move name wraps to two lines. */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2px;
 }
 .move-btn .move-name { font-weight: 800; font-size: 15px; }
 .move-btn .move-meta { font-size: 12px; opacity: 0.7; margin-top: 2px; }
@@ -276,37 +304,7 @@ button {
   text-transform: capitalize;
 }
 
-/* ---------- codex (bottom sheet) ---------- */
-.codex-sheet {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 0;
-  width: min(620px, 100vw);
-  max-height: calc(78vh - var(--safe-top));
-  background: linear-gradient(170deg, #4a5568, #2d3748);
-  border-radius: 26px 26px 0 0;
-  box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.35), inset 0 0 0 3px #718096;
-  padding: 14px 14px calc(14px + var(--safe-bottom));
-  color: var(--paper);
-  display: flex;
-  flex-direction: column;
-  animation: sheet-up 0.22s ease-out;
-}
-.codex-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
-.codex-tab {
-  flex: 1;
-  padding: 10px 6px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--paper);
-  font-weight: 800;
-  font-size: 14px;
-  min-height: 44px;
-}
-.codex-tab.active { background: var(--sun); color: var(--ink); }
-.codex-body { overflow-y: auto; -webkit-overflow-scrolling: touch; }
-
+/* ---------- battle party sheet ---------- */
 .party-row {
   display: flex;
   align-items: center;
@@ -319,22 +317,6 @@ button {
 .party-row img { width: 52px; height: 52px; image-rendering: pixelated; }
 .party-row .info { flex: 1; }
 .party-row .hp-bar { margin-top: 4px; }
-
-.dex-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
-  gap: 8px;
-}
-.dex-cell {
-  background: rgba(255, 255, 255, 0.07);
-  border-radius: 14px;
-  padding: 8px 4px;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 700;
-}
-.dex-cell img { width: 56px; height: 56px; image-rendering: pixelated; }
-.dex-cell.unknown { opacity: 0.35; filter: grayscale(1); }
 
 /* ---------- title / starter select ---------- */
 .title-screen {
@@ -376,10 +358,6 @@ button {
 @keyframes pop-in {
   from { transform: translateX(-50%) scale(0.92); opacity: 0; }
   to { transform: translateX(-50%) scale(1); opacity: 1; }
-}
-@keyframes sheet-up {
-  from { transform: translate(-50%, 40px); opacity: 0; }
-  to { transform: translate(-50%, 0); opacity: 1; }
 }
 .screen-fade {
   position: fixed;
