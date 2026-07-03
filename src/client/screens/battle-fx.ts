@@ -90,6 +90,10 @@ export function makeCombatantView(
   );
   base.center.set(0.5, 0);
   base.scale.set(scale, scale, 1);
+  // Explicit draw order: ground disc (0) -> platforms (1) -> creatures (4/5).
+  // Everything here is in the transparent queue, and distance-sorting was
+  // painting the ground disc over far-side creatures.
+  base.renderOrder = 4;
   if (opts.titan) base.material.color.setHex(0xffd8d0); // dramatic warm-red cast
 
   const flash = new THREE.Sprite(
@@ -104,6 +108,7 @@ export function makeCombatantView(
   );
   flash.center.set(0.5, 0);
   flash.scale.set(scale, scale, 1);
+  flash.renderOrder = 5;
 
   const group = new THREE.Group();
   group.add(base, flash);
@@ -139,6 +144,8 @@ export interface BattleScene {
   lookAt: THREE.Vector3;
   playerPos: THREE.Vector3;
   foePos: THREE.Vector3;
+  /** [playerPlatform, foePlatform] — repositioned with the creatures. */
+  platforms: THREE.Mesh[];
 }
 
 function radialDiscTexture(inner: string, outer: string): THREE.Texture {
@@ -189,24 +196,33 @@ export function buildBattleScene(
   disc.rotation.x = -Math.PI / 2;
   disc.scale.set(1, 0.66, 1);
   disc.position.y = -0.02;
+  disc.renderOrder = 0;
   scene.add(disc);
 
-  const playerPos = new THREE.Vector3(-1.35, 0, 1.5);
-  // Low enough that the foe's platform overlaps the ground disc instead of
-  // floating in the sky band (visual-judge finding).
-  const foePos = new THREE.Vector3(1.55, 0.3, -1.55);
+  // Side-by-side arena: both creatures at similar depth, player left vs foe
+  // right, small in frame (user direction). A whisper of depth offset keeps
+  // it from reading perfectly flat.
+  const playerPos = new THREE.Vector3(-1.55, 0, 0.35);
+  const foePos = new THREE.Vector3(1.55, 0, -0.35);
 
-  // Soft round platforms under each creature.
+  // Soft round platforms under each creature — subtle, grounded, not blobs.
+  // Exported so the screen can slide them with the creatures on orientation
+  // changes.
   const platMat = new THREE.MeshBasicMaterial({
-    color: lighten(backdrop.ground1, 0.22),
+    color: lighten(backdrop.ground1, 0.14),
     transparent: true,
-    opacity: 0.85,
+    opacity: 0.7,
   });
+  const platforms: THREE.Mesh[] = [];
   for (const p of [playerPos, foePos]) {
-    const plat = new THREE.Mesh(new THREE.CircleGeometry(1.25, 40), platMat.clone());
+    const plat = new THREE.Mesh(new THREE.CircleGeometry(0.78, 40), platMat.clone());
     plat.rotation.x = -Math.PI / 2;
     plat.scale.set(1, 0.6, 1);
+    // Centered on the anchor: the sprite hides the back half, the front half
+    // reads as ground hugging the creature's feet.
     plat.position.set(p.x, p.y + 0.01, p.z);
+    plat.renderOrder = 1;
+    platforms.push(plat);
     scene.add(plat);
   }
 
@@ -237,12 +253,12 @@ export function buildBattleScene(
   }
 
   const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
-  const camBase = new THREE.Vector3(-2.3, 2.55, 4.7);
-  const lookAt = new THREE.Vector3(0.25, 0.95, -0.35);
+  const camBase = new THREE.Vector3(0, 2.6, 5.6);
+  const lookAt = new THREE.Vector3(0, 0.8, 0);
   camera.position.copy(camBase);
   camera.lookAt(lookAt);
 
-  return { scene, camera, camBase, lookAt, playerPos, foePos };
+  return { scene, camera, camBase, lookAt, playerPos, foePos, platforms };
 }
 
 // ---------------------------------------------------------------------------

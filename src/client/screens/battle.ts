@@ -44,9 +44,10 @@ export interface BattleScreenOpts {
 /** Sprite world-height per species stage; titans loom. */
 // Tuned for the alpha-trimmed sprites (content fills the quad now); the
 // player-side back sprite gets a further trim so it frames instead of crops.
-const STAGE_SCALE: Record<number, number> = { 1: 1.9, 2: 2.4, 3: 2.9 };
-const TITAN_SCALE = 4.8;
-const PLAYER_SIDE_SCALE = 0.85;
+// Small, side-by-side combatants (user direction): both share the same scale
+// treatment in the left-vs-right arena.
+const STAGE_SCALE: Record<number, number> = { 1: 1.35, 2: 1.65, 3: 1.95 };
+const TITAN_SCALE = 3.4;
 
 const CONFETTI = ["#ffd66b", "#8ee08a", "#6ab8e8", "#e8a8d0", "#ffffff"];
 const GREENS = ["#8ee08a", "#b6f0a0", "#5cc95c", "#e9ffd8"];
@@ -137,6 +138,7 @@ export class BattleScreen implements Screen {
     this.lookAt = bs.lookAt;
     this.playerPos = bs.playerPos;
     this.foePos = bs.foePos;
+    this.platforms = bs.platforms;
 
     this.views = { player: this.spawnView("player"), foe: this.spawnView("foe") };
 
@@ -144,7 +146,9 @@ export class BattleScreen implements Screen {
     this.scene.add(this.impactFx.group);
 
     // HD-2D post stack (bloom + tilt-shift + vignette + grade).
-    this.postfx = new PostFX(game.renderer, this.scene, this.camera);
+    // No tilt-shift in battle: the combatants span the frame vertically, so
+    // the focus band was blurring their faces.
+    this.postfx = new PostFX(game.renderer, this.scene, this.camera, { tiltShift: false });
 
     this.buildDom(game.uiRoot);
     this.renderCard("foe");
@@ -208,7 +212,7 @@ export class BattleScreen implements Screen {
       this.camBase.y + this.camShakeY + this.portraitPull * 0.25,
       this.camBase.z - this.camPush + this.portraitPull,
     );
-    this.camera.lookAt(this.lookAt);
+    this.camera.lookAt(this.lookAt.x, this.lookAt.y - this.portraitLift, this.lookAt.z);
     this.postfx.render(dt);
   }
 
@@ -221,25 +225,17 @@ export class BattleScreen implements Screen {
       // Portrait phones: pull the camera back so both combatants fit without
       // the player mon swallowing the screen.
       this.portraitPull = aspect < 0.8 ? (0.8 - aspect) * 9 : 0;
+      // Aim lower on portrait so the arena rides up the tall screen instead of
+      // leaving half the frame as empty sky above a crowded bottom.
+      this.portraitLift = aspect < 0.8 ? 0.6 : 0;
       this.camera.updateProjectionMatrix();
 
-      // Portrait also shrinks the back sprite and tucks it inward so its face
-      // isn't bisected by the screen edge (visual-judge finding).
-      const v = this.views?.player;
-      if (v && this.basePlayerScale > 0) {
-        const portrait = aspect < 0.8;
-        v.scale = this.basePlayerScale * (portrait ? 0.78 : 1);
-        if (!v.fainting) {
-          v.base.scale.set(v.scale, v.scale, 1);
-          v.flash.scale.copy(v.base.scale);
-        }
-        v.basePos.x = this.playerPos.x + (portrait ? 0.55 : 0);
-      }
+      this.applyLayout();
     }
     this.postfx?.resize(width, height);
   }
   private portraitPull = 0;
-  private basePlayerScale = 0;
+  private portraitLift = 0;
 
   // ---- setup helpers -----------------------------------------------------
   private mkPb(mon: MonsterInstance): PlaybackMon {
@@ -256,23 +252,45 @@ export class BattleScreen implements Screen {
   private spawnView(side: Side): CombatantView {
     const mon = this.pb[side].mon;
     const sp = this.data.species[mon.speciesId];
-    let scale = this.scaleFor(mon.speciesId) * (side === "player" ? PLAYER_SIDE_SCALE : 1);
-    const portrait = this.renderW / this.renderH < 0.8;
-    if (side === "player") {
-      // Every spawn path (mount, switch-in, evolution) captures the natural
-      // scale here; resize() re-derives the portrait framing from it.
-      this.basePlayerScale = scale;
-      if (portrait) scale *= 0.78;
-    }
+    const scale = this.scaleFor(mon.speciesId);
+    // Natural scale per side; applyLayout() derives the on-screen framing
+    // (portrait squeezes both inward and down) after every spawn/resize.
+    this.baseScales[side] = scale;
     const phase = side === "player" ? 0 : Math.PI;
     const v = makeCombatantView(mon.speciesId, scale, phase, { titan: sp.role === "titan" });
     const pos = side === "player" ? this.playerPos : this.foePos;
     v.basePos.copy(pos);
-    if (side === "player" && portrait) v.basePos.x += 0.55;
     v.group.position.copy(v.basePos);
     this.scene.add(v.group);
     return v;
   }
+
+  /** Left-vs-right framing for the current aspect: portrait pulls both
+   *  creatures (and their platforms) inward and shrinks them so the arena
+   *  fits a tall screen. */
+  private applyLayout(): void {
+    const portrait = this.renderW / this.renderH < 0.8;
+    const factor = portrait ? 0.72 : 1;
+    const anchors: Record<Side, THREE.Vector3> = { player: this.playerPos, foe: this.foePos };
+    (["player", "foe"] as Side[]).forEach((side, i) => {
+      const v = this.views?.[side];
+      if (!v) return;
+      const x = portrait ? Math.sign(anchors[side].x) * 0.95 : anchors[side].x;
+      const base = this.baseScales[side];
+      if (base > 0) {
+        v.scale = base * factor;
+        if (!v.fainting) {
+          v.base.scale.set(v.scale, v.scale, 1);
+          v.flash.scale.copy(v.base.scale);
+        }
+      }
+      v.basePos.x = x;
+      const plat = this.platforms[i];
+      if (plat) plat.position.x = x;
+    });
+  }
+  private baseScales: Record<Side, number> = { player: 0, foe: 0 };
+  private platforms: THREE.Mesh[] = [];
 
   private buildDom(uiRoot: HTMLElement): void {
     this.battleUi = el("div", { className: "battle-ui" });
@@ -884,6 +902,7 @@ export class BattleScreen implements Screen {
     this.pb[side] = this.mkPb(mon);
     const v = this.spawnView(side);
     this.views[side] = v;
+    this.applyLayout(); // portrait sizing/position for the fresh view
 
     const target = v.scale;
     v.base.material.opacity = 0;
@@ -1038,6 +1057,7 @@ export class BattleScreen implements Screen {
       this.pb.player = this.mkPb(mon);
       this.scene.remove(this.views.player.group);
       this.views.player = this.spawnView("player");
+      this.applyLayout();
       this.renderCard("player");
       this.applyHp("player");
     }

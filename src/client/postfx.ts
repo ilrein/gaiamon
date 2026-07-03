@@ -95,7 +95,12 @@ export class PostFX {
   private readonly gradePass: ShaderPass;
   private readonly outputPass: OutputPass;
 
-  constructor(renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera) {
+  constructor(
+    renderer: THREE.WebGLRenderer,
+    scene: THREE.Scene,
+    camera: THREE.Camera,
+    opts: { tiltShift?: boolean } = {},
+  ) {
     // Refine the boot heuristic once we can see actual GL capabilities.
     if (!refinedWithGl) {
       refinedWithGl = true;
@@ -126,7 +131,8 @@ export class PostFX {
 
     // Tilt-shift depth-of-field fake (high quality only): crisp band across
     // screen center, gently blurring toward top (horizon) and bottom.
-    if (!low) {
+    // Scenes whose subjects span the full frame (battles) opt out.
+    if (!low && opts.tiltShift !== false) {
       this.tiltH = new ShaderPass(HorizontalTiltShiftShader);
       this.tiltV = new ShaderPass(VerticalTiltShiftShader);
       this.tiltH.uniforms.r.value = TILT_FOCUS;
