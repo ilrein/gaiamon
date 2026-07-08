@@ -21,6 +21,8 @@ const HEIGHT = 0.95;
 const HOP_EVERY_S = 8;
 /** Snap instead of glide when this far apart (warps, area edges). */
 const TELEPORT_DIST = 8;
+/** World units per full gait cycle (both feet step once). */
+const STRIDE = 0.55;
 
 export class FollowerMon {
   readonly group = new THREE.Group();
@@ -30,6 +32,9 @@ export class FollowerMon {
   private idleFor = 0;
   private yaw = 0;
   private placed = false;
+  // gait state: blend eases in/out, phase advances with distance travelled
+  private walkBlend = 0;
+  private gaitPhase = 0;
 
   constructor(renderer: THREE.WebGLRenderer, mon: MonsterInstance) {
     if (!hasProto(mon.speciesId)) return;
@@ -68,12 +73,16 @@ export class FollowerMon {
       this.place(px, pz);
       return;
     }
+    let moved = 0;
     if (dist > FOLLOW_DIST + 0.02) {
       // glide toward the trailing point, facing the direction of travel
       const k = 1 - Math.exp(-LERP_RATE * dt);
       const overshoot = dist - FOLLOW_DIST;
-      pos.x += (dx / dist) * overshoot * k;
-      pos.z += (dz / dist) * overshoot * k;
+      const stepX = (dx / dist) * overshoot * k;
+      const stepZ = (dz / dist) * overshoot * k;
+      pos.x += stepX;
+      pos.z += stepZ;
+      moved = Math.hypot(stepX, stepZ);
       this.yaw = Math.atan2(dx, dz);
       creature.group.rotation.y = this.yaw;
       this.idleFor = 0;
@@ -89,6 +98,13 @@ export class FollowerMon {
         creature.playVerb("hop");
       }
     }
+
+    // little feet: gait phase advances with distance (no foot-sliding), and
+    // the blend eases so starts/stops don't snap
+    this.gaitPhase += (moved * Math.PI * 2) / STRIDE;
+    const target = moved > 0.0005 ? 1 : 0;
+    this.walkBlend += (target - this.walkBlend) * Math.min(1, dt * 10);
+    creature.setGait(this.walkBlend, this.gaitPhase);
   }
 
   dispose(): void {

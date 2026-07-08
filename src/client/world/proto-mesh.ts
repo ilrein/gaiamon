@@ -38,6 +38,9 @@ export interface ProtoCreature {
   setOpacity(o: number): void;
   /** Match darker scenes: 1 = battle noon, ~0.7 = overworld dusk. */
   setExposure(e: number): void;
+  /** Procedural gait: blend 0..1 + phase (advance phase by distance/stride
+   *  so the feet plant instead of sliding). */
+  setGait(walk: number, phase: number): void;
   /** Faint tip-over about the feet (battle convention). */
   setTip(rad: number): void;
   setScale(x: number, y: number): void;
@@ -49,6 +52,10 @@ ${PROTO_UNIFORMS_GLSL}
 ${PROTO_TOOLKIT_GLSL}
 ${PROTO_ACTIONS_GLSL}
 uniform float uPhase;
+// procedural gait: blend 0..1 and a phase that advances with DISTANCE
+// travelled (not time), so the little feet never slide
+uniform float uWalk;
+uniform float uGait;
 in float aMat;
 out vec3 vLocal;
 out vec3 vWorldPos;
@@ -63,6 +70,19 @@ void main() {
   float hw = smoothstep(0.05, 1.1, p.y);
   p.x += sin(uTime * 1.4 + uPhase) * 0.018 * hw;
   p.y *= 1.0 + 0.012 * sin(uTime * 2.2 + uPhase) * hw;
+  // walk layer: alternating foot lift+swing (split by x side), a two-beat
+  // trot bounce, and a tiny hip waddle — species-agnostic, weighted by
+  // height so it works for any blob with stubby feet
+  if (uWalk > 0.001) {
+    float side = p.x > 0.0 ? 0.0 : 3.14159;
+    float footW = smoothstep(0.26, 0.04, p.y) * uWalk;
+    p.y += max(0.0, sin(uGait + side)) * 0.07 * footW;
+    p.z += cos(uGait + side) * 0.05 * footW;
+    float bodyW = smoothstep(0.0, 0.5, p.y) * uWalk;
+    p.y += abs(cos(uGait)) * 0.02 * bodyW;
+    p.xz = rot(sin(uGait) * 0.055 * uWalk) * p.xz;      // waddle yaw
+    p.xy = rot(sin(uGait) * 0.04 * uWalk * hw) * p.xy;  // side-to-side roll
+  }
   // verb layer
   p = actionForward(p);
   vec3 n = actionForwardNormal(normal);
@@ -159,6 +179,8 @@ export function buildProtoCreature(
     uFlash: { value: 0 },
     uOpacity: { value: 1 },
     uExposure: { value: 1 },
+    uWalk: { value: 0 },
+    uGait: { value: 0 },
     uSunDir: { value: new THREE.Vector3(0.55, 0.9, 0.45).normalize() },
     uSunCol: { value: new THREE.Vector3(1.25, 1.1625, 1.0) },
   };
@@ -212,6 +234,10 @@ export function buildProtoCreature(
     },
     setExposure(e: number) {
       uniforms.uExposure.value = e;
+    },
+    setGait(walk: number, phase: number) {
+      uniforms.uWalk.value = walk;
+      uniforms.uGait.value = phase;
     },
     setTip(rad: number) {
       inner.rotation.z = rad;

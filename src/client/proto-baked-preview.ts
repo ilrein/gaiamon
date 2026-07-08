@@ -137,7 +137,13 @@ function frame() {
   liveT = t;
   // frozen verb pose for headless captures: playVerb ran at start=0, so an
   // absolute clock of urlAt gives uActionT = urlAt exactly
-  if (creature) creature.update(urlAt !== null ? urlAt : t);
+  if (creature) {
+    creature.update(urlAt !== null ? urlAt : t);
+    // ?walk=1 previews the gait (phase ~ walking speed 1.4 units/s)
+    if (params.get("walk") === "1") {
+      creature.setGait(1, ((urlAt !== null ? urlAt : t) * 1.4 * Math.PI * 2) / 0.55);
+    }
+  }
   curSpin = manual ? manualSpin : spin && frozenT === null ? t * 0.25 : 0;
   const yaw = yaw0 + curSpin + dragYaw;
   const pitch = Math.min(1.3, Math.max(0.05, pitch0 + dragPitch));
