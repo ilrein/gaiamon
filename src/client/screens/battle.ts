@@ -937,6 +937,7 @@ export class BattleScreen implements Screen {
       );
     }
     this.scene.remove(old.group);
+    old.dispose(); // unmount only disposes what's still in the scene
 
     this.pb[side] = this.mkPb(mon);
     const v = this.spawnView(side);
@@ -1093,6 +1094,7 @@ export class BattleScreen implements Screen {
     if (mon.uid === this.pb.player.mon.uid) {
       this.pb.player = this.mkPb(mon);
       this.scene.remove(this.views.player.group);
+      this.views.player.dispose(); // replaced views aren't reached by unmount
       this.views.player = this.spawnView("player");
       this.applyLayout();
       this.renderCard("player");

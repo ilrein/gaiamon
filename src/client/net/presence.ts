@@ -29,10 +29,16 @@ const SAVE_KEY = "gaiamon-save-v1";
 const CLIENT_ID_KEY = "gaiamon-client-id";
 /** Server closes with this when the zone is at capacity: stay offline. */
 const FULL_CLOSE_CODE = 4001;
-const SEND_INTERVAL_MS = 120;
+/** A newer connection with our id took over (other tab): stay offline. */
+const SUPERSEDED_CLOSE_CODE = 4002;
+// ~4 updates/s per moving player: the remote lerp reads smooth at this rate
+// and it halves the Durable Object wake budget vs 8/s (free-plan headroom).
+const SEND_INTERVAL_MS = 250;
 const MIN_MOVE = 0.05;
 const BASE_BACKOFF_MS = 1000;
 const MAX_BACKOFF_MS = 30_000;
+/** Edge keepalive; answered by the DO's auto-response without waking it. */
+const PING_INTERVAL_MS = 25_000;
 
 /** Persistent anonymous client id (survives saves being wiped). */
 export function clientId(): string {
@@ -81,8 +87,13 @@ export class PresenceClient {
   private areaId: string | null = null;
   private backoff = BASE_BACKOFF_MS;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
-  /** True after a "zone full" close or an explicit close(): stop reconnecting. */
+  private pingTimer: ReturnType<typeof setInterval> | null = null;
+  /** True after a terminal close (full/superseded) or close(): stop reconnecting. */
   private stopped = false;
+  /** Area that reported "zone full" — don't retry it until we go elsewhere. */
+  private fullArea: string | null = null;
+  /** Bumped on connect()/close(); stale async open chains check it and bail. */
+  private generation = 0;
 
   // Last observed player state (always tracked, so `join` has fresh coords).
   private lastX = 0;
@@ -99,6 +110,11 @@ export class PresenceClient {
    *  reset its remote-players layer); false when already connected there. */
   connect(areaId: string): boolean {
     if (this.areaId === areaId && !this.stopped && this.ws) return false;
+    // "Zone full" is sticky per area: returning from a battle in the same
+    // area must not hammer a full zone (it clears when we go somewhere else).
+    if (this.fullArea === areaId) return false;
+    this.fullArea = null;
+    this.generation++;
     this.areaId = areaId;
     this.stopped = false;
     this.backoff = BASE_BACKOFF_MS;
@@ -108,6 +124,7 @@ export class PresenceClient {
   }
 
   close(): void {
+    this.generation++;
     this.stopped = true;
     this.areaId = null;
     this.teardownSocket();
@@ -140,14 +157,16 @@ export class PresenceClient {
 
   // -- socket lifecycle -------------------------------------------------------
   private open(): void {
-    void this.preflightThenOpen();
+    void this.preflightThenOpen(this.generation);
   }
 
   /** Chrome logs failed WebSocket handshakes to the console no matter what we
    *  catch — so never construct one unless the API answers a health check
-   *  first (vite-only dev has no worker; keep that console clean). */
-  private async preflightThenOpen(): Promise<void> {
-    if (this.stopped || !this.areaId) return;
+   *  first (vite-only dev has no worker; keep that console clean). The
+   *  generation guard kills chains orphaned by a connect()/close() that
+   *  happened while the fetch was in flight. */
+  private async preflightThenOpen(gen: number): Promise<void> {
+    if (gen !== this.generation || this.stopped || !this.areaId) return;
     let ok = false;
     try {
       const res = await fetch("/api/health", { cache: "no-store" });
@@ -155,16 +174,17 @@ export class PresenceClient {
     } catch {
       ok = false;
     }
-    if (this.stopped || !this.areaId) return;
+    if (gen !== this.generation || this.stopped || !this.areaId) return;
     if (!ok) {
       this.scheduleReconnect();
       return;
     }
-    this.openSocket();
+    this.openSocket(gen);
   }
 
-  private openSocket(): void {
-    if (this.stopped || !this.areaId) return;
+  private openSocket(gen: number): void {
+    if (gen !== this.generation || this.stopped || !this.areaId) return;
+    this.teardownSocket(); // never leave a previous socket dangling open
     try {
       const proto = location.protocol === "https:" ? "wss" : "ws";
       const ws = new WebSocket(`${proto}://${location.host}/api/presence/${encodeURIComponent(this.areaId)}`);
@@ -173,6 +193,7 @@ export class PresenceClient {
         if (ws !== this.ws) return;
         this.backoff = BASE_BACKOFF_MS;
         this.sentX = NaN; // force the first pos through the throttle
+        this.startPing();
         this.send({
           t: "join",
           id: this.id,
@@ -190,9 +211,15 @@ export class PresenceClient {
       ws.onclose = (ev) => {
         if (ws !== this.ws) return;
         this.ws = null;
+        this.stopPing();
         if (this.stopped) return;
         if (ev.code === FULL_CLOSE_CODE) {
-          this.stopped = true; // zone full: stay offline until the next area
+          this.stopped = true; // zone full: stay offline until a new area
+          this.fullArea = this.areaId;
+          return;
+        }
+        if (ev.code === SUPERSEDED_CLOSE_CODE) {
+          this.stopped = true; // another tab owns this identity now
           return;
         }
         this.scheduleReconnect();
@@ -216,7 +243,29 @@ export class PresenceClient {
     }, delay);
   }
 
+  private startPing(): void {
+    this.stopPing();
+    this.pingTimer = setInterval(() => {
+      const ws = this.ws;
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        try {
+          ws.send("ping"); // DO auto-response answers without waking it
+        } catch {
+          /* close path handles it */
+        }
+      }
+    }, PING_INTERVAL_MS);
+  }
+
+  private stopPing(): void {
+    if (this.pingTimer !== null) {
+      clearInterval(this.pingTimer);
+      this.pingTimer = null;
+    }
+  }
+
   private teardownSocket(): void {
+    this.stopPing();
     if (this.reconnectTimer !== null) {
       clearTimeout(this.reconnectTimer);
       this.reconnectTimer = null;

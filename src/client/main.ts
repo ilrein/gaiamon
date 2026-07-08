@@ -10,6 +10,7 @@ import { STRINGS } from "../data/strings";
 import type { MonsterInstance, PlayerState, TrainerDef } from "../shared/model";
 import type { AreaExit, AreaTrigger, NpcPlacement } from "../shared/area";
 import { makeInstance, maxHpAt } from "../shared/stats";
+import { prewarmProto } from "./world/proto-bake";
 import { TitleScreen } from "./screens/title";
 import { OverworldScreen, fadeTransition } from "./screens/overworld";
 import { BattleScreen } from "./screens/battle";
@@ -126,11 +127,12 @@ async function startBattleFlow(
         const species = DATA.species[syncedSpeciesId];
         await say([
           {
+            // Only sparkle when the shiny is actually kept: over-capacity
+            // syncs register the species only, so the recolour is lost.
             text:
-              (syncedShiny ? "✨ " : "") +
-              (where === "party"
-                ? `${species.name} joined your party!`
-                : `${species.name} was registered to your Codex — your party is full.`),
+              where === "party"
+                ? `${syncedShiny ? "✨ " : ""}${species.name} joined your party!`
+                : `${species.name} was registered to your Codex — your party is full.`,
           },
         ]);
       }
@@ -145,8 +147,14 @@ async function startBattleFlow(
     },
   });
   // Encounter swirl beat (~450ms); setScreen's uiRoot.replaceChildren() then
-  // clears the overlay right as the white flash peaks.
-  await playBattleIntro(uiRoot);
+  // clears the overlay right as the white flash peaks. Bake any proto meshes
+  // NOW, under the swirl, so battle mount doesn't stall a visible frame.
+  const introDone = playBattleIntro(uiRoot);
+  prewarmProto(game.renderer, [
+    ...game.player.party.map((m) => m.speciesId),
+    ...foeParty.map((m) => m.speciesId),
+  ]);
+  await introDone;
   game.setScreen(battle);
 }
 

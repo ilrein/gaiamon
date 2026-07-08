@@ -39,12 +39,22 @@ app.get("/api/presence/:areaId", (c) => {
 
 // Anonymous analytics beacon: {e: string, m?: string}, counted in Analytics
 // Engine. Always 204 — analytics must never fail (or slow) the client.
+// Event names are allowlisted so random POSTs can't poison the dataset index.
+const KNOWN_EVENTS = new Set([
+  "session-start",
+  "new-journey",
+  "battle-start",
+  "sync-capture",
+  "presence-join",
+]);
 app.post("/api/e", async (c) => {
   try {
     const body = JSON.parse(await c.req.text()) as { e?: unknown; m?: unknown };
     const e = typeof body.e === "string" ? body.e.slice(0, 64) : "";
     const m = typeof body.m === "string" ? body.m.slice(0, 64) : "";
-    if (e) c.env.AE?.writeDataPoint({ blobs: [e, m], doubles: [1], indexes: [e] });
+    if (KNOWN_EVENTS.has(e)) {
+      c.env.AE?.writeDataPoint({ blobs: [e, m], doubles: [1], indexes: [e] });
+    }
   } catch {
     /* malformed body or missing binding — drop the event */
   }

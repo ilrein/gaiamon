@@ -57,6 +57,12 @@ function nameTagTexture(name: string): THREE.Texture {
   return tex;
 }
 
+// One texture per emote kind for the whole session — emotes arrive from the
+// network and must not allocate a canvas + GPU upload per bubble.
+const emoteTexCache = new Map<string, THREE.Texture>();
+/** Upper bound on simultaneously live bubbles (flood guard). */
+const MAX_EMOTES = 12;
+
 function heartTexture(): THREE.Texture {
   const canvas = document.createElement("canvas");
   canvas.width = 64;
@@ -216,9 +222,19 @@ export class RemotePlayers {
   }
 
   // -- internals --------------------------------------------------------------
-  private spawnEmote(parent: THREE.Object3D, y: number, _kind: string): void {
-    // v1 has a single emote (heart); `kind` picks the texture when more land.
-    const tex = heartTexture();
+  private spawnEmote(parent: THREE.Object3D, y: number, kind: string): void {
+    if (this.emotes.length >= MAX_EMOTES) {
+      const oldest = this.emotes.shift();
+      if (oldest) this.disposeEmote(oldest);
+    }
+    // v1 has a single emote (heart); `kind` picks the cached texture when
+    // more land. Textures are shared — never disposed per bubble.
+    let tex = emoteTexCache.get("heart");
+    if (!tex) {
+      tex = heartTexture();
+      emoteTexCache.set("heart", tex);
+    }
+    void kind;
     const sprite = makeBubble(tex, y, 0.8);
     parent.add(sprite);
     this.emotes.push({ sprite, tex, t: 0 });
@@ -232,7 +248,7 @@ export class RemotePlayers {
       this.group.remove(holder);
     }
     (emote.sprite.material as THREE.SpriteMaterial).dispose();
-    emote.tex.dispose();
+    // emote.tex is shared via emoteTexCache — do not dispose
   }
 
   private disposeEntry(entry: Entry): void {

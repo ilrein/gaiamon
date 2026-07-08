@@ -39,6 +39,15 @@ export function hasProto(speciesId: string): boolean {
   return speciesId in PROTO;
 }
 
+/** Bake any not-yet-cached proto species now. Call this while a transition
+ *  covers the screen (battle intro swirl): the bake is a synchronous GPU
+ *  readback + marching cubes (~100-250ms per species, once per session). */
+export function prewarmProto(renderer: THREE.WebGLRenderer, speciesIds: string[]): void {
+  for (const id of new Set(speciesIds)) {
+    if (hasProto(id)) bakeSpecies(renderer, id);
+  }
+}
+
 export function bakeSpecies(
   renderer: THREE.WebGLRenderer,
   speciesId: string,

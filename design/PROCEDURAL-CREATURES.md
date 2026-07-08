@@ -127,12 +127,24 @@ feeling right:
    (`?action=faint&at=1.2`, `?action=hop&at=0.4`) — check the face tracks
    and nothing clips the bounding sphere.
 
-## Where this is going
+## The two renderers
 
-The raymarched page is the **authoring workshop and hero renderer**. For
-battle/overworld at scale, the plan is to **bake the same SDF to a mesh** at
-load (marching cubes), with animation weights (height, part id) baked into
-vertex attributes so the same verb curves run in a cheap vertex shader —
-one draw call per creature, works with shadow maps and the HD-2D postFX.
-The verb API (`uAction`, `uActionT`) stays identical, so `battle.ts` wiring
-is renderer-agnostic.
+The raymarched page is the **authoring workshop and reference**. Battles use
+the **baked-mesh pipeline** (`?mode=baked` previews it): the species GLSL is
+evaluated on the GPU into a 96³ distance/material grid (`proto-bake.ts` —
+zero per-species porting), marching-cubes'd to one mesh, and rendered with a
+material that paints using the species' own `speciesAlbedo` in undeformed
+local space and runs the same verb curves as a forward vertex deformation
+(`proto-mesh.ts`). Same species file drives both. Battle wiring: the `proto`
+`CombatantView` in `battle-fx.ts` is chosen automatically for any species in
+the registry — attack turns-and-lunges, damage wobbles, faint slumps,
+switch-ins hop, victories spin.
+
+**Shinies are seeds, not assets**: `uSeed` hue-rotates the palette in both
+renderers (`?shiny=1` in the workshop). Wild encounters and starters roll
+1/64; the flag persists on the save and survives capture.
+
+Baking notes: the bake volume is a fixed cube (centre (0, 0.72, 0), half
+0.95) — keep rest poses inside it. The first battle against a species pays
+the bake (~100-250ms, then cached as arrays; geometry is rebuilt per view
+because battle teardown disposes GPU buffers).

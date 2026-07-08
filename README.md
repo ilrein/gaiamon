@@ -75,9 +75,15 @@ One consistent house style, one still image per creature — animation is tweens
 (bob, hop, squash). See [DISCUSSION.md](DISCUSSION.md) for the full design
 conversation.
 
-Experimental: fully procedural 3D creatures (raymarched SDFs — no models, no
-rigs, no keyframes) live at `/proto-preview.html`. Authoring guide:
+Procedural 3D creatures (signed distance fields — no models, no rigs, no
+keyframes) render in battles via a marching-cubes bake, with rare **shiny**
+recolours that are literally a shader seed. Author/browse them at
+`/proto-preview.html`. Guide:
 [design/PROCEDURAL-CREATURES.md](design/PROCEDURAL-CREATURES.md).
+
+Multiplayer presence is live: wardens in the same area see each other walk
+around (name tags, heart emotes with `E`) — powered by a Durable Object per
+zone over WebSockets.
 
 ## Contributing
 

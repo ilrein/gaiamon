@@ -96,13 +96,23 @@ export interface CombatantView {
   verb?(v: ProtoVerb): void;
   /** Turn the creature toward a world direction (proto views). */
   face?(yaw: number): void;
+  /** Free GPU resources. MUST be called when a view is replaced mid-battle
+   *  (scene unmount only disposes what is still attached to the scene). */
+  dispose(): void;
+}
+
+/** Multiplicative tint approximating the shiny recolour for renderers that
+ *  can't hue-rotate their albedo (sprites/voxels). Derived from the seed so
+ *  it matches the proto hue direction loosely. */
+function shinyTint(seed: number): THREE.Color {
+  return new THREE.Color().setHSL(((seed / (Math.PI * 2)) % 1 + 1) % 1, 0.55, 0.78);
 }
 
 function makeSpriteView(
   speciesId: string,
   scale: number,
   phase: number,
-  opts: { titan?: boolean },
+  opts: { titan?: boolean; shinySeed?: number },
 ): CombatantView {
   const tex = creatureTexture(speciesId);
   const base = new THREE.Sprite(
@@ -115,6 +125,7 @@ function makeSpriteView(
   // painting the ground disc over far-side creatures.
   base.renderOrder = 4;
   if (opts.titan) base.material.color.setHex(0xffd8d0); // dramatic warm-red cast
+  else if (opts.shinySeed) base.material.color.copy(shinyTint(opts.shinySeed));
 
   const flash = new THREE.Sprite(
     new THREE.SpriteMaterial({
@@ -155,6 +166,11 @@ function makeSpriteView(
       base.material.rotation = rad;
       flash.material.rotation = rad;
     },
+    dispose() {
+      // Texture is shared via the sprite cache — materials only.
+      base.material.dispose();
+      flash.material.dispose();
+    },
   };
 }
 
@@ -162,12 +178,13 @@ function makeVoxelView(
   model: VoxelModel,
   scale: number,
   phase: number,
-  opts: { titan?: boolean },
+  opts: { titan?: boolean; shinySeed?: number },
 ): CombatantView {
   const { mesh } = buildVoxelMesh(model, scale);
   const material = mesh.material as THREE.MeshLambertMaterial;
   material.transparent = true;
   if (opts.titan) material.color.setHex(0xffd8d0);
+  else if (opts.shinySeed) material.color.copy(shinyTint(opts.shinySeed));
 
   const group = new THREE.Group();
   group.add(mesh);
@@ -191,6 +208,10 @@ function makeVoxelView(
     },
     setTip(rad) {
       mesh.rotation.z = rad;
+    },
+    dispose() {
+      mesh.geometry.dispose();
+      material.dispose();
     },
   };
 }
@@ -235,6 +256,9 @@ function makeProtoView(
     },
     face(yaw) {
       creature.group.rotation.y = yaw;
+    },
+    dispose() {
+      creature.dispose();
     },
   };
 }
