@@ -89,6 +89,7 @@ export class PartyHud {
     refs.card.style.setProperty("--hp-color", color);
     refs.card.dataset.lead = isLead ? "true" : "false";
     refs.card.dataset.fainted = mon.currentHp <= 0 ? "true" : "false";
+    refs.card.dataset.shiny = mon.shiny ? "true" : "false";
     refs.lv.textContent = `Lv ${mon.level}`;
 
     const st = mon.status ? DATA.statuses[mon.status] : null;

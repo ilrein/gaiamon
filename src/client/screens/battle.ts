@@ -38,7 +38,12 @@ export interface BattleScreenOpts {
   foeParty: MonsterInstance[];
   backdrop: { ground1: string; ground2: string; fog: string };
   opponentTitle?: string;
-  onFinish: (result: { outcome: BattleState["outcome"]; syncedSpeciesId: string | null }) => void;
+  onFinish: (result: {
+    outcome: BattleState["outcome"];
+    syncedSpeciesId: string | null;
+    /** Whether the synced wild mon rolled shiny at encounter time. */
+    syncedShiny: boolean;
+  }) => void;
 }
 
 /** Sprite world-height per species stage; titans loom. */
@@ -110,6 +115,7 @@ export class BattleScreen implements Screen {
   private renderH = window.innerHeight;
   private syncRing: SyncRing | null = null;
   private syncedSpeciesId: string | null = null;
+  private syncedShiny = false;
   private pendingEvolutions: { monUid: string; toSpeciesId: string }[] = [];
 
   constructor(opts: BattleScreenOpts) {
@@ -140,6 +146,7 @@ export class BattleScreen implements Screen {
     this.foePos = bs.foePos;
     this.platforms = bs.platforms;
 
+    this.renderer = game.renderer; // proto views bake their meshes on the GPU
     this.views = { player: this.spawnView("player"), foe: this.spawnView("foe") };
 
     this.impactFx = new ImpactFX();
@@ -194,8 +201,12 @@ export class BattleScreen implements Screen {
 
     for (const side of ["player", "foe"] as Side[]) {
       const v = this.views[side];
-      if (!v || v.fainting || !v.group.visible) continue;
-      const bob = Math.sin(this.elapsed * 2 + v.phase) * 0.06;
+      if (!v || !v.group.visible) continue;
+      v.update?.(this.elapsed); // proto idle/verb clock (frozen by hit-stop)
+      if (v.fainting) continue;
+      // proto meshes breathe in-shader and stand on the ground; only the
+      // billboard/voxel renderers get the hover-bob
+      const bob = v.kind === "proto" ? 0 : Math.sin(this.elapsed * 2 + v.phase) * 0.06;
       v.group.position.set(
         v.basePos.x + v.offset.x,
         v.basePos.y + v.offset.y + bob,
@@ -257,7 +268,11 @@ export class BattleScreen implements Screen {
     // (portrait squeezes both inward and down) after every spawn/resize.
     this.baseScales[side] = scale;
     const phase = side === "player" ? 0 : Math.PI;
-    const v = makeCombatantView(mon.speciesId, scale, phase, { titan: sp.role === "titan" });
+    const v = makeCombatantView(mon.speciesId, scale, phase, {
+      titan: sp.role === "titan",
+      renderer: this.renderer ?? undefined,
+      shinySeed: (mon as { shiny?: boolean }).shiny ? 2.6 : 0,
+    });
     const pos = side === "player" ? this.playerPos : this.foePos;
     v.basePos.copy(pos);
     v.group.position.copy(v.basePos);
@@ -290,6 +305,7 @@ export class BattleScreen implements Screen {
   }
   private baseScales: Record<Side, number> = { player: 0, foe: 0 };
   private platforms: THREE.Mesh[] = [];
+  private renderer: THREE.WebGLRenderer | null = null;
 
   private buildDom(uiRoot: HTMLElement): void {
     this.battleUi = el("div", { className: "battle-ui" });
@@ -423,7 +439,11 @@ export class BattleScreen implements Screen {
     if (!this.alive) return;
     for (const ev of this.pendingEvolutions) await this.playEvolution(ev);
     await this.tweens.wait(0.3);
-    this.opts.onFinish({ outcome: this.state.outcome, syncedSpeciesId: this.syncedSpeciesId });
+    this.opts.onFinish({
+      outcome: this.state.outcome,
+      syncedSpeciesId: this.syncedSpeciesId,
+      syncedShiny: this.syncedShiny,
+    });
   }
 
   private async intro(): Promise<void> {
@@ -467,6 +487,7 @@ export class BattleScreen implements Screen {
         this.playMoveImpact(e.side, e.effectiveness, e.crit);
         // Freeze on contact, then let the shake resolve. Crits hold longer.
         this.hitStop = e.crit ? 0.14 : 0.07;
+        this.views[e.side].verb?.("hit"); // proto: jelly wobble + knockback
         await Promise.all([this.flash(e.side), this.shake(e.side, e.crit ? 0.26 : 0.12)]);
         this.floatText(e.side, String(e.amount), e.crit ? "#ffec7a" : "#ffffff", e.crit);
         if (e.crit) {
@@ -563,6 +584,7 @@ export class BattleScreen implements Screen {
       case "syncResult":
         if (e.success) {
           this.syncedSpeciesId = e.speciesId;
+        this.syncedShiny = this.pb.foe.mon.shiny === true;
           await this.syncSuccess();
           const burst = this.foePos.clone();
           burst.y += 1.2;
@@ -628,6 +650,7 @@ export class BattleScreen implements Screen {
       case "end":
         if (e.outcome === "victory") {
           this.log(this.opts.opponentTitle ? `${this.opts.opponentTitle} was defeated!` : "You won the battle!");
+          this.views.player.verb?.("celebrate"); // proto: victory spin
         } else if (e.outcome === "defeat") {
           this.log("Your team was defeated...");
         }
@@ -821,6 +844,17 @@ export class BattleScreen implements Screen {
     const target = this.views[this.other(side)].basePos;
     const dir = target.clone().sub(v.basePos);
     dir.y = 0;
+    if (v.verb && v.face) {
+      // proto: turn toward the opponent and run the attack verb — the verb
+      // itself carries the anticipation crouch + lunge + settle
+      v.face(Math.atan2(dir.x, dir.z));
+      v.verb("attack");
+      await this.tweens.wait(0.4); // strike lands mid-verb
+      void this.tweens.wait(0.5).then(() => {
+        if (!v.fainting) v.face?.(0);
+      });
+      return;
+    }
     if (dir.lengthSq() > 0) dir.normalize().multiplyScalar(0.7);
     await this.tweens.tween(
       0.16,
@@ -863,6 +897,14 @@ export class BattleScreen implements Screen {
   private async faintAnim(side: Side): Promise<void> {
     const v = this.views[side];
     v.fainting = true;
+    if (v.verb) {
+      // proto: the faint verb slumps the body in place, then fade out
+      v.verb("faint");
+      await this.tweens.wait(0.9);
+      await this.tweens.tween(0.35, (k) => v.setOpacity(1 - k), easeInCubic);
+      v.group.visible = false;
+      return;
+    }
     const startY = v.group.position.y;
     const tip = side === "player" ? 1.4 : -1.4;
     await this.tweens.tween(
@@ -910,6 +952,7 @@ export class BattleScreen implements Screen {
       v.setOpacity(Math.min(1, k * 2));
     });
     v.setScale(target, target);
+    v.verb?.("hop"); // proto: land with a happy entry hop
 
     this.renderCard(side);
     this.log(`${this.name(side)} ${side === "player" ? "is ready!" : "steps up!"}`);

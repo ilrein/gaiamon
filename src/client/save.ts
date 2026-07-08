@@ -49,6 +49,7 @@ export function loadGame(): PlayerState | null {
         moves: m.moves.filter((id) => DATA.moves[id]).slice(0, 4),
         status: typeof m.status === "string" && DATA.statuses[m.status] ? m.status : null,
         nickname: typeof m.nickname === "string" ? m.nickname : null,
+        shiny: m.shiny === true,
       };
     });
     if (party.length === 0) return null; // nothing playable to restore

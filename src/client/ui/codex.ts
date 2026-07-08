@@ -210,6 +210,7 @@ export async function openCodex(
         el("span", { className: "cdx-lv", text: `Lv ${mon.level}` }),
       ]);
       if (index === 0) nameline.append(el("span", { className: "cdx-lead-tag", text: "LEAD" }));
+      if (mon.shiny) nameline.append(el("span", { className: "cdx-shiny-tag", text: "✨ SHINY" }));
 
       const meta = el("div", { className: "cdx-meta" }, [
         el("span", { text: `${mon.currentHp}/${maxHp} HP` }),

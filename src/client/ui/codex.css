@@ -257,6 +257,15 @@
   padding: 1px 8px;
   border-radius: 999px;
 }
+.cdx-shiny-tag {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  background: linear-gradient(100deg, #b7f0ff, #e6c8ff 55%, #ffe9a8);
+  color: var(--ink);
+  padding: 1px 8px;
+  border-radius: 999px;
+}
 .cdx-chips { margin: 5px 0; display: flex; gap: 5px; flex-wrap: wrap; }
 .cdx-pcard .hp-bar,
 .cdx-detail .hp-bar {

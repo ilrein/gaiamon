@@ -7,6 +7,8 @@ import { creatureTexture } from "../sprites";
 import { buildVoxelMesh } from "../world/voxel";
 import { VOXELS } from "../../data/voxels";
 import type { VoxelModel } from "../../shared/voxel";
+import { buildProtoCreature, type ProtoVerb } from "../world/proto-mesh";
+import { hasProto } from "../world/proto-bake";
 
 // ---------------------------------------------------------------------------
 // Easing + a tiny time-driven tween runner. Everything animated in the battle
@@ -67,11 +69,12 @@ export class Tweens {
 }
 
 // ---------------------------------------------------------------------------
-// Creature view: either a billboarded 2D sprite (with an additive flash twin)
-// or a true voxel mesh — behind one animation API so the battle playback code
-// doesn't care which it's driving. Anchored at the feet.
+// Creature view: a billboarded 2D sprite (with an additive flash twin), a
+// voxel mesh, or a baked procedural SDF mesh — behind one animation API so
+// the battle playback code doesn't care which it's driving. Anchored at the
+// feet.
 export interface CombatantView {
-  kind: "sprite" | "voxel";
+  kind: "sprite" | "voxel" | "proto";
   group: THREE.Group;
   scale: number;
   phase: number;
@@ -87,6 +90,12 @@ export interface CombatantView {
   setFlash(o: number): void;
   /** Tip-over rotation (radians) for faints; pivots at the feet. */
   setTip(rad: number): void;
+  /** Per-frame tick with the battle clock (frozen during hit-stop). */
+  update?(t: number): void;
+  /** Procedural verb layer (proto views): hop/attack/hit/faint/celebrate. */
+  verb?(v: ProtoVerb): void;
+  /** Turn the creature toward a world direction (proto views). */
+  face?(yaw: number): void;
 }
 
 function makeSpriteView(
@@ -186,16 +195,66 @@ function makeVoxelView(
   };
 }
 
+function makeProtoView(
+  speciesId: string,
+  scale: number,
+  phase: number,
+  renderer: THREE.WebGLRenderer,
+  opts: { titan?: boolean; shinySeed?: number },
+): CombatantView | null {
+  const creature = buildProtoCreature(renderer, speciesId, scale);
+  if (!creature) return null;
+  if (opts.shinySeed) creature.setSeed(opts.shinySeed);
+  creature.mesh.renderOrder = 4;
+
+  return {
+    kind: "proto",
+    group: creature.group,
+    scale,
+    phase,
+    basePos: new THREE.Vector3(),
+    offset: new THREE.Vector3(),
+    fainting: false,
+    setScale(x, y) {
+      creature.setScale(x, y);
+    },
+    setOpacity(o) {
+      creature.setOpacity(o);
+    },
+    setFlash(o) {
+      creature.setFlash(o);
+    },
+    setTip(rad) {
+      creature.setTip(rad);
+    },
+    update(t) {
+      creature.update(t + phase); // phase-desync the idle layer
+    },
+    verb(v) {
+      creature.playVerb(v);
+    },
+    face(yaw) {
+      creature.group.rotation.y = yaw;
+    },
+  };
+}
+
 export function makeCombatantView(
   speciesId: string,
   scale: number,
   phase: number,
-  opts: { titan?: boolean } = {},
+  opts: { titan?: boolean; renderer?: THREE.WebGLRenderer; shinySeed?: number } = {},
 ): CombatantView {
+  const proto =
+    opts.renderer && hasProto(speciesId)
+      ? makeProtoView(speciesId, scale, phase, opts.renderer, opts)
+      : null;
   const model = VOXELS[speciesId];
-  const view = model
-    ? makeVoxelView(model, scale, phase, opts)
-    : makeSpriteView(speciesId, scale, phase, opts);
+  const view =
+    proto ??
+    (model
+      ? makeVoxelView(model, scale, phase, opts)
+      : makeSpriteView(speciesId, scale, phase, opts));
 
   if (opts.titan) {
     const rim = new THREE.PointLight(0xff5a4a, 6, 12, 2);

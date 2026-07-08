@@ -108,6 +108,8 @@ export interface MonsterInstance {
   /** Up to 4 known move ids. */
   moves: string[];
   status: string | null;
+  /** Rare procedural recolour, rolled once at encounter time. */
+  shiny?: boolean;
 }
 
 export interface TrainerDef {
