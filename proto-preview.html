@@ -36,6 +36,18 @@
         display: flex;
         gap: 8px;
       }
+      #species {
+        position: fixed;
+        top: 14px;
+        right: 16px;
+        display: flex;
+        gap: 8px;
+      }
+      #species button.active {
+        background: #3a2f2a;
+        color: #fff8ec;
+      }
+      #species button,
       #actions button {
         border: none;
         font: inherit;
@@ -48,6 +60,7 @@
         box-shadow: 0 2px 0 rgba(58, 47, 42, 0.25);
         cursor: pointer;
       }
+      #species button:active,
       #actions button:active {
         transform: translateY(2px);
         box-shadow: none;
@@ -57,6 +70,7 @@
   <body>
     <div id="stage"></div>
     <div id="label"></div>
+    <div id="species"></div>
     <div id="actions"></div>
     <script type="module" src="/src/client/proto-preview.ts"></script>
   </body>

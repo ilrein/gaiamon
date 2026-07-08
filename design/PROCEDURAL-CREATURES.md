@@ -2,27 +2,37 @@
 
 How to build a Gaiamon as a **raymarched signed distance field** — geometry,
 surface, face, and animation all procedural, no model files, no rig, no
-textures. Fernby is the reference implementation:
-[`src/client/proto-preview.ts`](../src/client/proto-preview.ts), viewable at
-`/proto-preview.html`.
+textures. Species live in [`src/data/proto/`](../src/data/proto/) as GLSL
+chunks compiled into the shell shader
+([`src/client/proto-preview.ts`](../src/client/proto-preview.ts)). Fernby is
+the reference; Kindlet shows fire (live-deforming flame + emissive embers).
+Browse them at `/proto-preview.html` — the pills top-right are the codex.
 
 ## Try it
 
 ```bash
-docker compose up -d        # dev server on :5273 (or: bun run dev → :5173)
-open http://localhost:5273/proto-preview.html
-bun scripts/proto-shot.mjs  # headless screenshots → /tmp/proto-fernby-*.png
+docker compose up -d                 # dev server on :5273 (or: bun run dev → :5173)
+open http://localhost:5273/proto-preview.html?species=kindlet
+bun scripts/proto-shot.mjs fernby kindlet  # headless shots → /tmp/proto-<id>-*.png
 ```
 
-URL params: `?angle=hero|front|side|back`, `?spin=0`, `?t=2.2` (freeze time),
-`?action=hit&at=0.1` (freeze a verb mid-pose), `?px=2` (render scale, default
-1), `?fps=60` (default 30).
+URL params: `?species=<id>`, `?angle=hero|front|side|back`, `?spin=0`,
+`?t=2.2` (freeze time), `?action=hit&at=0.1` (freeze a verb mid-pose),
+`?px=2` (render scale, default 1), `?fps=60` (default 30).
 
 ## Anatomy of a creature
 
-Everything lives in one fragment shader. A creature is a `mapCreature(p)`
-function: it returns the distance from point `p` to the creature's surface,
-plus a material id.
+A species file exports a `ProtoSpecies` — a name plus a GLSL chunk defining
+two functions (the shell provides everything else: noise, the SDF toolkit,
+lighting, ground, and the verb system):
+
+- `vec2 speciesMap(vec3 p)` — signed distance + material id. Idle animation
+  lives here, driven by `uTime`.
+- `vec3 speciesAlbedo(vec3 p, float m, out float gloss, out float emissive)`
+  — surface colour and painted face masks. `gloss` marks wet highlights
+  (eyes); `emissive` marks self-lit surfaces (flame, embers) that override
+  the lighting. Keep emissive colours saturated — the shell multiplies them
+  only gently (≈1.05×) because anything brighter clamps toward white.
 
 **Coordinate space.** Feet on the ground plane `y=0`, facing `+z`, roughly
 1.3 units tall. The camera rigs and the ground/sky shading assume this.
@@ -102,14 +112,16 @@ feeling right:
 
 ## Authoring a new species — checklist
 
-1. Copy the fernby SDF block; keep the shell (camera, lighting, ground, verb
-   system) untouched.
+1. Copy `src/data/proto/fernby.ts` to `<id>.ts`, register it in
+   `src/data/proto/index.ts`. Never touch the shell.
 2. Block the silhouette from primitives: body mass first, then the one
-   signature feature (fernby = fiddlehead; kindlet = flame?) — the thing that
-   reads at 100 px.
+   signature feature (fernby = fiddlehead; kindlet = flame) — the thing that
+   reads at 100 px. For animated features like flame, deform the *sample
+   space* (wobble offsets growing along the feature) and divide the distance
+   by any stretch factor to keep the marcher conservative.
 3. Palette from the species' voxel file; material ids by nearest part.
 4. Paint the face; check `front` and `hero` angles after every change
-   (`bun scripts/proto-shot.mjs`).
+   (`bun scripts/proto-shot.mjs <id>`).
 5. Tune idle amplitudes — creatures should feel *alive*, not *busy*.
 6. Verify all five verbs at extreme poses
    (`?action=faint&at=1.2`, `?action=hop&at=0.4`) — check the face tracks
