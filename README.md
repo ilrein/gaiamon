@@ -75,6 +75,10 @@ One consistent house style, one still image per creature — animation is tweens
 (bob, hop, squash). See [DISCUSSION.md](DISCUSSION.md) for the full design
 conversation.
 
+Experimental: fully procedural 3D creatures (raymarched SDFs — no models, no
+rigs, no keyframes) live at `/proto-preview.html`. Authoring guide:
+[design/PROCEDURAL-CREATURES.md](design/PROCEDURAL-CREATURES.md).
+
 ## Contributing
 
 Pre-alpha: things move fast and break often. Issues, PRs, and creature ideas

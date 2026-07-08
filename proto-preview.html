@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gaiamon Procedural Workshop</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #87c9e8;
+        font-family: ui-rounded, system-ui, sans-serif;
+      }
+      #stage {
+        position: fixed;
+        inset: 0;
+      }
+      #label {
+        position: fixed;
+        top: 14px;
+        left: 16px;
+        background: rgba(255, 248, 236, 0.92);
+        border-radius: 999px;
+        padding: 6px 14px;
+        font-weight: 800;
+        color: #3a2f2a;
+        box-shadow: 0 2px 0 rgba(58, 47, 42, 0.25);
+      }
+      #actions {
+        position: fixed;
+        bottom: 18px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+      }
+      #actions button {
+        border: none;
+        font: inherit;
+        font-weight: 800;
+        text-transform: capitalize;
+        padding: 8px 16px;
+        border-radius: 999px;
+        background: rgba(255, 248, 236, 0.92);
+        color: #3a2f2a;
+        box-shadow: 0 2px 0 rgba(58, 47, 42, 0.25);
+        cursor: pointer;
+      }
+      #actions button:active {
+        transform: translateY(2px);
+        box-shadow: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage"></div>
+    <div id="label"></div>
+    <div id="actions"></div>
+    <script type="module" src="/src/client/proto-preview.ts"></script>
+  </body>
+</html>

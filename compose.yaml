@@ -1,0 +1,24 @@
+# Dev-only: Vite dev server with HMR in a container.
+#   docker compose up -d     → http://localhost:5273 (e.g. /proto-preview.html)
+#   docker compose logs -f   → server output
+#   docker compose down      → stop
+# The repo is bind-mounted, so edits on the host hot-reload in the browser.
+# node_modules lives in a named volume (Linux binaries, doesn't touch the
+# host's install). API calls proxy to `bun run dev:api` running on the host.
+services:
+  web:
+    image: oven/bun:1
+    working_dir: /app
+    environment:
+      VITE_DOCKER: "1"
+      # VITE_POLL: "1"  # fallback if hot reload stops firing (see vite.config.ts)
+    mem_limit: 768m
+    ports:
+      - "5273:5273"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    command: sh -c "bun install --frozen-lockfile && bun run dev"
+
+volumes:
+  node_modules:
