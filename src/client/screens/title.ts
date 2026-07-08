@@ -106,15 +106,42 @@ export class TitleScreen implements Screen {
       b.style.animationDelay = `${(0.45 + i * 0.08).toFixed(2)}s`;
     });
 
+    const head = el("div", { className: "title-head" }, [
+      el("div", { className: "title-logo", text: STRINGS.gameTitle }),
+      el("div", { html: STRINGS.tagline, className: "title-tagline" }),
+    ]);
     this.setOverlay(
       el("div", { className: "title-screen cine" }, [
-        el("div", { className: "title-head" }, [
-          el("div", { className: "title-logo", text: STRINGS.gameTitle }),
-          el("div", { html: STRINGS.tagline, className: "title-tagline" }),
-        ]),
+        head,
         el("div", { className: "title-menu" }, buttons),
       ]),
     );
+    void this.showLiveCount(head);
+  }
+
+  /** Live social proof under the tagline: "N wardens exploring right now".
+      Purely optional garnish — any failure (offline, dev server without the
+      worker, bad JSON) is swallowed and the line simply never appears. Also
+      hidden when n is 0: an empty meadow shouldn't advertise its emptiness. */
+  private async showLiveCount(head: HTMLElement): Promise<void> {
+    try {
+      const res = await fetch("/api/now");
+      if (!res.ok) return;
+      const body = (await res.json()) as { n?: unknown };
+      const n =
+        typeof body.n === "number" && Number.isFinite(body.n) ? Math.max(0, Math.floor(body.n)) : 0;
+      if (n < 1) return;
+      // The menu may have moved on (starter select) while we were fetching.
+      if (!head.isConnected) return;
+      head.append(
+        el("div", {
+          className: "title-now",
+          text: `🌿 ${n} warden${n === 1 ? "" : "s"} exploring right now`,
+        }),
+      );
+    } catch {
+      /* social proof must never break the title screen */
+    }
   }
 
   private async startNewJourney(): Promise<void> {

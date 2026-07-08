@@ -312,7 +312,8 @@ function setupPresence(): void {
 
   client.onRoster = (players) => {
     layer.reset();
-    for (const p of players) layer.upsert(p);
+    // Roster arrivals are silent — only players who join AFTER us get a toast.
+    for (const p of players) layer.upsert(p, true);
   };
   client.onJoin = (p) => layer.upsert(p);
   client.onPos = (p) => layer.setPos(p.id, p.x, p.z, p.dir, p.moving);
@@ -328,15 +329,37 @@ function setupPresence(): void {
     pill.textContent = `${n} warden${n === 1 ? "" : "s"} here`;
   };
 
-  // E = heart emote (only while roaming; busy covers dialogue/battle/codex).
+  // Arrival/leave toasts, bottom-left. aria-live=polite so screen readers hear
+  // them without focus theft; max 3 stacked, each auto-dismissed after 4s.
+  // window.__lastToast is a shipped debug hook (the presence e2e reads it).
+  const toastHost = el("div", { className: "presence-toasts" });
+  toastHost.setAttribute("aria-live", "polite");
+  hudRoot.append(toastHost);
+  const showToast = (text: string): void => {
+    while (toastHost.children.length >= 3) toastHost.firstElementChild?.remove();
+    const toast = el("div", { className: "presence-toast", text });
+    toastHost.append(toast);
+    setTimeout(() => {
+      toast.classList.add("toast-out");
+      setTimeout(() => toast.remove(), 350);
+    }, 4000);
+    (window as unknown as Record<string, unknown>).__lastToast = text;
+  };
+  layer.onArrive = (name) => showToast(`🌿 ${name} wandered in`);
+  layer.onDepart = (name) => showToast(`${name} wandered off`);
+
+  // E = heart, R = wave (only while roaming; busy covers dialogue/battle/codex).
   let lastEmoteAt = 0;
   window.addEventListener("keydown", (e) => {
-    if (e.code !== "KeyE" || busy) return;
+    // Bare keys only: Cmd+R / Ctrl+R is a reload, not a wave.
+    if (e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
+    const kind = e.code === "KeyE" ? "heart" : e.code === "KeyR" ? "wave" : null;
+    if (!kind || busy) return;
     const now = performance.now();
     if (now - lastEmoteAt < 800) return;
     lastEmoteAt = now;
-    client.sendEmote("heart");
-    layer.showEmoteAt(game.player.pos.x, game.player.pos.z, "heart");
+    client.sendEmote(kind);
+    layer.showEmoteAt(game.player.pos.x, game.player.pos.z, kind);
   });
 }
 
@@ -359,7 +382,9 @@ function startPlaying(player: PlayerState): void {
     onCodex: () => {
       if (busy) return;
       busy = true;
-      void openCodex(game, {}).then(() => {
+      void openCodex(game, {}).then((result) => {
+        // "Make Lead" swaps party[0] without a loadArea — swap the follower.
+        if (result === "lead-changed") overworld.refreshFollower(game);
         game.save();
         busy = false;
       });

@@ -8,6 +8,7 @@ import "./codex.css";
 import type { Game } from "../game";
 import { el } from "../dom";
 import { creatureImg, placeholderDataUrl, spritePath } from "../sprites";
+import { hasProtoPortrait } from "../world/proto-portrait";
 import { typeChip } from "../colors";
 import { clampPct, hpFillClass } from "./format";
 import { clearSave } from "../save";
@@ -449,6 +450,18 @@ export async function openCodex(
           ]),
         ]),
       );
+
+      // Procedural species open in the 3D workshop (spin/drag/verbs/shiny).
+      if (hasProtoPortrait(species.id)) {
+        const link = el("a", {
+          className: "cdx-3d-link",
+          text: "✦ View in 3D",
+        }) as HTMLAnchorElement;
+        link.href = `/proto-preview.html?species=${species.id}`;
+        link.target = "_blank";
+        link.rel = "noopener";
+        bodyScroll.append(link);
+      }
 
       bodyScroll.append(el("div", { className: "cdx-section-label", text: "Field Entry" }));
       bodyScroll.append(el("div", { className: "cdx-entry", text: species.dexEntry }));

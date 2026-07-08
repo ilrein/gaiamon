@@ -36,6 +36,8 @@ const MIN_EMOTE_INTERVAL_MS = 600;
 const MAX_MESSAGE_CHARS = 512;
 const MAX_NAME_LEN = 24;
 const MAX_EMOTE_LEN = 16;
+/** Known emote kinds — reject anything else at the relay. */
+const EMOTE_KINDS = new Set(["heart", "wave"]);
 /** Attachment rewrites are storage-ish work — throttle position persistence. */
 const ATTACHMENT_POS_INTERVAL_MS = 2000;
 
@@ -89,6 +91,12 @@ export class PresenceZone {
 
   fetch(request: Request): Response {
     if (request.headers.get("Upgrade")?.toLowerCase() !== "websocket") {
+      // Live-count probe (worker's GET /api/now aggregation): number of
+      // sockets that actually JOINED (attachment set), not raw connections.
+      if (new URL(request.url).searchParams.has("count")) {
+        const n = this.ctx.getWebSockets().filter((s) => attachmentOf(s) !== null).length;
+        return Response.json({ n });
+      }
       return new Response("expected websocket", { status: 426 });
     }
     const pair = new WebSocketPair();
@@ -226,7 +234,7 @@ export class PresenceZone {
     if (now - (this.lastEmoteAt.get(ws) ?? 0) < MIN_EMOTE_INTERVAL_MS) return;
     this.lastEmoteAt.set(ws, now);
     const k = str(msg.k, MAX_EMOTE_LEN);
-    if (!k) return;
+    if (!k || !EMOTE_KINDS.has(k)) return;
     this.broadcast(ws, { t: "emote", id: att.id, k });
   }
 

@@ -4,10 +4,14 @@
 import type { ProtoSpecies } from "./types";
 import { fernby } from "./fernby";
 import { kindlet } from "./kindlet";
+import { puddlop } from "./puddlop";
+import { pottle } from "./pottle";
 
 export type { ProtoSpecies } from "./types";
 
 export const PROTO: Record<string, ProtoSpecies> = {
   fernby,
   kindlet,
+  puddlop,
+  pottle,
 };

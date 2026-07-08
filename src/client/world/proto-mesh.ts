@@ -36,6 +36,8 @@ export interface ProtoCreature {
   setSeed(rad: number): void;
   setFlash(o: number): void;
   setOpacity(o: number): void;
+  /** Match darker scenes: 1 = battle noon, ~0.7 = overworld dusk. */
+  setExposure(e: number): void;
   /** Faint tip-over about the feet (battle convention). */
   setTip(rad: number): void;
   setScale(x: number, y: number): void;
@@ -82,6 +84,7 @@ uniform vec3 uSunDir;
 uniform vec3 uSunCol;
 uniform float uFlash;
 uniform float uOpacity;
+uniform float uExposure; // scene-match dimmer (overworld dusk vs battle noon)
 in vec3 vLocal;
 in vec3 vWorldPos;
 in vec3 vNormalW;
@@ -120,7 +123,7 @@ void main() {
   // hit flash: verb-driven or battle-driven
   col = mix(col, vec3(1.0, 0.96, 0.90) * 1.4, clamp(max(actionFlash(), uFlash), 0.0, 1.0));
 
-  col = pow(clamp(col, 0.0, 1.0), vec3(1.0 / 2.2));
+  col = pow(clamp(col * uExposure, 0.0, 1.0), vec3(1.0 / 2.2));
   // gentle saturation lift, matching the raymarched shell's grade
   col = mix(vec3(dot(col, vec3(0.299, 0.587, 0.114))), col, 1.08);
   outColor = vec4(col, uOpacity);
@@ -155,6 +158,7 @@ export function buildProtoCreature(
     uPhase: { value: Math.random() * Math.PI * 2 },
     uFlash: { value: 0 },
     uOpacity: { value: 1 },
+    uExposure: { value: 1 },
     uSunDir: { value: new THREE.Vector3(0.55, 0.9, 0.45).normalize() },
     uSunCol: { value: new THREE.Vector3(1.25, 1.1625, 1.0) },
   };
@@ -205,6 +209,9 @@ export function buildProtoCreature(
     },
     setOpacity(o: number) {
       uniforms.uOpacity.value = o;
+    },
+    setExposure(e: number) {
+      uniforms.uExposure.value = e;
     },
     setTip(rad: number) {
       inner.rotation.z = rad;

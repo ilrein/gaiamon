@@ -138,6 +138,39 @@ try {
   console.log("✓ Bo received Ada's heart emote");
   await pageB.screenshot({ path: `${SHOTS}/3-bo-got-emote.png` });
 
+  // Bo joined AFTER Ada was already in the zone, so Ada must have gotten an
+  // arrival toast (window.__lastToast is the shipped debug hook; the DOM toast
+  // itself auto-dismisses after 4s, so the hook is the race-free assertion).
+  step = "arrival-toast";
+  await pageA.waitForFunction(
+    () => typeof window.__lastToast === "string" && window.__lastToast.includes("Bo wandered in"),
+    { timeout: 10000 },
+  );
+  console.log("✓ Ada got a toast for Bo joining late");
+
+  step = "wave-emote";
+  // Clear the emote rate limits (client 800ms, server 600ms) by pumping ~1s of
+  // real time as rAF frames on Bo, so his game clock also advances a little
+  // (headless pages barely tick between assertions, and dt is clamped at 50ms,
+  // so the heart bubble outlives its 2s here — newest-on-top renderOrder keeps
+  // the wave visible over it regardless).
+  await pageB.bringToFront();
+  const pumpFrames = (page, ms) =>
+    page.evaluate(async (budget) => {
+      const start = performance.now();
+      while (performance.now() - start < budget) await new Promise(requestAnimationFrame);
+    }, ms);
+  await pumpFrames(pageB, 1000);
+  await pageA.keyboard.press("r");
+  await pageB.waitForFunction(
+    () => window.__lastEmote && window.__lastEmote.k === "wave",
+    { timeout: 10000 },
+  );
+  console.log("✓ Bo received Ada's wave emote");
+  await pumpFrames(pageB, 400); // let the wave bubble rise into view
+  console.log("live bubbles on Bo:", await pageB.evaluate(() => JSON.stringify(window.__emoteLive)));
+  await pageB.screenshot({ path: `${SHOTS}/4-bo-got-wave.png` });
+
   step = "console-errors";
   if (errors.length > 0) {
     console.error(`\n${errors.length} console errors:`);

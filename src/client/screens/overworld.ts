@@ -15,6 +15,8 @@ import { el } from "../dom";
 import { buildTerrain, type Terrain } from "../world/terrain";
 import { Ambience, showAreaTitle } from "../world/ambience";
 import { buildProp } from "../world/props";
+import { Waystone, WAYSTONE_POS, WAYSTONE_RADIUS } from "../world/waystone";
+import { FollowerMon } from "../world/follower";
 import { NpcActor } from "../world/npc";
 import { WalkerSprite, PLAYER_WALKER, type Direction } from "../world/walker";
 import { PartyHud } from "../ui/party-hud";
@@ -88,6 +90,10 @@ export class OverworldScreen implements Screen {
   private area: AreaDef | null = null;
   private terrain: Terrain | null = null;
   private ambience: Ambience | null = null;
+  private waystone: Waystone | null = null;
+  private follower: FollowerMon | null = null;
+  /** speciesId+shiny of the current follower — rebuild only on change. */
+  private followerKey = "";
   private npcs: NpcActor[] = [];
   /** Last areaId shown as a title splash — battle-return reloads of the same
    *  area must not retrigger the card. */
@@ -197,6 +203,22 @@ export class OverworldScreen implements Screen {
     this.ambience = new Ambience(area);
     this.areaGroup.add(this.ambience.points);
 
+    // Hearthglow's plaza waystone (pure decoration; disposed with the area).
+    if (area.id === "hearthglow") {
+      this.waystone = new Waystone();
+      this.areaGroup.add(this.waystone.group);
+    }
+
+    // The party lead trots along behind the player (SDF species only).
+    // The instance persists across areas/battles — rebuilding each load would
+    // recompile its shader and hitch the transition (review finding); it is
+    // only rebuilt when the lead actually changes.
+    this.refreshFollower(game);
+    if (this.follower) {
+      this.areaGroup.add(this.follower.group);
+      this.follower.place(x, z);
+    }
+
     for (const p of area.props) {
       const obj = buildProp(p.kind, p.tint);
       obj.position.set(p.x, 0, p.z);
@@ -286,6 +308,8 @@ export class OverworldScreen implements Screen {
     // come from the walk-cycle frames alone.
     this.terrain?.update(this.animT);
     this.ambience?.update(dt);
+    this.waystone?.update(dt);
+    this.follower?.update(dt, this.px, this.pz);
     this.minimap?.update(this.px, this.pz);
 
     // Presence: animate remote wardens and report our own state (throttled
@@ -372,6 +396,14 @@ export class OverworldScreen implements Screen {
   }
 
   private canStand(area: AreaDef, x: number, z: number): boolean {
+    // The waystone is solid: it sits on walkable plaza tiles, so tile
+    // collision alone would let players walk through the monument.
+    if (
+      this.waystone &&
+      Math.hypot(x - WAYSTONE_POS.x, z - WAYSTONE_POS.z) < WAYSTONE_RADIUS
+    ) {
+      return false;
+    }
     const r = PLAYER_RADIUS;
     return (
       isWalkable(area, x - r, z) &&
@@ -439,12 +471,40 @@ export class OverworldScreen implements Screen {
     if (this.hint) this.hint.style.display = "none";
   }
 
+  /** (Re)build the follower when the party lead changed — called from
+   *  loadArea and after codex "Make Lead". Attaches to the current area. */
+  refreshFollower(game: Game): void {
+    const lead = game.player.party[0];
+    const key = lead ? `${lead.speciesId}${lead.shiny ? "*s" : ""}` : "";
+    if (key === this.followerKey) return;
+    if (this.follower) {
+      this.follower.group.parent?.remove(this.follower.group);
+      this.follower.dispose();
+      this.follower = null;
+    }
+    this.followerKey = key;
+    if (!lead) return;
+    const follower = new FollowerMon(game.renderer, lead);
+    if (!follower.active) return;
+    this.follower = follower;
+    if (this.area) {
+      this.areaGroup.add(follower.group);
+      follower.place(this.px, this.pz);
+    }
+  }
+
   // -- teardown -------------------------------------------------------------
   private disposeArea(): void {
+    // Detach (don't dispose) the follower: the traverse below frees every
+    // reachable geometry/material, and the follower must survive area
+    // changes with its compiled shader intact.
+    if (this.follower) this.areaGroup.remove(this.follower.group);
     this.terrain?.dispose();
     this.terrain = null;
     this.ambience?.dispose();
     this.ambience = null;
+    this.waystone?.dispose();
+    this.waystone = null;
     for (const n of this.npcs) n.dispose();
     this.npcs = [];
     this.areaGroup.traverse((obj) => {
