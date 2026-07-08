@@ -357,6 +357,19 @@ const ANGLES: Record<string, [number, number, number]> = {
 };
 const basePos = new THREE.Vector3(...(ANGLES[angle] ?? ANGLES.hero));
 
+// Drag to orbit: spherical coords around the look target. The auto-spin
+// runs until the first drag, then the user owns the camera.
+const target = uniforms.uCamTarget.value;
+const camOff = basePos.clone().sub(target);
+const camR = camOff.length();
+const yaw0 = Math.atan2(camOff.x, camOff.z);
+const pitch0 = Math.asin(camOff.y / camR);
+let dragYaw = 0;
+let dragPitch = 0;
+let manual = false;
+let manualSpin = 0;
+let curSpin = 0;
+
 // Verb buttons: each press restarts the verb; faint holds until another press.
 let liveT = 0;
 let actionStart = -1e9;
@@ -390,11 +403,13 @@ function frame(now: number) {
     renderer.domElement.width,
     renderer.domElement.height,
   );
-  const spinA = spin && frozenT === null ? t * 0.25 : 0;
+  curSpin = manual ? manualSpin : spin && frozenT === null ? t * 0.25 : 0;
+  const yaw = yaw0 + curSpin + dragYaw;
+  const pitch = Math.min(1.3, Math.max(0.05, pitch0 + dragPitch));
   uniforms.uCamPos.value.set(
-    basePos.x * Math.cos(spinA) + basePos.z * Math.sin(spinA),
-    basePos.y,
-    -basePos.x * Math.sin(spinA) + basePos.z * Math.cos(spinA),
+    target.x + camR * Math.sin(yaw) * Math.cos(pitch),
+    target.y + camR * Math.sin(pitch),
+    target.z + camR * Math.cos(yaw) * Math.cos(pitch),
   );
   renderer.render(scene, quadCam);
   // frozen time = static image: one frame is enough, stop the loop
@@ -408,3 +423,39 @@ window.addEventListener("resize", () => {
   lastFrame = -1e9;
   renderer.setAnimationLoop(frame);
 });
+
+// Orbit input (mouse + touch via pointer events). Drag right → the creature
+// turns with your hand; drag up → look down from higher.
+const canvas = renderer.domElement;
+canvas.style.touchAction = "none";
+canvas.style.cursor = "grab";
+let dragging = false;
+let lastX = 0;
+let lastY = 0;
+canvas.addEventListener("pointerdown", (ev) => {
+  dragging = true;
+  if (!manual) {
+    manual = true;
+    manualSpin = curSpin; // take over from the auto-spin without a jump
+  }
+  lastX = ev.clientX;
+  lastY = ev.clientY;
+  canvas.setPointerCapture(ev.pointerId);
+  canvas.style.cursor = "grabbing";
+});
+canvas.addEventListener("pointermove", (ev) => {
+  if (!dragging) return;
+  dragYaw -= (ev.clientX - lastX) * 0.006;
+  dragPitch += (ev.clientY - lastY) * 0.004;
+  dragPitch = Math.min(1.3 - pitch0, Math.max(0.05 - pitch0, dragPitch));
+  lastX = ev.clientX;
+  lastY = ev.clientY;
+  lastFrame = -1e9; // render this move even on a frozen/paced page
+  renderer.setAnimationLoop(frame);
+});
+for (const evName of ["pointerup", "pointercancel"] as const) {
+  canvas.addEventListener(evName, () => {
+    dragging = false;
+    canvas.style.cursor = "grab";
+  });
+}
