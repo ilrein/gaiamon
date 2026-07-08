@@ -12,6 +12,11 @@
 
 import * as THREE from "three";
 import { PROTO } from "../data/proto";
+import {
+  PROTO_UNIFORMS_GLSL,
+  PROTO_TOOLKIT_GLSL,
+  PROTO_ACTIONS_GLSL,
+} from "./world/proto-shaders";
 
 const params = new URLSearchParams(location.search);
 const speciesId = params.get("species") ?? "fernby";
@@ -28,6 +33,12 @@ const fpsCap = params.get("fps") ? parseFloat(params.get("fps")!) : 30;
 const ACTIONS = ["hop", "attack", "hit", "faint", "celebrate"] as const;
 const urlAction = params.get("action");
 const urlAt = params.get("at") ? parseFloat(params.get("at")!) : null;
+// Shiny variant: ?seed=<radians> or ?shiny=1 for the house shiny hue
+const seed = params.get("seed")
+  ? parseFloat(params.get("seed")!)
+  : params.get("shiny") === "1"
+    ? 2.6
+    : 0;
 
 document.getElementById("label")!.textContent = `${species.name} — procedural SDF`;
 
@@ -52,127 +63,17 @@ renderer.setPixelRatio(px);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById("stage")!.appendChild(renderer.domElement);
 
-const FRAG_PRE = /* glsl */ `
+const FRAG_PRE =
+  /* glsl */ `
 precision highp float;
 
-uniform float uTime;
 uniform vec2 uRes;
 uniform vec3 uCamPos;
 uniform vec3 uCamTarget;
-// action verb layer: 0 none, 1 hop, 2 attack, 3 hit, 4 faint, 5 celebrate
-uniform float uAction;
-uniform float uActionT; // seconds since the verb started
-
-// ---------- noise ----------
-float hash(vec3 p) {
-  p = fract(p * 0.3183099 + 0.1);
-  p *= 17.0;
-  return fract(p.x * p.y * p.z * (p.x + p.y + p.z));
-}
-float noise(vec3 x) {
-  vec3 i = floor(x), f = fract(x);
-  f = f * f * (3.0 - 2.0 * f);
-  return mix(
-    mix(mix(hash(i), hash(i + vec3(1, 0, 0)), f.x),
-        mix(hash(i + vec3(0, 1, 0)), hash(i + vec3(1, 1, 0)), f.x), f.y),
-    mix(mix(hash(i + vec3(0, 0, 1)), hash(i + vec3(1, 0, 1)), f.x),
-        mix(hash(i + vec3(0, 1, 1)), hash(i + vec3(1, 1, 1)), f.x), f.y),
-    f.z);
-}
-float fbm(vec3 p) {
-  return 0.65 * noise(p) + 0.35 * noise(p * 2.13);
-}
-
-// ---------- sdf toolkit ----------
-float smin(float a, float b, float k) {
-  float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0);
-  return mix(b, a, h) - k * h * (1.0 - h);
-}
-float sdEllipsoid(vec3 p, vec3 r) {
-  float k0 = length(p / r);
-  float k1 = length(p / (r * r));
-  return k0 * (k0 - 1.0) / k1;
-}
-float sdCapsule(vec3 p, vec3 a, vec3 b, float r) {
-  vec3 pa = p - a, ba = b - a;
-  float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
-  return length(pa - ba * h) - r;
-}
-mat2 rot(float a) {
-  float c = cos(a), s = sin(a);
-  return mat2(c, -s, s, c);
-}
-
-// ---------- action verbs ----------
-float easeOutCubic(float x) { return 1.0 - pow(1.0 - x, 3.0); }
-float easeInOut(float x) { return x * x * (3.0 - 2.0 * x); }
-
-// white impact flash for the hit verb, read by shading
-float actionFlash() {
-  if (uAction == 3.0) return 0.8 * exp(-max(uActionT, 0.0) * 7.0);
-  return 0.0;
-}
-// eyes forced shut while fainting
-float actionLid() {
-  if (uAction == 4.0) return smoothstep(0.15, 0.5, uActionT / 1.2);
-  return 0.0;
-}
-
-// Deform the sample point (inverse of deforming the creature) and return a
-// distance-scale factor that keeps the march conservative under squash.
-float actionTransform(inout vec3 p) {
-  if (uAction < 0.5) return 1.0;
-  float squash = 1.0, yoff = 0.0, zoff = 0.0, lean = 0.0, spin = 0.0;
-  if (uAction == 1.0) { // hop: crouch, spring, land with a jelly recover
-    float a = clamp(uActionT / 0.9, 0.0, 1.0);
-    if (a < 0.22) squash = mix(1.0, 0.78, easeInOut(a / 0.22));
-    else if (a < 0.62) {
-      float j = (a - 0.22) / 0.4;
-      yoff = 0.35 * 4.0 * j * (1.0 - j);
-      squash = j < 0.5 ? mix(0.78, 1.15, j * 2.0) : mix(1.15, 1.0, (j - 0.5) * 2.0);
-    } else if (a < 0.78) squash = mix(1.0, 0.74, easeInOut((a - 0.62) / 0.16));
-    else {
-      float r = (a - 0.78) / 0.22;
-      squash = mix(0.74, 1.0, easeOutCubic(r)) + 0.05 * sin(r * 14.0) * (1.0 - r);
-    }
-  } else if (uAction == 2.0) { // attack: anticipate back, lunge forward, settle
-    float a = clamp(uActionT / 0.8, 0.0, 1.0);
-    if (a < 0.3) {
-      float j = easeInOut(a / 0.3);
-      squash = mix(1.0, 0.80, j); zoff = -0.10 * j; lean = -0.22 * j;
-    } else if (a < 0.5) {
-      float j = easeOutCubic((a - 0.3) / 0.2);
-      squash = mix(0.80, 1.14, j); zoff = mix(-0.10, 0.5, j); lean = mix(-0.22, 0.30, j);
-    } else {
-      float r = easeInOut((a - 0.5) / 0.5);
-      squash = mix(1.14, 1.0, r); zoff = mix(0.5, 0.0, r); lean = mix(0.30, 0.0, r);
-    }
-  } else if (uAction == 3.0) { // hit: knockback + damped jelly wobble
-    float a = clamp(uActionT / 0.7, 0.0, 1.0);
-    float k = sin(min(a * 4.0, 3.14159)) * exp(-a * 2.0);
-    zoff = -0.30 * k;
-    lean = -0.20 * k;
-    squash = 1.0 + 0.22 * cos(a * 24.0) * exp(-a * 5.0);
-  } else if (uAction == 4.0) { // faint: slump and deflate, then hold
-    float e = easeInOut(clamp(uActionT / 1.2, 0.0, 1.0));
-    squash = mix(1.0, 0.38, e);
-    lean = 0.35 * e;
-  } else { // celebrate: two bounces with a full spin
-    float a = clamp(uActionT / 1.1, 0.0, 1.0);
-    yoff = 0.2 * abs(sin(a * 6.2832));
-    spin = 6.2832 * easeInOut(a);
-    squash = 1.0 + 0.10 * sin(a * 12.566);
-  }
-  p.y -= yoff;
-  p.z -= zoff;
-  if (spin != 0.0) p.xz = rot(spin) * p.xz;
-  if (lean != 0.0) p.yz = rot(lean) * (p.yz - vec2(0.35, 0.0)) + vec2(0.35, 0.0);
-  // squash about the ground plane, conserving volume
-  p.y /= squash;
-  p.xz *= sqrt(squash);
-  return min(squash, inversesqrt(squash));
-}
-`;
+` +
+  PROTO_UNIFORMS_GLSL +
+  PROTO_TOOLKIT_GLSL +
+  PROTO_ACTIONS_GLSL;
 
 const FRAG_POST = /* glsl */ `
 vec2 mapCreature(vec3 p) {
@@ -238,6 +139,7 @@ vec3 shadeCreature(vec3 pos, vec3 rd) {
   actionTransform(q);
   float gloss, emissive;
   vec3 alb = speciesAlbedo(q, hit.y, gloss, emissive);
+  if (uSeed != 0.0) alb = hueShift(alb, uSeed); // shiny variant
 
   // fuzzy normal for plush surfaces (not eyes, not self-lit parts)
   vec3 fuzz = vec3(
@@ -335,6 +237,7 @@ const uniforms = {
   uCamTarget: { value: new THREE.Vector3(0, 0.62, 0) },
   uAction: { value: urlAction ? ACTIONS.indexOf(urlAction as (typeof ACTIONS)[number]) + 1 : 0 },
   uActionT: { value: urlAt ?? 0 },
+  uSeed: { value: seed },
 };
 
 const scene = new THREE.Scene();
