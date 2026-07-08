@@ -11,6 +11,7 @@ import type { MonsterInstance, PlayerState, TrainerDef } from "../shared/model";
 import type { AreaExit, AreaTrigger, NpcPlacement } from "../shared/area";
 import { makeInstance, maxHpAt } from "../shared/stats";
 import { prewarmProto } from "./world/proto-bake";
+import { setPortraitRenderer } from "./sprites";
 import { TitleScreen } from "./screens/title";
 import { OverworldScreen, fadeTransition } from "./screens/overworld";
 import { BattleScreen } from "./screens/battle";
@@ -382,6 +383,8 @@ const emptyPlayer: PlayerState = {
 };
 
 game = new Game(appHost, hudRoot, uiRoot, DATA, emptyPlayer);
+// UI portraits render the actual procedural creatures via the game renderer.
+setPortraitRenderer(game.renderer);
 track("session-start");
 // Touch controls make no sense on the title screen; startPlaying reveals them.
 hudRoot.classList.add("hud-on-title");

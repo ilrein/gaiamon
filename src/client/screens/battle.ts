@@ -1212,7 +1212,7 @@ export class BattleScreen implements Screen {
     const fillCls = pct <= 20 ? "crit" : pct <= 50 ? "warn" : "";
 
     const row = el("div", { className: "party-row" });
-    const img = creatureImg(mon.speciesId);
+    const img = creatureImg(mon.speciesId, "", { shiny: mon.shiny });
     const info = el("div", { className: "info" });
     info.innerHTML =
       `<div style="font-weight:800">${esc(mon.nickname ?? sp.name)} ` +

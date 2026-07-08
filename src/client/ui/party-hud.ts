@@ -65,7 +65,7 @@ export class PartyHud {
     if (existing && existing.speciesId === mon.speciesId) return existing;
     if (existing) existing.card.remove();
 
-    const thumb = creatureImg(mon.speciesId, "party-hud-thumb");
+    const thumb = creatureImg(mon.speciesId, "party-hud-thumb", { shiny: mon.shiny });
     const lv = el("span", { className: "party-hud-lv" });
     const fill = el("div", { className: "party-hud-fill" });
     const bar = el("div", { className: "party-hud-bar" }, [fill]);

@@ -237,7 +237,7 @@ export async function openCodex(
             render();
           },
         },
-        [creatureImg(mon.speciesId), info],
+        [creatureImg(mon.speciesId, "", { shiny: mon.shiny }), info],
       );
     }
 
@@ -266,7 +266,10 @@ export async function openCodex(
         heroText.append(original);
       }
       bodyScroll.append(
-        el("div", { className: "cdx-detail cdx-detail-hero" }, [creatureImg(mon.speciesId), heroText]),
+        el("div", { className: "cdx-detail cdx-detail-hero" }, [
+          creatureImg(mon.speciesId, "", { shiny: mon.shiny }),
+          heroText,
+        ]),
       );
 
       // HP + status + xp line.
