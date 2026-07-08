@@ -1,7 +1,9 @@
-// Title screen: cinematic key-art backdrop (pure CSS — Ken Burns drift over
-// /og-image.jpg, legibility gradient, floating motes) under a DOM overlay with
-// the logo and Continue / New Journey. New Journey plays the opening, then the
-// starter selection, then builds the initial PlayerState and hands it off.
+// Title screen: fully procedural CSS backdrop (dawn-meadow gradients,
+// drifting pollen pattern, parallax cloud bands, rolling hills — no images,
+// see title.css), legibility gradient, floating motes, all under a DOM
+// overlay with the logo and Continue / New Journey. New Journey plays the
+// opening, then the starter selection, then builds the initial PlayerState
+// and hands it off.
 
 import type { Game, Screen } from "../game";
 import { el, sleep } from "../dom";

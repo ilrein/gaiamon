@@ -1,9 +1,12 @@
 /* Cinematic title screen. Everything here is scoped under .title-cine /
    .title-screen.cine so it never collides with the shared style.css.
-   Backdrop = key art with a slow Ken Burns drift + legibility gradient +
-   floating motes; foreground = floating logo, fading tagline, rising buttons.
-   All motion is gated behind prefers-reduced-motion: no-preference, with
-   fully-visible static fallbacks. */
+   Backdrop = fully procedural CSS: dawn-meadow gradient sky, a soft sun,
+   drifting pollen-dot pattern, two parallax cloud bands, rolling hills —
+   no images, matching the "everything is procedural" identity. Plus the
+   legibility gradient and floating motes; foreground = floating logo,
+   fading tagline, rising buttons. All motion is gated behind
+   prefers-reduced-motion: no-preference, with fully-visible static
+   fallbacks. */
 
 /* ---------- backdrop layers ---------- */
 
@@ -13,33 +16,70 @@
   inset: 0;
   overflow: hidden;
   pointer-events: none; /* purely decorative; dialogue taps pass through */
-  /* Warm fallback so there's never a black flash before the art decodes. */
   background: linear-gradient(#9fd8f0 0%, #bfe6dd 45%, #ffe6c4 80%, #ffd0a8 100%);
 }
 
+/* Sky: dawn gradient + sun glow + two drifting pollen-dot layers.
+   Dot drift offsets in the keyframes are exact tile multiples (34px / 58px)
+   so the loop is seamless. */
 .title-cine__art {
   position: absolute;
-  inset: -3%; /* bleed so the Ken Burns drift never shows an edge */
-  background-image: url("/og-image.jpg");
-  background-size: cover;
-  background-position: center 30%; /* keeps the hero + starters in frame on tall crops */
-  will-change: transform;
-}
-/* Portrait crop: bias left so the warden + verdant/ember starters stay in
-   frame (the full trio can't fit a tall crop). */
-@media (max-aspect-ratio: 4/5) {
-  .title-cine__art {
-    background-position: 40% 30%;
-  }
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.3) 1.6px, transparent 2.6px),
+    radial-gradient(rgba(255, 255, 255, 0.16) 2.4px, transparent 3.6px),
+    radial-gradient(120% 80% at 72% 14%, rgba(255, 246, 210, 0.9) 0%, rgba(255, 224, 152, 0.32) 26%, rgba(255, 212, 142, 0) 55%),
+    linear-gradient(#8fd2ef 0%, #aee2df 40%, #ffe6c4 78%, #ffd0a8 100%);
+  background-size:
+    34px 34px,
+    58px 58px,
+    100% 100%,
+    100% 100%;
 }
 
-/* Bottom-third dark ramp for text/button legibility + a whisper of top vignette. */
+/* Two cream cloud bands, repeat-x, drifting at different speeds (parallax).
+   Each layer's travel equals its tile width, so the loop never pops. */
+.title-cine__art::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 42%;
+  background-image:
+    radial-gradient(closest-side, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.26) 45%, rgba(255, 255, 255, 0) 72%),
+    radial-gradient(closest-side, rgba(255, 255, 255, 0.36) 0%, rgba(255, 255, 255, 0.18) 45%, rgba(255, 255, 255, 0) 72%);
+  background-size:
+    560px 150px,
+    380px 105px;
+  background-position:
+    0 24%,
+    140px 62%;
+  background-repeat: repeat-x;
+}
+
+/* Rolling meadow hills: overlapping soft bumps over a green base, with a
+   whisper of sway. Bled past the edges so the sway never shows a seam. */
+.title-cine__art::after {
+  content: "";
+  position: absolute;
+  left: -6%;
+  right: -6%;
+  bottom: -2%;
+  height: 44%;
+  background:
+    radial-gradient(52% 88% at 16% 106%, #aede8b 0 62%, rgba(174, 222, 139, 0) 63%),
+    radial-gradient(64% 96% at 80% 112%, #97d173 0 60%, rgba(151, 209, 115, 0) 61%),
+    radial-gradient(44% 70% at 46% 118%, #b9e697 0 66%, rgba(185, 230, 151, 0) 67%),
+    linear-gradient(to top, #7fbf5d 0%, #8fce6a 36%, rgba(143, 206, 106, 0) 74%);
+}
+
+/* Gentle bottom ramp for button legibility + a whisper of top vignette.
+   The procedural meadow is bright — the old key-art-strength ramp turned
+   the hills swampy, so this stays light. */
 .title-cine__grad {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to top, rgba(24, 18, 34, 0.82) 0%, rgba(24, 18, 34, 0.5) 16%, rgba(24, 18, 34, 0) 38%),
-    linear-gradient(to bottom, rgba(24, 18, 34, 0.32) 0%, rgba(24, 18, 34, 0) 16%);
+    linear-gradient(to top, rgba(30, 40, 24, 0.38) 0%, rgba(30, 40, 24, 0.16) 14%, rgba(30, 40, 24, 0) 32%),
+    linear-gradient(to bottom, rgba(24, 18, 34, 0.2) 0%, rgba(24, 18, 34, 0) 14%);
 }
 
 .title-cine__motes {
@@ -150,7 +190,13 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .title-cine__art {
-    animation: cine-kenburns 30s ease-in-out infinite alternate;
+    animation: cine-pattern 70s linear infinite;
+  }
+  .title-cine__art::before {
+    animation: cine-clouds 95s linear infinite;
+  }
+  .title-cine__art::after {
+    animation: cine-hills-sway 26s ease-in-out infinite alternate;
   }
 
   .title-cine__mote {
@@ -182,9 +228,30 @@
   }
 }
 
-@keyframes cine-kenburns {
-  from { transform: scale(1) translate3d(0, 0, 0); }
-  to { transform: scale(1.06) translate3d(-1.4%, 1%, 0); }
+/* Dot layers drift diagonally (exact tile multiples: 34px and 58px grids);
+   sun + sky stay pinned. */
+@keyframes cine-pattern {
+  from {
+    background-position: 0 0, 0 0, 0 0, 0 0;
+  }
+  to {
+    background-position: -102px 306px, 174px -348px, 0 0, 0 0;
+  }
+}
+
+/* Each cloud band travels exactly one of its own tiles per loop. */
+@keyframes cine-clouds {
+  from {
+    background-position: 0 24%, 140px 62%;
+  }
+  to {
+    background-position: 560px 24%, 520px 62%;
+  }
+}
+
+@keyframes cine-hills-sway {
+  from { transform: translateX(-0.7%); }
+  to { transform: translateX(0.7%); }
 }
 
 @keyframes cine-mote {
