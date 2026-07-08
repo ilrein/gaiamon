@@ -118,6 +118,25 @@ button {
   place-items: center;
 }
 
+/* "<n> wardens here" multiplayer presence pill, hidden while alone (JS). */
+.presence-pill {
+  position: fixed;
+  top: calc(52px + var(--safe-top));
+  left: 12px;
+  background: rgba(255, 248, 236, 0.85);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  box-shadow: 0 2px 0 var(--shadow);
+  pointer-events: none;
+}
+.hud-in-battle .presence-pill,
+.hud-on-title .presence-pill {
+  display: none !important;
+}
+
 /* ---------- touch controls ---------- */
 .joystick {
   position: fixed;

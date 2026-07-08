@@ -16,7 +16,7 @@ import { buildTerrain, type Terrain } from "../world/terrain";
 import { Ambience, showAreaTitle } from "../world/ambience";
 import { buildProp } from "../world/props";
 import { NpcActor } from "../world/npc";
-import { WalkerSprite, PLAYER_WALKER } from "../world/walker";
+import { WalkerSprite, PLAYER_WALKER, type Direction } from "../world/walker";
 import { PartyHud } from "../ui/party-hud";
 import { Minimap, markVisited } from "../ui/map";
 import { PostFX } from "../postfx";
@@ -27,6 +27,12 @@ export interface OverworldCallbacks {
   onExit: (exit: AreaExit) => void;
   onTrigger: (trigger: AreaTrigger) => void;
   onCodex: () => void;
+  /** Multiplayer presence layer: its group joins the scene, update runs per frame. */
+  remoteLayer?: { group: THREE.Group; update(dt: number): void };
+  /** Fired after every loadArea (presence rejoins the area's zone here). */
+  onAreaChange?: (areaId: string) => void;
+  /** Per-frame player state for presence broadcasting (throttled downstream). */
+  onTick?: (x: number, z: number, dir: Direction, moving: boolean) => void;
 }
 
 const PLAYER_SPEED = 4.2; // tiles / second
@@ -91,6 +97,7 @@ export class OverworldScreen implements Screen {
   private px = 0;
   private pz = 0;
   private moving = false;
+  private facing: Direction = "down";
   private animT = 0;
 
   // encounter / interaction state
@@ -117,6 +124,9 @@ export class OverworldScreen implements Screen {
   // -- lifecycle ------------------------------------------------------------
   mount(game: Game): void {
     this.scene.add(this.areaGroup);
+    // Remote wardens (presence). Re-added on every mount: unmount's
+    // scene.clear() drops the group but the layer itself survives battles.
+    if (this.cb.remoteLayer) this.scene.add(this.cb.remoteLayer.group);
 
     this.sun.castShadow = true;
     this.sun.shadow.mapSize.set(2048, 2048);
@@ -221,6 +231,7 @@ export class OverworldScreen implements Screen {
     this.px = x;
     this.pz = z;
     this.player.face("down");
+    this.facing = "down";
     this.moving = false;
     this.lastTileX = Math.round(x);
     this.lastTileZ = Math.round(z);
@@ -243,6 +254,7 @@ export class OverworldScreen implements Screen {
     this.minimap?.setArea(area);
     markVisited(game.player, areaId);
     this.hideHint();
+    this.cb.onAreaChange?.(areaId);
   }
 
   // -- per-frame ------------------------------------------------------------
@@ -276,6 +288,11 @@ export class OverworldScreen implements Screen {
     this.ambience?.update(dt);
     this.minimap?.update(this.px, this.pz);
 
+    // Presence: animate remote wardens and report our own state (throttled
+    // inside the presence client — this is just a cheap per-frame poke).
+    this.cb.remoteLayer?.update(dt);
+    this.cb.onTick?.(this.px, this.pz, this.facing, walking);
+
     // NPC bubbles; NPCs face the player when in talk range.
     const talk = this.nearestNpc(1.6);
     for (const n of this.npcs) n.update(this.animT, n === talk, this.camera, this.px, this.pz);
@@ -301,6 +318,8 @@ export class OverworldScreen implements Screen {
       const nz = this.pz + dir.y * PLAYER_SPEED * dt;
       if (this.canStand(area, this.px, nz)) this.pz = nz;
       this.player.setDirectionFrom(dir.x, dir.y);
+      // Mirror WalkerSprite's facing rule (its direction field is private).
+      this.facing = Math.abs(dir.x) > Math.abs(dir.y) ? (dir.x < 0 ? "left" : "right") : dir.y < 0 ? "up" : "down";
     }
 
     // Exits fire automatically when stepped onto (main handles fade + reload).

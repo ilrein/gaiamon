@@ -14,6 +14,10 @@ import { TitleScreen } from "./screens/title";
 import { OverworldScreen, fadeTransition } from "./screens/overworld";
 import { BattleScreen } from "./screens/battle";
 import { openCodex } from "./ui/codex";
+import { el } from "./dom";
+import { PresenceClient } from "./net/presence";
+import { track } from "./net/beacon";
+import { RemotePlayers } from "./world/remote-players";
 import { playBattleIntro } from "./ui/transitions";
 import { runDialogue } from "./ui/dialogue";
 import type { BattleConfig } from "../shared/battle";
@@ -28,6 +32,10 @@ let game: Game;
 let overworld: OverworldScreen;
 /** Guards against re-entrant encounters while a battle/dialogue is active. */
 let busy = false;
+// Multiplayer presence lives OUTSIDE the overworld screen: battles unmount the
+// screen, but the socket and the remote-players layer survive them.
+let presence: PresenceClient | null = null;
+let remotePlayers: RemotePlayers | null = null;
 
 /** Dialogue that also swallows the Space/Enter press that closed it, so the
  *  action doesn't immediately re-trigger the NPC/sign that opened it. */
@@ -57,9 +65,15 @@ function registerSpecies(player: PlayerState, speciesId: string): void {
   if (!player.registered.includes(speciesId)) player.registered.push(speciesId);
 }
 
-function addSyncedMon(player: PlayerState, speciesId: string, level: number): "party" | "codex" {
+function addSyncedMon(
+  player: PlayerState,
+  speciesId: string,
+  level: number,
+  shiny = false,
+): "party" | "codex" {
   registerSpecies(player, speciesId);
   const mon = makeInstance(DATA.species[speciesId], level, `m${player.nextUid++}`);
+  if (shiny) mon.shiny = true;
   if (player.party.length < 6) {
     player.party.push(mon);
     return "party";
@@ -87,6 +101,7 @@ async function startBattleFlow(
   onDone?: (outcome: string) => Promise<void> | void,
 ): Promise<void> {
   busy = true;
+  track("battle-start", config.kind);
   hudRoot.classList.add("hud-in-battle");
   const battle = new BattleScreen({
     config,
@@ -94,7 +109,7 @@ async function startBattleFlow(
     foeParty,
     backdrop: palette(game.player.areaId),
     opponentTitle,
-    onFinish: async ({ outcome, syncedSpeciesId }) => {
+    onFinish: async ({ outcome, syncedSpeciesId, syncedShiny }) => {
       // Re-assert the guard: a previous chained battle's late release must not
       // leave this window unguarded (review finding: trial busy race).
       busy = true;
@@ -106,14 +121,16 @@ async function startBattleFlow(
       for (const mon of game.player.party) registerSpecies(game.player, mon.speciesId);
 
       if (outcome === "synced" && syncedSpeciesId) {
-        const where = addSyncedMon(game.player, syncedSpeciesId, wildLevel ?? 3);
+        track("sync-capture", syncedSpeciesId);
+        const where = addSyncedMon(game.player, syncedSpeciesId, wildLevel ?? 3, syncedShiny);
         const species = DATA.species[syncedSpeciesId];
         await say([
           {
             text:
-              where === "party"
+              (syncedShiny ? "✨ " : "") +
+              (where === "party"
                 ? `${species.name} joined your party!`
-                : `${species.name} was registered to your Codex — your party is full.`,
+                : `${species.name} was registered to your Codex — your party is full.`),
           },
         ]);
       }
@@ -133,9 +150,13 @@ async function startBattleFlow(
   game.setScreen(battle);
 }
 
+/** 1-in-64 procedural recolour, rolled once when the wild mon appears. */
+const SHINY_ODDS = 1 / 64;
+
 function wildBattle(speciesId: string, level: number): void {
   if (busy) return;
   const foe = makeInstance(DATA.species[speciesId], level, `wild-${speciesId}`);
+  if (Math.random() < SHINY_ODDS) foe.shiny = true;
   void startBattleFlow({ kind: "wild", canFlee: true, canSync: true }, [foe], undefined, level);
 }
 
@@ -271,9 +292,57 @@ async function handleExit(exit: AreaExit): Promise<void> {
   busy = false;
 }
 
+/** One-time presence setup: socket client, remote render layer, HUD pill, and
+ *  the emote key. Everything here fails silently when offline. */
+function setupPresence(): void {
+  if (presence) return;
+  const layer = new RemotePlayers();
+  const client = new PresenceClient();
+  remotePlayers = layer;
+  presence = client;
+
+  client.onRoster = (players) => {
+    layer.reset();
+    for (const p of players) layer.upsert(p);
+  };
+  client.onJoin = (p) => layer.upsert(p);
+  client.onPos = (p) => layer.setPos(p.id, p.x, p.z, p.dir, p.moving);
+  client.onEmote = (id, kind) => layer.showEmote(id, kind);
+  client.onLeave = (id) => layer.remove(id);
+
+  // "<n> wardens here" pill, hidden when alone.
+  const pill = el("div", { className: "presence-pill" });
+  pill.style.display = "none";
+  hudRoot.append(pill);
+  layer.onCountChange = (n) => {
+    pill.style.display = n > 0 ? "" : "none";
+    pill.textContent = `${n} warden${n === 1 ? "" : "s"} here`;
+  };
+
+  // E = heart emote (only while roaming; busy covers dialogue/battle/codex).
+  let lastEmoteAt = 0;
+  window.addEventListener("keydown", (e) => {
+    if (e.code !== "KeyE" || busy) return;
+    const now = performance.now();
+    if (now - lastEmoteAt < 800) return;
+    lastEmoteAt = now;
+    client.sendEmote("heart");
+    layer.showEmoteAt(game.player.pos.x, game.player.pos.z, "heart");
+  });
+}
+
 function startPlaying(player: PlayerState): void {
   game.player = player;
+  setupPresence();
   overworld = new OverworldScreen({
+    remoteLayer: remotePlayers ?? undefined,
+    onAreaChange: (areaId) => {
+      // Battle returns reload the same area: connect() no-ops then, so the
+      // socket (and the current roster) survive. Real area changes switch
+      // zones and clear the layer until the fresh roster lands.
+      if (presence && remotePlayers && presence.connect(areaId)) remotePlayers.reset();
+    },
+    onTick: (x, z, dir, moving) => presence?.sendPos(x, z, dir, moving),
     onEncounter: (speciesId, level) => wildBattle(speciesId, level),
     onNpc: (npc) => void handleNpc(npc),
     onExit: (exit) => void handleExit(exit),
@@ -305,6 +374,7 @@ const emptyPlayer: PlayerState = {
 };
 
 game = new Game(appHost, hudRoot, uiRoot, DATA, emptyPlayer);
+track("session-start");
 // Touch controls make no sense on the title screen; startPlaying reveals them.
 hudRoot.classList.add("hud-on-title");
 game.setScreen(new TitleScreen({ onStart: (player) => startPlaying(player) }));

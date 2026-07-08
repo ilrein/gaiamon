@@ -34,8 +34,11 @@ export default defineConfig({
       : undefined,
     proxy: {
       // `pnpm dev:api` runs the worker on :8787; the Vite dev server proxies
-      // API calls to it so the client can be developed with HMR.
-      "/api": inDocker ? "http://host.docker.internal:8787" : "http://localhost:8787",
+      // API calls to it so the client can be developed with HMR. `ws: true`
+      // lets the /api/presence websocket upgrade tunnel through too.
+      "/api": inDocker
+        ? { target: "http://host.docker.internal:8787", ws: true }
+        : { target: "http://localhost:8787", ws: true },
     },
   },
 });

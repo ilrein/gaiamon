@@ -13,6 +13,17 @@
     "not_found_handling": "single-page-application"
   },
 
+  // Presence: one PresenceZone Durable Object per overworld area, WebSocket
+  // Hibernation API. FREE PLAN: must be `new_sqlite_classes` (new_classes is
+  // paid-only) or the deploy fails.
+  "durable_objects": {
+    "bindings": [{ "name": "PRESENCE", "class_name": "PresenceZone" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["PresenceZone"] }],
+
+  // Anonymous product analytics (event-name counters only, no PII).
+  "analytics_engine_datasets": [{ "binding": "AE", "dataset": "gaiamon_events" }],
+
   "workers_dev": true,
 
   "routes": [

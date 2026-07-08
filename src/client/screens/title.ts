@@ -8,6 +8,7 @@ import { el, sleep } from "../dom";
 import { creatureImg } from "../sprites";
 import { typeChip } from "../colors";
 import { loadGame } from "../save";
+import { track } from "../net/beacon";
 import { runDialogue } from "../ui/dialogue";
 import { STRINGS } from "../../data/strings";
 import { AREAS, START_AREA, getStarters } from "../../data";
@@ -115,6 +116,7 @@ export class TitleScreen implements Screen {
   }
 
   private async startNewJourney(): Promise<void> {
+    track("new-journey");
     this.overlay?.remove();
     this.overlay = null;
     // Blur + darken the key art so the opening dialogue reads clearly.
@@ -201,9 +203,12 @@ export class TitleScreen implements Screen {
 
   private finalize(species: SpeciesDef): void {
     const spawn = AREAS[START_AREA].spawn;
+    const starter = makeInstance(species, 5, "m1");
+    // same 1/64 shiny odds as the wild — a lucky first friend
+    if (Math.random() < 1 / 64) starter.shiny = true;
     const state: PlayerState = {
       name: "Warden",
-      party: [makeInstance(species, 5, "m1")],
+      party: [starter],
       registered: [species.id],
       flags: ["starter-chosen"],
       areaId: START_AREA,
